@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "packageDigest": "44b74bdea259754a5121367be9fc162a3b8998b5a696bd2ea2065612016136ec",
+  "plugin": {
+    "name": "strata",
+    "version": "0.4.0"
+  },
+  "source": {
+    "commit": "0d5e496334e8d401a56d5ace4596bb1a245cbff3",
+    "repository": "vamtaknebude/strata"
+  }
+}

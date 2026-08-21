@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "strata": {
+      "type": "http",
+      "url": "https://strata-utrtwerwt.sprava.ai/api/mcp"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "strata",
+  "owner": {
+    "name": "Strata"
+  },
+  "description": "Official Strata Agent Plugin releases.",
+  "version": "0.4.0",
+  "plugins": [
+    {
+      "name": "strata",
+      "source": ".",
+      "description": "Guide and execute evidence-aware Strata business-case work.",
+      "version": "0.4.0",
+      "author": {
+        "name": "Strata"
+      },
+      "category": "Productivity",
+      "tags": ["business-case", "decision", "evidence", "scenario"],
+      "strict": true
+    }
+  ]
+}

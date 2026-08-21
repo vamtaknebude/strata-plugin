@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "strata",
+  "displayName": "Strata",
+  "version": "0.4.0",
+  "description": "Guide and execute evidence-aware Strata business-case work.",
+  "author": {
+    "name": "Strata",
+    "url": "https://github.com/vamtaknebude/strata-plugin"
+  },
+  "homepage": "https://github.com/vamtaknebude/strata-plugin#readme",
+  "repository": "https://github.com/vamtaknebude/strata-plugin",
+  "license": "LicenseRef-Strata-Plugin-Distribution",
+  "keywords": [
+    "business-case",
+    "decision",
+    "evidence",
+    "model-context-protocol",
+    "scenario"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}
