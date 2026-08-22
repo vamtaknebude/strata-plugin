@@ -1,12 +1,41 @@
 {
-  "schemaVersion": 1,
-  "packageDigest": "44b74bdea259754a5121367be9fc162a3b8998b5a696bd2ea2065612016136ec",
+  "files": [
+    ".agents/plugins/marketplace.json",
+    ".claude-plugin/marketplace.json",
+    ".claude-plugin/plugin.json",
+    ".codex-plugin/plugin.json",
+    ".mcp.json",
+    "CHANGELOG.md",
+    "DISTRIBUTION.md",
+    "README.md",
+    "RELEASING.md",
+    "SECURITY.md",
+    "mcp.json",
+    "plugin.json",
+    "skills/develop-business-case/SKILL.md",
+    "skills/develop-business-case/references/evidence-and-assumptions.md",
+    "skills/develop-business-case/references/preview-and-recovery.md",
+    "skills/develop-business-case/references/scenarios.md",
+    "skills/start-business-case/SKILL.md",
+    "skills/start-business-case/references/coherent-initial-case.md",
+    "skills/understand-business-case/SKILL.md",
+    "skills/understand-business-case/references/exact-reads-history-and-lineage.md",
+    "release-metadata.json"
+  ],
+  "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
+  "packageDigest": "a6e8013b7042bccf021996190406dfbd914555582ca8cf42e6faa5864c7dc43a",
   "plugin": {
     "name": "strata",
-    "version": "0.4.0"
+    "version": "0.5.0-staging.1"
   },
+  "schemaVersion": 1,
+  "skills": [
+    "develop-business-case",
+    "start-business-case",
+    "understand-business-case"
+  ],
   "source": {
-    "commit": "0d5e496334e8d401a56d5ace4596bb1a245cbff3",
+    "commit": "c926f70b1213a925e3f2bf7e4a6b25e654fc60ef",
     "repository": "vamtaknebude/strata"
   }
 }

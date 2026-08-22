@@ -1,51 +1,60 @@
 # Strata Agent Plugin
 
-Strata helps teams create, develop, and understand evidence-aware business cases.
-This public package installs three shared workflow skills and one credential-free
-connection to the hosted Strata MCP server. A Strata account is required.
+> **Status: Staging preview.** Version `0.5.0-staging.1` connects to the hosted
+> Strata MCP server through WorkOS Staging. Strata authorizes this release only
+> for operators whom a Strata maintainer has approved. Strata does not authorize
+> customer workspace access or customer production use.
 
-Claude Code and Codex are supported clients. Hermes Agent is a compatibility
-preview: its portable adapter loads the shared skills and Streamable HTTP MCP
-entry, while Strata's browser-OAuth policy is configured separately through
-Hermes' native MCP command.
+Strata helps teams create, develop, and understand evidence-aware business
+cases. The plugin installs three shared workflow skills and a connection
+definition that contains no credentials. A Strata maintainer must provision and
+authorize each operator in WorkOS Staging. Strata offers no self-service staging
+enrollment.
 
-## What is installed
+Strata has completed end-to-end operator acceptance with Codex. The package passes
+Claude Code installation validation, but Strata has not approved the complete
+Claude Code OAuth and MCP workflow. Hermes Agent remains a compatibility preview.
+This repository contains no ChatGPT submission package.
 
-The local package contains the three `skills/` directories, portable metadata,
-native Claude Code and Codex metadata, and the production MCP URL. The skills are
-one shared set; there are no client-specific copies.
+## What the plugin installs
 
-Business-case data, authorization, tools, immutable history, and MCP Apps remain on
-the hosted Strata server. No API key, bearer token, cookie, password, or
-authorization code is included in the package. Each client completes browser-based
+The package contains three skill directories, portable metadata, native Claude
+Code and Codex metadata, and the hosted MCP URL. Every package format uses the
+same skill files.
+
+The hosted Strata server controls business-case data, authorization, tools,
+immutable history, and MCP Apps. The package contains no API key, bearer token,
+cookie, password, or authorization code. Each client completes browser-based
 Strata OAuth and stores its own grant. Never paste a credential into an assistant
 conversation.
 
-## Claude Code
+## Claude Code compatibility validation
 
-Use Claude Code's native marketplace and plugin formats:
+Only an authorized Strata operator should run this procedure. It validates the
+package installation path, not an approved end-to-end Claude Code workflow.
+
+Add the marketplace and install the plugin:
 
 ```bash
 claude plugin marketplace add vamtaknebude/strata-plugin
 claude plugin install strata@strata
 ```
 
-Start Claude Code, run `/reload-plugins` (or start a new session), and confirm these
-skills appear under the `strata` namespace:
+Start Claude Code, run `/reload-plugins`, and confirm that Claude Code lists these
+skills under the `strata` namespace:
 
 - `/strata:start-business-case`
 - `/strata:develop-business-case`
 - `/strata:understand-business-case`
 
-Run `/mcp`, select the bundled `strata` server, and complete the browser OAuth flow.
-Do not paste the callback code or any token into chat. Verify a read before using
-writes:
+Run `/mcp`, select the bundled `strata` server, and complete browser OAuth. Do not
+paste the callback code or any token into chat. Verify a read before using writes:
 
 ```text
 Use /strata:understand-business-case to show my Strata connection context.
 ```
 
-Update and reload:
+Update the marketplace and plugin:
 
 ```bash
 claude plugin marketplace update strata
@@ -59,12 +68,14 @@ claude plugin uninstall strata@strata
 claude plugin marketplace remove strata
 ```
 
-Use **Clear authentication** for `strata` in `/mcp` when the OAuth grant should also
-be removed.
+Use **Clear authentication** for `strata` in `/mcp` if you also want to remove
+the OAuth grant.
 
-## Codex
+## Codex installation
 
-Add the public repository marketplace and install the plugin:
+Only an authorized Strata operator should run this procedure.
+
+Add the marketplace and install the plugin:
 
 ```bash
 codex plugin marketplace add vamtaknebude/strata-plugin --ref main
@@ -72,7 +83,7 @@ codex plugin list --marketplace strata --available --json
 codex plugin add strata@strata
 ```
 
-Start a new Codex task and confirm all three skills are installed:
+Start a new Codex task and confirm that Codex lists these skills:
 
 - `$strata:start-business-case`
 - `$strata:develop-business-case`
@@ -85,8 +96,8 @@ codex mcp get strata --json
 codex mcp login strata
 ```
 
-The endpoint must be `https://strata-utrtwerwt.sprava.ai/api/mcp`. Start another
-new task and ask `$strata:understand-business-case` to show the Strata connection
+The endpoint must equal `https://strata-utrtwerwt.sprava.ai/api/mcp`. Start a new
+task and ask `$strata:understand-business-case` to show the Strata connection
 context before using writes.
 
 Update and reinstall the cached package:
@@ -106,8 +117,8 @@ codex plugin marketplace remove strata
 
 ## Hermes Agent compatibility preview
 
-Hermes Agent can install the root portable Agent Plugins v1 package. Install it
-disabled, inspect it, then enable the exact plugin name shown by `list`:
+Hermes Agent can install the root portable Agent Plugins v1 package. Install the
+package without enabling it, inspect the installed name, and enable that name:
 
 ```bash
 hermes plugins install vamtaknebude/strata-plugin --no-enable
@@ -116,9 +127,8 @@ hermes plugins enable strata
 ```
 
 Hermes translates the `streamable-http` entry in `mcp.json` into its remote MCP
-runtime, but Agent Plugins v1 has no field that declares Strata's required OAuth
-policy. Add the same endpoint through Hermes' native OAuth MCP configuration and
-use that authenticated `strata` connection for verification:
+runtime. Agent Plugins v1 cannot declare Strata's OAuth policy. Add the endpoint
+through Hermes' native OAuth MCP configuration:
 
 ```bash
 hermes mcp add strata --url https://strata-utrtwerwt.sprava.ai/api/mcp --auth oauth
@@ -127,10 +137,9 @@ hermes mcp test strata
 ```
 
 Complete OAuth in the browser. Use `skills_list` and `skill_view` in a new Hermes
-session to confirm the three installed portable skills, then request the Strata
-connection context as the required read check. Treat write guidance as unavailable
-until that read succeeds and the installed Hermes version exposes the expected
-write tools.
+session to confirm the three installed skills. Ask for the Strata connection
+context before using writes. Do not use write guidance until the read succeeds
+and the installed Hermes version exposes the expected write tools.
 
 Update or remove the preview installation:
 
@@ -143,11 +152,13 @@ hermes mcp remove strata
 
 ## Versions and support
 
-Immutable `v<version>` tags and matching GitHub releases identify published plugin
-versions. Report ordinary defects in the public [issue
-tracker](https://github.com/vamtaknebude/strata-plugin/issues). Report suspected
-vulnerabilities privately as described in [SECURITY.md](./SECURITY.md).
+The staging release uses a `-staging.<number>` semantic-version suffix and a
+matching GitHub prerelease. Immutable `v<version>` tags identify published plugin
+versions.
 
-The release process and source-of-truth boundary are documented in
-[RELEASING.md](./RELEASING.md). The repository's explicit distribution notice is
-in [DISTRIBUTION.md](./DISTRIBUTION.md).
+Report installation and behavior defects in the repository [issue
+tracker](https://github.com/vamtaknebude/strata-plugin/issues). Report suspected
+vulnerabilities through the private process in [SECURITY.md](./SECURITY.md).
+
+[RELEASING.md](./RELEASING.md) defines the release process and source boundary.
+[DISTRIBUTION.md](./DISTRIBUTION.md) defines the permitted use of this package.

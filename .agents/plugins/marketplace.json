@@ -1,7 +1,7 @@
 {
   "name": "strata",
   "interface": {
-    "displayName": "Strata"
+    "displayName": "Strata (Staging)"
   },
   "plugins": [
     {

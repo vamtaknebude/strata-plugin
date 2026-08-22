@@ -49,6 +49,8 @@ Keep these concepts distinct:
 
 Extract only supplied facts and unambiguous schema mappings. Preserve exact wording for citations, descriptions, rationale, and labels. You may infer an evidence role, scenario kind, empty optional metadata, or shared scope only when the user's language and authorized case output make the inference unambiguous; disclose it in the next preview. Always disclose that the server will assign the authenticated Strata user as the assumption owner.
 
+Never send `null` for optional evidence fields. Omit `locator`, `excerpt`, `observedAt`, or `supersedesEvidenceItemId` when no value was supplied or resolved.
+
 Before previewing, reject or clarify:
 
 - a source without capture time, citation, or disclosure;

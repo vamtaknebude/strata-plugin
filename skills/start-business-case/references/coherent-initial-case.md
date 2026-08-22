@@ -21,7 +21,7 @@ Use this reference to construct the exact `strata_start_case` input and to diagn
 
 `materialityStatement` records the problem or opportunity and why the choice matters. It must not merely say that the decision is important. Preserve the affected cost, risk, service, customer, capability, or timing fact without asserting unsupported causation.
 
-`counterfactual` records what happens if no proposed change is made. It is not automatically the same as a “defer” alternative: the counterfactual describes the baseline, while a defer alternative is an explicit selectable course with its own scope and rationale.
+`counterfactual` records what happens if no proposed change is made. The user must state the expected no-change outcome before preview. A description of current operations does not establish that future outcome. Do not derive it from the materiality statement or an alternative. It is not automatically the same as a “defer” alternative: the counterfactual describes the baseline, while a defer alternative is an explicit selectable course with its own scope and rationale.
 
 `deadline` is an optional exact calendar date in `YYYY-MM-DD`. Record it only when the user gives or confirms a date. A renewal, fiscal period, quarter, or relative phrase that does not resolve to one date is a focused clarification.
 
@@ -57,7 +57,7 @@ Ask one focused question when any of these conditions holds:
 - the question names a topic but no choice;
 - the objective is absent, circular, or conflicts with a stated success criterion;
 - materiality states no business consequence;
-- the no-action baseline is absent;
+- the user has not stated the expected no-action outcome, even when current operations are described;
 - a time-sensitive phrase lacks an exact date;
 - fewer than two courses of action remain after removing duplicates;
 - an alternative lacks a scope or rationale;
@@ -131,13 +131,13 @@ After confirmation, call `strata_start_case` with this shape:
 }
 ```
 
-The example shows shape, not a complete valid command: a real command needs at least two complete alternatives. Omit both implementation keys when timing is not recorded. Never send `null`, a natural-language date, only one date, or a server-derived identity/tenant field.
+The example shows shape, not a complete valid command: a real command needs at least two complete alternatives. Array position records alternative order. `ordinal` appears in the server receipt only; never send it on an alternative. Omit both implementation keys when timing is not recorded. Never send `null`, a natural-language date, only one date, or a server-derived identity/tenant field.
 
 ## Retry identity
 
 The retry identity is the canonical confirmed tool input plus `commandId`.
 
-- An unchanged retry after timeout or a lost response uses the same UUID and every same field, array item, ordinal, and omitted property.
+- An unchanged retry after timeout or a lost response uses the same UUID, fields, array order, array items, and omitted properties.
 - A correction, reordered alternative, changed inference, or validation repair changes intent and requires another complete preview, confirmation, and UUID.
 - `replayed: true` means the original transaction already succeeded. Report its receipt and stop retrying.
 - `COMMAND_REUSED` means the same UUID reached the server with different input. Do not guess which version won.
