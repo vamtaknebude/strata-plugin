@@ -72,7 +72,7 @@ Placeholders such as “to be determined,” “usual constraints,” “standar
 Render the complete values, not only this outline:
 
 ```text
-Initial owner/author: authenticated Strata user
+Initial owner/author: authenticated Uprali user
 Change reason: <exact text>
 
 Framing

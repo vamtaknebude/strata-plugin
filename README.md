@@ -1,6 +1,6 @@
 # Strata Agent Plugin
 
-> **Status: Staging preview.** Version `0.5.0-staging.1` connects to the hosted
+> **Status: Staging preview.** Version `0.5.0-staging.2` connects to the hosted
 > Strata MCP server through WorkOS Staging. Strata authorizes this release only
 > for operators whom a Strata maintainer has approved. Strata does not authorize
 > customer workspace access or customer production use.
@@ -26,7 +26,8 @@ The hosted Strata server controls business-case data, authorization, tools,
 immutable history, and MCP Apps. The package contains no API key, bearer token,
 cookie, password, or authorization code. Each client completes browser-based
 Strata OAuth and stores its own grant. Never paste a credential into an assistant
-conversation.
+conversation. Installing the plugin authorizes nothing: connecting the client to
+the hosted server is a separate required step in every client.
 
 ## Claude Code compatibility validation
 
@@ -47,8 +48,13 @@ skills under the `strata` namespace:
 - `/strata:develop-business-case`
 - `/strata:understand-business-case`
 
-Run `/mcp`, select the bundled `strata` server, and complete browser OAuth. Do not
-paste the callback code or any token into chat. Verify a read before using writes:
+In the Claude Code CLI, run `/mcp`, select the bundled `strata` server, and
+complete browser OAuth. Do not paste the callback code or any token into chat.
+`claude mcp list` names that server `plugin:strata:strata` and reports
+`Needs authentication` until the grant exists. The Claude desktop app has no
+`/mcp` panel; use [Claude desktop app
+connection](#claude-desktop-app-connection) instead. Verify a read before using
+writes:
 
 ```text
 Use /strata:understand-business-case to show my Strata connection context.
@@ -70,6 +76,37 @@ claude plugin marketplace remove strata
 
 Use **Clear authentication** for `strata` in `/mcp` if you also want to remove
 the OAuth grant.
+
+## Claude desktop app connection
+
+The Claude desktop app manages MCP servers through Connectors, and a
+plugin-bundled server is not a connector, so installing the plugin never offers a
+sign-in for it. Install the plugin for its skills, then add the same endpoint as
+a custom connector.
+
+On Pro and Max, open Customize, then Connectors, then the `+` control, then **Add
+custom connector**, and enter this MCP URL:
+
+```text
+https://strata-utrtwerwt.sprava.ai/api/mcp
+```
+
+Leave the Advanced OAuth client ID and secret empty. The Strata authorization
+server advertises a `registration_endpoint`, so dynamic client registration
+supplies them. Complete browser OAuth, and do not paste the callback code or any
+token into chat.
+
+On Team and Enterprise, only an Owner adds the connector, in Organization
+settings, Connectors. Each member then authenticates individually from Customize,
+Connectors by selecting **Connect**.
+
+Verify the connection with the same read shown above before using writes. Until
+the connection is authorized every Strata tool is absent, and each skill stops
+and names this step instead of failing at its first tool call.
+
+Remove the connector where it was added — Customize, Connectors, or
+Organization settings, Connectors on Team and Enterprise — when you remove the
+plugin.
 
 ## Codex installation
 

@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "strata",
-  "displayName": "Strata (Staging)",
+  "name": "uprali-demo",
+  "displayName": "Uprali",
   "version": "0.5.0-staging.2",
-  "description": "Use the Strata staging service for evidence-aware business-case work.",
+  "description": "Use the Uprali demo service for evidence-aware business-case work.",
   "author": {
-    "name": "Strata",
+    "name": "Uprali",
     "url": "https://github.com/vamtaknebude/strata-plugin"
   },
   "homepage": "https://github.com/vamtaknebude/strata-plugin#readme",

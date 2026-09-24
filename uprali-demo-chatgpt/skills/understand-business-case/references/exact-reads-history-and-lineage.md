@@ -1,16 +1,16 @@
 # Exact reads, history, and lineage
 
-Use this reference for the precise Strata read-tool sequence. Tool results use a success envelope with operation data under `structuredContent.data`; error results provide a stable error code and retry disposition.
+Use this reference for the precise Uprali read-tool sequence. Tool results use a success envelope with operation data under `structuredContent.data`; error results provide a stable error code and retry disposition.
 
-Case facts come only from the Strata MCP results described here. Do not inspect a repository, working directory, environment, or public web to supplement them.
+Case facts come only from the Uprali MCP results described here. Do not inspect a repository, working directory, environment, or public web to supplement them.
 
-If the active organization is not already present in host or conversation state, call `strata_connection_context` before every tool sequence below. It must be the first Strata call, never a later check after a list or read. Do not call it more than once in a normal journey.
+If the active organization is not already present in host or conversation state, call `strata_connection_context` before every tool sequence below. It must be the first Uprali call, never a later check after a list or read. Do not call it more than once in a normal journey.
 
 ## Tool inputs
 
 ### Read review, decision, and learning records
 
-Use `strata_read_assumption_review` when the user names or supplies a visible `reviewId` or `assumptionRevisionId`. The input `reference` is either `{ "kind": "review", "reviewId": "<uuid>" }` or `{ "kind": "assumption_revision", "assumptionRevisionId": "<uuid>" }`. Include `limit` from 1 through 20. Add a top-level `cursor` only when Strata returned `nextCursor` for the same reference and limit. For Disposition history, preserve the same Review reference and top-level `limit`; send `dispositionHistory.findingId`, a nested `limit` from 1 through 10, and the returned `dispositionHistory.nextCursor` as the next `dispositionHistory.cursor`.
+Use `strata_read_assumption_review` when the user names or supplies a visible `reviewId` or `assumptionRevisionId`. The input `reference` is either `{ "kind": "review", "reviewId": "<uuid>" }` or `{ "kind": "assumption_revision", "assumptionRevisionId": "<uuid>" }`. Include `limit` from 1 through 20. Add a top-level `cursor` only when Uprali returned `nextCursor` for the same reference and limit. For Disposition history, preserve the same Review reference and top-level `limit`; send `dispositionHistory.findingId`, a nested `limit` from 1 through 10, and the returned `dispositionHistory.nextCursor` as the next `dispositionHistory.cursor`.
 
 Use `strata_read_decision` only with a visible `decisionId`. The result is one immutable Decision. It includes the exact Case Revision, outcome, rationale, selected revisions, non-calculated declaration, Conditions, disagreements, and Outcome Commitments.
 
@@ -69,7 +69,7 @@ Summarize every comparison item. In particular, enumerate every narrative `chang
 - For a scenario, order adjustments by returned `ordinal`. Do not apply the adjustments or calculate an outcome.
 - For a scenario-to-evidence trace, state the complete returned chain: scenario label and ID; adjustment operator/value; assumption label, ID, and revision ID; evidence role, title or citation, source URI, and evidence item ID. Each link is part of the answer even when the user names only the endpoints.
 - For evidence, preserve source kind, citation, role, captured/observed/recorded times, and supersession separately. `supersedesEvidenceItemId` is a lineage edge, not deletion of the older item.
-- Counts describe records in Strata; they do not establish completeness or correctness.
+- Counts describe records in Uprali; they do not establish completeness or correctness.
 
 ## Restricted data and failures
 

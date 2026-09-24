@@ -31,7 +31,7 @@ For a manual statement require:
 - nonblank `citation`; and
 - disclosure.
 
-Record `locator`, `excerpt`, `observedAt`, and `supersedesEvidenceItemId` only when supplied or resolved from authorized Strata output. Do not treat an inaccessible URL, pasted title, or assistant summary as source content. Ask for the missing metadata instead of inventing it.
+Record `locator`, `excerpt`, `observedAt`, and `supersedesEvidenceItemId` only when supplied or resolved from authorized Uprali output. Do not treat an inaccessible URL, pasted title, or assistant summary as source content. Ask for the missing metadata instead of inventing it.
 
 ## Evidence preview
 
@@ -85,7 +85,7 @@ One assumption preview must include:
 - for a Model-native Assumption, the complete scalar or series value that matches its exact Model Item contract, without `fieldKey`;
 - stable `assumptionKey`;
 - `scope` as shared or one exact visible alternative ID;
-- the authenticated Strata user as the server-derived accountable owner; `ownerUserId` is not a public tool input;
+- the authenticated Uprali user as the server-derived accountable owner; `ownerUserId` is not a public tool input;
 - one typed `value`;
 - `applicablePeriod` with exact forward-ordered dates when the value is period-specific;
 - `confidenceLevel` and concrete `confidenceRationale`;
@@ -145,7 +145,7 @@ Sensitivity driver: <true or false>
 Effect: creates one successor case revision containing the complete assumption.
 ```
 
-Render the owner as “authenticated Strata user (assigned by the server).” Do not put `ownerUserId` in the executable preview JSON or tool call.
+Render the owner as “authenticated Uprali user (assigned by the server).” Do not put `ownerUserId` in the executable preview JSON or tool call.
 
 A successful receipt supplies the stable assumption ID, exact assumption revision, and successor case head. Use those exact IDs in later reads and scenarios.
 

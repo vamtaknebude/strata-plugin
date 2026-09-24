@@ -1,19 +1,19 @@
 ---
 name: understand-business-case
-description: Read and explain exact authorized Strata business-case state. Use when a user asks about current framing, alternatives, assumptions, drivers, scenarios, evidence lineage, revision history, previous-version comparisons, Assumption Reviews, Decisions, Outcome Reviews, Decision Learnings, or exact Learning references.
+description: Read and explain exact authorized Uprali business-case state. Use when a user asks about current framing, alternatives, assumptions, drivers, scenarios, evidence lineage, revision history, previous-version comparisons, Assumption Reviews, Decisions, Outcome Reviews, Decision Learnings, or exact Learning references.
 ---
 
 # Understand Business Case
 
-Answer the user's question with the smallest authorized Strata read sequence that can establish it. Treat every revision as immutable and every omitted `caseRevisionId` as a one-time request to resolve current state. For Assumption Review, Decision, Outcome Review, and Decision Learning questions, use the exact protected read guidance in [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](references/exact-reads-history-and-lineage.md).
+Answer the user's question with the smallest authorized Uprali read sequence that can establish it. Treat every revision as immutable and every omitted `caseRevisionId` as a one-time request to resolve current state. For Assumption Review, Decision, Outcome Review, and Decision Learning questions, use the exact protected read guidance in [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](references/exact-reads-history-and-lineage.md).
 
-Use Strata MCP as the only source of case facts. Do not inspect the working directory, repository, process environment, or public web, and do not use a shell to search for case data. Do not call `list_mcp_resources` or `list_mcp_resource_templates`; the exact permitted Strata tools are named below. After the host loads this installed skill, continue with those Strata tools and the user's messages only.
+Use Uprali MCP as the only source of case facts. Do not inspect the working directory, repository, process environment, or public web, and do not use a shell to search for case data. Do not call `list_mcp_resources` or `list_mcp_resource_templates`; the exact permitted Uprali tools are named below. After the host loads this installed skill, continue with those Uprali tools and the user's messages only.
 
-When the Strata tools are unavailable, Strata is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, the Uprali demo is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp`: in Claude web or the Claude desktop app, open Customize, Connectors. The demo needs no account.
 
 ## Organization-order invariant
 
-Before the first tenant-bound case call, determine whether the host or conversation has already established the active Strata organization. If it has not, the first Strata tool call must be `strata_connection_context`. Never call `strata_list_cases`, `strata_read_case`, `strata_get_case`, a history tool, or a comparison tool and then resolve connection context. Call connection context at most once in a normal journey.
+Before the first tenant-bound case call, determine whether the host or conversation has already established the active Uprali organization. If it has not, the first Uprali tool call must be `strata_connection_context`. Never call `strata_list_cases`, `strata_read_case`, `strata_get_case`, a history tool, or a comparison tool and then resolve connection context. Call connection context at most once in a normal journey.
 
 ## Bounded case-list invariant
 
@@ -62,7 +62,7 @@ For every scenario-to-evidence answer, copy the adjustment operation and signed 
 - Trace a visible assumption through its exact `assumptionId` and `assumptionRevisionId`; trace a visible scenario adjustment through its exact assumption IDs; trace evidence through exact `evidenceItemId` and any `supersedesEvidenceItemId`.
 - When the user asks for scenario-to-evidence lineage, render every link in order: scenario label and exact `scenarioId`; adjustment operator/value; assumption label plus exact `assumptionId` and `assumptionRevisionId`; then evidence role, evidence title or citation, source URI when returned, and exact `evidenceItemId`. Do not collapse the assumption or evidence-role link even when the source title seems self-explanatory.
 - Preserve evidence roles exactly: `supporting`, `contradicting`, `contextual`, or `superseding`. A citation, excerpt, locator, or source URI is recorded metadata, not proof that the claim is true.
-- If an item has `access: masked`, say that Strata returned a restricted item and report only its permitted mask fields or ordinal/role. Do not infer its value, owner, rationale, IDs, or change reason from surrounding records.
+- If an item has `access: masked`, say that Uprali returned a restricted item and report only its permitted mask fields or ordinal/role. Do not infer its value, owner, rationale, IDs, or change reason from surrounding records.
 - Never invent a missing fact, calculate a recommendation, rank alternatives, or claim that prose is objectively good. You may identify explicit omissions, contradictions, or implausible values and ask the user how to interpret them.
 
 ## Recovery
@@ -71,7 +71,7 @@ For every scenario-to-evidence answer, copy the adjustment operation and signed 
 - On `INPUT_INVALID` or `MALFORMED_CURSOR`, correct the input from the tool schema or restart the page from the same exact revision; do not substitute another revision.
 - On `NOT_FOUND`, explain which exact case or revision was unavailable and ask for a valid selection.
 - On `AUTHORIZATION_UNAVAILABLE` or masked data, do not search for or infer the restricted content.
-- On `PERSISTENCE_UNAVAILABLE`, `CAPABILITY_TIMEOUT`, or another retryable read failure, retry the unchanged read at most once when useful; otherwise report that Strata could not complete the read.
-- Keep a normal successful journey within four Strata tool calls. Pagination may exceed that only when the user explicitly requests more returned records.
+- On `PERSISTENCE_UNAVAILABLE`, `CAPABILITY_TIMEOUT`, or another retryable read failure, retry the unchanged read at most once when useful; otherwise report that Uprali could not complete the read.
+- Keep a normal successful journey within four Uprali tool calls. Pagination may exceed that only when the user explicitly requests more returned records.
 
 When the host supports local skill references, use [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](references/exact-reads-history-and-lineage.md) for additional input examples and result-field details.

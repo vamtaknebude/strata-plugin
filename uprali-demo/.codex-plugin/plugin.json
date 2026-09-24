@@ -1,9 +1,9 @@
 {
-  "name": "strata",
+  "name": "uprali-demo",
   "version": "0.5.0-staging.2",
-  "description": "Use the Strata staging service for evidence-aware business-case work.",
+  "description": "Use the Uprali demo service for evidence-aware business-case work.",
   "author": {
-    "name": "Strata",
+    "name": "Uprali",
     "url": "https://github.com/vamtaknebude/strata-plugin"
   },
   "homepage": "https://github.com/vamtaknebude/strata-plugin#readme",
@@ -11,19 +11,19 @@
   "license": "LicenseRef-Strata-Plugin-Distribution",
   "skills": "./skills/",
   "interface": {
-    "displayName": "Strata (Staging)",
-    "shortDescription": "Create, develop, and read Strata business cases",
+    "displayName": "Uprali",
+    "shortDescription": "Create, develop, and read Uprali business cases",
     "longDescription": "Elicit and create a coherent initial business case, develop its evidence-backed assumptions, scenarios, Decisions, Outcome Reviews, and Decision Learnings, or resolve exact current state, history, comparisons, and lineage.",
-    "developerName": "Strata",
+    "developerName": "Uprali",
     "category": "Productivity",
     "capabilities": [
       "Read",
       "Write"
     ],
     "defaultPrompt": [
-      "Use Strata to create a complete business case from a decision idea.",
-      "Use Strata to develop evidence-backed drivers, scenarios, and Decision Learning references.",
-      "Use Strata to explain a business case from exact current state and history."
+      "Use Uprali to create a complete business case from a decision idea.",
+      "Use Uprali to develop evidence-backed drivers, scenarios, and Decision Learning references.",
+      "Use Uprali to explain a business case from exact current state and history."
     ]
   },
   "mcpServers": "./.mcp.json"

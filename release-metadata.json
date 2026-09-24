@@ -13,6 +13,7 @@
     "mcp.json",
     "plugin.json",
     "skills/develop-business-case/SKILL.md",
+    "skills/develop-business-case/references/decision-review-and-learning.md",
     "skills/develop-business-case/references/evidence-and-assumptions.md",
     "skills/develop-business-case/references/preview-and-recovery.md",
     "skills/develop-business-case/references/scenarios.md",
@@ -20,13 +21,89 @@
     "skills/start-business-case/references/coherent-initial-case.md",
     "skills/understand-business-case/SKILL.md",
     "skills/understand-business-case/references/exact-reads-history-and-lineage.md",
+    "uprali-demo/.claude-plugin/plugin.json",
+    "uprali-demo/.codex-plugin/plugin.json",
+    "uprali-demo/.mcp.json",
+    "uprali-demo/mcp.json",
+    "uprali-demo/plugin.json",
+    "uprali-demo/skills/develop-business-case/SKILL.md",
+    "uprali-demo/skills/develop-business-case/references/decision-review-and-learning.md",
+    "uprali-demo/skills/develop-business-case/references/evidence-and-assumptions.md",
+    "uprali-demo/skills/develop-business-case/references/preview-and-recovery.md",
+    "uprali-demo/skills/develop-business-case/references/scenarios.md",
+    "uprali-demo/skills/start-business-case/SKILL.md",
+    "uprali-demo/skills/start-business-case/references/coherent-initial-case.md",
+    "uprali-demo/skills/understand-business-case/SKILL.md",
+    "uprali-demo/skills/understand-business-case/references/exact-reads-history-and-lineage.md",
+    "uprali-demo-chatgpt/.app.json",
+    "uprali-demo-chatgpt/plugin.json",
+    "uprali-demo-chatgpt/skills/develop-business-case/SKILL.md",
+    "uprali-demo-chatgpt/skills/develop-business-case/references/decision-review-and-learning.md",
+    "uprali-demo-chatgpt/skills/develop-business-case/references/evidence-and-assumptions.md",
+    "uprali-demo-chatgpt/skills/develop-business-case/references/preview-and-recovery.md",
+    "uprali-demo-chatgpt/skills/develop-business-case/references/scenarios.md",
+    "uprali-demo-chatgpt/skills/start-business-case/SKILL.md",
+    "uprali-demo-chatgpt/skills/start-business-case/references/coherent-initial-case.md",
+    "uprali-demo-chatgpt/skills/understand-business-case/SKILL.md",
+    "uprali-demo-chatgpt/skills/understand-business-case/references/exact-reads-history-and-lineage.md",
     "release-metadata.json"
   ],
   "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
-  "packageDigest": "a6e8013b7042bccf021996190406dfbd914555582ca8cf42e6faa5864c7dc43a",
+  "packageDigest": "2aed42b61197a40a05f3ff5aa14ba3168720e3bb731f1a9df4a862577a47d189",
+  "packages": [
+    {
+      "files": [
+        ".agents/plugins/marketplace.json",
+        ".claude-plugin/marketplace.json",
+        ".claude-plugin/plugin.json",
+        ".codex-plugin/plugin.json",
+        ".mcp.json",
+        "CHANGELOG.md",
+        "DISTRIBUTION.md",
+        "README.md",
+        "RELEASING.md",
+        "SECURITY.md",
+        "mcp.json",
+        "plugin.json",
+        "skills/develop-business-case/SKILL.md",
+        "skills/develop-business-case/references/decision-review-and-learning.md",
+        "skills/develop-business-case/references/evidence-and-assumptions.md",
+        "skills/develop-business-case/references/preview-and-recovery.md",
+        "skills/develop-business-case/references/scenarios.md",
+        "skills/start-business-case/SKILL.md",
+        "skills/start-business-case/references/coherent-initial-case.md",
+        "skills/understand-business-case/SKILL.md",
+        "skills/understand-business-case/references/exact-reads-history-and-lineage.md"
+      ],
+      "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
+      "name": "strata",
+      "path": ""
+    },
+    {
+      "files": [
+        ".claude-plugin/plugin.json",
+        ".codex-plugin/plugin.json",
+        ".mcp.json",
+        "mcp.json",
+        "plugin.json",
+        "skills/develop-business-case/SKILL.md",
+        "skills/develop-business-case/references/decision-review-and-learning.md",
+        "skills/develop-business-case/references/evidence-and-assumptions.md",
+        "skills/develop-business-case/references/preview-and-recovery.md",
+        "skills/develop-business-case/references/scenarios.md",
+        "skills/start-business-case/SKILL.md",
+        "skills/start-business-case/references/coherent-initial-case.md",
+        "skills/understand-business-case/SKILL.md",
+        "skills/understand-business-case/references/exact-reads-history-and-lineage.md"
+      ],
+      "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp",
+      "name": "uprali-demo",
+      "path": "uprali-demo"
+    }
+  ],
   "plugin": {
     "name": "strata",
-    "version": "0.5.0-staging.1"
+    "version": "0.5.0-staging.2"
   },
   "schemaVersion": 1,
   "skills": [
@@ -35,7 +112,7 @@
     "understand-business-case"
   ],
   "source": {
-    "commit": "c926f70b1213a925e3f2bf7e4a6b25e654fc60ef",
+    "commit": "c6f27e917b64e3850b5bb791e11db030afb7251b",
     "repository": "vamtaknebude/strata"
   }
 }

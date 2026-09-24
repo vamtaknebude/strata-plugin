@@ -1,15 +1,15 @@
 ---
 name: start-business-case
-description: Elicit, preview, confirm, and create a coherent initial Strata business case from a complete or incomplete decision brief.
+description: Elicit, preview, confirm, and create a coherent initial Uprali business case from a complete or incomplete decision brief.
 ---
 
 # Start Business Case
 
-Create one complete Strata root revision with a coherent narrative and 2–25 ordered, materially distinct alternatives. Do not create drafts, evidence, assumptions, scenarios, recommendations, approvals, or decisions.
+Create one complete Uprali root revision with a coherent narrative and 2–25 ordered, materially distinct alternatives. Do not create drafts, evidence, assumptions, scenarios, recommendations, approvals, or decisions.
 
-Use only the user's messages and named Strata tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
+Use only the user's messages and named Uprali tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
 
-When the Strata tools are unavailable, Strata is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, the Uprali demo is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp`: in Claude web or the Claude desktop app, open Customize, Connectors. The demo needs no account.
 
 Creation invariant: after `strata_start_case` returns `structured_content.status: success`, stop tool use. Copy every receipt field byte-for-byte from `structured_content.data` into any structured receipt. Never generate, replace, reconstruct, or summarize a receipt identifier. Never call `strata_start_case` again to retrieve or replay a successful receipt.
 
@@ -54,7 +54,7 @@ Re-evaluate after each answer. Do not preview while a required value is missing,
 
 Show one complete preview immediately before confirmation. Include:
 
-- the authenticated Strata user as initial owner and author;
+- the authenticated Uprali user as initial owner and author;
 - `changeReason`;
 - every narrative field: `title`, `decisionQuestion`, `objective`, `materialityStatement`, `counterfactual`, optional `deadline`, and the complete ordered `constraints` list;
 - every ordered alternative with `label`, `optionType`, `scope`, `rationale`, complete `dependencies`, complete `strategicEffects`, and either both implementation dates or an explicit “not recorded” marker;

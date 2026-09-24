@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0-staging.2
+
+- Add the Uprali demo plugin (`uprali-demo`) to the Claude Code marketplace. It
+  installs the same three workflow skills and connects to the Uprali demo MCP
+  server.
+- Add the Uprali demo ChatGPT local plugin package (`uprali-demo-chatgpt`). It
+  carries the same three workflow skills.
+
 ## 0.5.0-staging.1
 
 - Label the plugin and both marketplaces as a staging preview.
