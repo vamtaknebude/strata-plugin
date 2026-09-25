@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "strata": {
+    "uprali-demo": {
       "type": "http",
       "url": "https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp"
     }

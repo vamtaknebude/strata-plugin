@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
-    "strata": {
+    "uprali-demo": {
       "type": "streamable-http",
       "url": "https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp"
     }

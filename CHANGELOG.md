@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0-staging.3
+
+- The Uprali demo packages (`uprali-demo` and `uprali-demo-chatgpt`) now name
+  their MCP server `uprali-demo`.
+
 ## 0.5.0-staging.2
 
 - Add the Uprali demo plugin (`uprali-demo`) to the Claude Code marketplace. It
