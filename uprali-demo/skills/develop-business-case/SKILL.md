@@ -5,7 +5,7 @@ description: Create or revise calculation Models, evidence, assumptions, sensiti
 
 # Develop Business Case
 
-Develop one exact Uprali case from supplied facts. Preserve provenance, revision identity, and user control. Do not calculate, recommend, fetch, invent, convert, create mock Calculation records, or batch changes.
+Develop one exact Uprali case from supplied facts. Preserve provenance, revision identity, and user control. Calculate only via `strata_create_calculation_run` when available; state only values a Run returned. Do not recommend, fetch, invent, convert, or batch changes.
 
 Use only Uprali MCP, user messages, and host-loaded references. Do not inspect the repository, environment, filesystem, web, discovery, UUID, or resource-listing tools.
 
@@ -13,10 +13,11 @@ When the Uprali tools are unavailable, the Uprali demo is not connected in this 
 
 Read every applicable reference before preparing persisted values:
 
-- [evidence and assumptions](references/evidence-and-assumptions.md) for evidence and Assumptions.
+- [evidence](references/evidence-and-assumptions.md) for evidence and Assumptions.
 - [scenarios](references/scenarios.md) for Scenarios.
-- [decision review and learning](references/decision-review-and-learning.md) for connected capabilities.
-- [preview and recovery](references/preview-and-recovery.md) for previews and recovery.
+- [decision review and learning](references/decision-review-and-learning.md) for review and learning.
+- [approvals](references/approvals.md), [cards](references/assumption-cards.md), [delegation](references/assumption-delegation.md), [performance](references/performance.md).
+- [preview and recovery](references/preview-and-recovery.md) for preview and recovery.
 
 ## Resolve exact current state
 
@@ -48,7 +49,7 @@ For removal, read the exact subject and dependencies, disclose that no cascade o
 
 ## Models
 
-Use Model, Assumption, and Model-read operations. Do not create Scenario or Run. Read [evidence and Assumptions](references/evidence-and-assumptions.md) and [preview and recovery](references/preview-and-recovery.md) for the required staged order.
+Use Model, Assumption, and Model-read operations. Do not create Scenario. Read [evidence and Assumptions](references/evidence-and-assumptions.md) and [preview and recovery](references/preview-and-recovery.md) for the required staged order.
 
 ## Preview, confirm, and execute
 
@@ -58,7 +59,7 @@ After confirmation, construct a fresh lowercase RFC 4122 version 4 UUID directly
 
 Only a structured success receipt commits. Preserve its fields and replay status, and advance heads only from it. Resolve IDs for the next preview and reconfirm; never execute an unconfirmed remainder. The normal evidence-to-driver-to-scenario path uses at most eight Uprali calls. Protected reads use bounded discriminated projections and opaque context-bound cursors; write retry rules do not apply.
 
-Review requests and retries return queued Attempts. Use bounded polling. A timeout, refusal, malformed output, provider failure, or failed Attempt never means no material Findings. Retry a failed current Review only after explicit confirmation. Corrections append successor Dispositions or complete Outcome Review Revisions. Decisions and accepted Learnings remain immutable. Learning reuse names an exact revision.
+Review requests and retries return queued Attempts. Use bounded polling. A timeout, refusal, malformed output, provider failure, or failed Attempt never means no material Findings. Retry a failed current Review only after explicit confirmation. Corrections append successor Dispositions or complete Outcome Review Revisions. Learning reuse names an exact revision.
 
 ## Stop and recover
 

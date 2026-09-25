@@ -10,6 +10,7 @@ Use this reference to construct the exact `strata_start_case` input and to diagn
 - [Exact preview template](#exact-preview-template)
 - [Exact tool input](#exact-tool-input)
 - [Retry identity](#retry-identity)
+- [Success metrics after creation](#success-metrics-after-creation)
 
 ## Narrative field mapping
 
@@ -143,3 +144,11 @@ The retry identity is the canonical confirmed tool input plus `idempotencyKey`.
 - `COMMAND_REUSED` means the same UUID reached the server with different input. Do not guess which version won.
 
 For a stale later edit, `currentCaseHead` or `currentSubjectHead` is remediation data, not permission to overwrite. Read the returned/current exact revision with `strata_read_case`, compare it with the user's intended change, show a new preview, reconfirm, and use a new UUID.
+
+## Success metrics after creation
+
+Apply this section only when `strata_save_success_metrics` is available. When it is not, the case creation ends the tool use.
+
+After `strata_start_case` succeeds, offer to record the case's success metrics. Each metric has a `title`, an `objective`, one or more `keyResults`, a `target`, and a `timeframe`, taken from the user's words. Preview the complete ordered list and save it only after the user confirms it. For a new case, send `expectedSuccessMetricsRevisionNumber: null`, the returned `investmentCaseId`, the confirmed `metrics`, and a new `idempotencyKey`. When the user declines, record nothing.
+
+The user may also record or change success metrics later. Read the current list with `strata_read_success_metrics`, preview the complete replacement list, and after confirmation save it with the returned `successMetricsRevisionNumber` as `expectedSuccessMetricsRevisionNumber`. The saved list replaces the whole earlier list, so include every metric the user keeps.

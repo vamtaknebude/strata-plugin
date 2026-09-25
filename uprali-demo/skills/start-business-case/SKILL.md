@@ -5,13 +5,13 @@ description: Elicit, preview, confirm, and create a coherent initial Uprali busi
 
 # Start Business Case
 
-Create one complete Uprali root revision with a coherent narrative and 2–25 ordered, materially distinct alternatives. Do not create drafts, evidence, assumptions, scenarios, recommendations, approvals, or decisions.
+Create one complete Uprali root revision with a coherent narrative and 2–25 ordered, materially distinct alternatives. Do not create drafts, evidence, assumptions, scenarios, recommendations, or decisions. Approvals need approval tools.
 
 Use only the user's messages and named Uprali tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
 
 When the Uprali tools are unavailable, the Uprali demo is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp`: in Claude web or the Claude desktop app, open Customize, Connectors. The demo needs no account.
 
-Creation invariant: after `strata_start_case` returns `structured_content.status: success`, stop tool use. Copy every receipt field byte-for-byte from `structured_content.data` into any structured receipt. Never generate, replace, reconstruct, or summarize a receipt identifier. Never call `strata_start_case` again to retrieve or replay a successful receipt.
+Creation invariant: after `strata_start_case` succeeds, stop tool use except the reference's success-metrics step when its tools exist. Copy every receipt field byte-for-byte from `structured_content.data`. Never generate, replace, reconstruct, or summarize a receipt identifier. Never call `strata_start_case` again to retrieve or replay a successful receipt.
 
 ## Organization and ownership
 
