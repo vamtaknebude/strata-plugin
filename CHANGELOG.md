@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.5.0-staging.6
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- The "Build initial business case" button in the intake view now sends a
+  readable message instead of the build arguments as JSON. After that message,
+  `start-business-case` takes the template, title, and description from the
+  intake result. It takes the objectives from the message's "Objectives:" list.
+  For each metric in the message's "Success metrics:" list, it copies the
+  metric's title, objective, and key results from the intake result and takes
+  its target and timeframe from the message.
+- The `assumption-delegation` reference of `develop-business-case` adds
+  `strata_adopt_assumption_delegation_submission` to its allowed tools. With it,
+  the agent can adopt a delegation Submission as a new or replacement unlinked
+  Assumption.
+
 ## 0.5.0-staging.5
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

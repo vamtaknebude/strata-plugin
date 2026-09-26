@@ -22,9 +22,9 @@ For `general_investment`, list the investment figures you took from the descript
 
 The message the "Build initial business case" button sends, or the presenter's confirmation in chat, is the one confirmation. Show no separate preview.
 
-Call `strata_build_initial_case` once, with a new lowercase RFC 4122 version 4 UUID constructed directly as `idempotencyKey`. Take `templateKey`, `title`, `description`, `objectives`, and `successMetrics` from one source:
+Call `strata_build_initial_case` once, with a new lowercase RFC 4122 version 4 UUID constructed directly as `idempotencyKey`. Take `templateKey`, `title`, `description`, `objectives`, and `successMetrics` as follows:
 
-- After the button message, use the arguments in that message unchanged.
+- After the button message, take `templateKey`, `title`, and `description` from the intake result unchanged. Set `objectives` to the objectives the message lists under "Objectives:", in the listed order, each exactly as written after its leading "- ". Set `successMetrics` to one entry for each metric the message lists under "Success metrics:", in the listed order. Each listed metric starts with "- " and the `title` of one success metric in the intake result: copy that metric's `title`, `objective`, and `keyResults` from the intake result unchanged, and set `target` and `timeframe` to the text after "Target:" and "Timeframe:" under the listed title. When the message says "Success metrics: none.", set `successMetrics` to an empty list.
 - After a confirmation in chat, use these fields from the intake result unchanged. Tell the presenter that you are building from the recommendations as shown. Changes made in the view reach you only through the button message.
 
 In both cases, for `general_investment`, add `investmentValues` with only the figures the presenter stated: `upfrontInvestment`, `discountRate` as a ratio such as `0.10`, and each of `annualBenefit` and `annualOperatingCost` as three amounts for Years 1, 2, and 3 when the presenter gave all three years of it. Omit every other figure.
