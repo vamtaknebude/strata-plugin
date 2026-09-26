@@ -32,17 +32,7 @@ For every scenario-to-evidence answer, copy the adjustment operation and signed 
    - Otherwise call `strata_list_cases` with `{ "limit": 25 }`. Match only returned titles or case keys.
    - If multiple returned cases could match, show bounded choices with title and case key and ask the user to select one. Never guess.
    - If the required match is not on the page and `nextCursor` exists, follow that cursor only when another page can answer the user's request.
-4. Select one projection:
-   - `overview` for framing, alternatives, or subject counts.
-   - `assumptions` for assumptions or sensitivity drivers; set `driversOnly: true` only when the user asks about drivers.
-   - `scenario` for one known `scenarioId` and its ordered adjustments.
-   - `evidence_lineage` for one known `assumptionId` or `evidenceItemId`.
-   - `strata_read_assumption_review` for one known Review or Assumption Revision.
-   - `strata_read_decision` for one known Decision.
-   - `strata_read_outcome_review` for one known Outcome Review or Outcome Review Revision.
-   - `strata_read_learning` for one known Decision Learning.
-   - Use `strata_get_case` only when one question must cross scenarios, assumptions, and evidence or when their selection IDs are not known. Its exact full graph is broader than a focused projection, so do not use it for a single-subject question.
-   - For a scenario-to-evidence request that names a scenario by label and supplies no subject IDs, resolve the case with `strata_list_cases` and then call `strata_get_case` directly. Do not insert an overview or scenario projection before the full-graph read.
+4. Select one projection with [the projection selection rules](references/select-projection.md).
 5. Call `strata_read_case` for a focused case projection. For an Assumption Review, Decision, Outcome Review, or Decision Learning read, call the named protected read tool from this list and apply the exact read guidance in the reference. Do not add `caseRevisionId` to those protected-read inputs. Record exact case revision fields only when a protected read returns them. When `strata_get_case` is necessary, record its returned `caseRevisionId` and pin any follow-up case read to it.
 6. Pin every follow-up `strata_read_case` call to the recorded `caseRevisionId`. For history, preserve `investmentCaseId`, `decisionCycleId`, and any returned cursor. For comparison, use exact `fromCaseRevisionId` and `toCaseRevisionId` values selected from returned fields. For protected-read pagination, preserve the same record reference and top-level limit. When the read includes Disposition history, also preserve `dispositionHistory.findingId` and its nested limit, and map each returned `nextCursor` to the corresponding input `cursor`. Never send `caseRevisionId` to `strata_read_decision`, `strata_read_outcome_review`, `strata_read_learning`, or `strata_read_assumption_review`. Never merge results from different revisions into an unlabeled answer.
 7. Answer only from returned fields. For case-projection answers, state the case key and exact revision number or ID. Treat “where are we?” as a broad current-state overview. In the final structured `summary`, include the returned objective and every returned alternative label exactly as returned; do not replace them with a count or generic prose. Omit one of those fields only when the user explicitly asks for a narrower answer. For direct protected-read answers, report only returned identifiers and returned fields. Do not resolve a case only to satisfy a case key or revision statement for a direct protected read. Label a non-current read as historic or superseded. Distinguish recorded facts, user-supplied interpretation, and missing or masked data.
@@ -50,28 +40,14 @@ For every scenario-to-evidence answer, copy the adjustment operation and signed 
 
 ## History and comparison
 
-- Use `strata_list_case_revisions` when the user asks for revision history or needs a revision selected by recorded operation, author, or time. Preserve its cursor for further history pages.
-- Interpret “previous” as the selected revision's exact `parentCaseRevisionId`, never the second item in a date-sorted list.
-- Use `strata_compare_case_revisions` only with two exact revision IDs and `limit: 25`. Set `fromCaseRevisionId` to the older/base revision and `toCaseRevisionId` to the newer/target revision.
-- For “what changed since the previous revision,” use the selected current overview's `parentCaseRevisionId` immediately as `fromCaseRevisionId` and its `caseRevisionId` as `toCaseRevisionId`. The complete normal sequence is bounded case list, current overview, then exact comparison. Do not call `strata_list_case_revisions`, because history order is not the parent relation. Do not read the parent overview unless the user explicitly asks for a previous value that the comparison does not return.
-- Report every returned comparison item. For a narrative item, name every entry in `changedFields`, even when several fields changed in one item. Pair each changed field with its current value from the already returned overview when that field is present there; for example, report the current objective text and current deadline, not only “objective and deadline changed.” For subject items, preserve `added`, `changed`, and `removed` exactly. Fetch another exact projection only if the user's question requires a subject's actual value that the comparison and current overview do not return.
-- Do not describe a change as causal. Revision lineage establishes author, recorded time, and change reason, not business causation or objective truth.
+Read [the history and comparison rules](references/history-and-comparison.md) for revision history or comparison questions.
 
 ## Evidence and restricted data
 
-- Trace a visible assumption through its exact `assumptionId` and `assumptionRevisionId`; trace a visible scenario adjustment through its exact assumption IDs; trace evidence through exact `evidenceItemId` and any `supersedesEvidenceItemId`.
-- When the user asks for scenario-to-evidence lineage, render every link in order: scenario label and exact `scenarioId`; adjustment operator/value; assumption label plus exact `assumptionId` and `assumptionRevisionId`; then evidence role, evidence title or citation, source URI when returned, and exact `evidenceItemId`. Do not collapse the assumption or evidence-role link even when the source title seems self-explanatory.
-- Preserve evidence roles exactly: `supporting`, `contradicting`, `contextual`, or `superseding`. A citation, excerpt, locator, or source URI is recorded metadata, not proof that the claim is true.
-- If an item has `access: masked`, say that Uprali returned a restricted item and report only its permitted mask fields or ordinal/role. Do not infer its value, owner, rationale, IDs, or change reason from surrounding records.
-- Never invent a missing fact, calculate a recommendation, rank alternatives, or claim that prose is objectively good. You may identify explicit omissions, contradictions, or implausible values and ask the user how to interpret them.
+Read [the evidence and restricted-data rules](references/evidence-and-restricted-data.md) for evidence, lineage, or masked items.
 
 ## Recovery
 
-- On an ambiguous title, stop after bounded choices and wait for selection.
-- On `INPUT_INVALID` or `MALFORMED_CURSOR`, correct the input from the tool schema or restart the page from the same exact revision; do not substitute another revision.
-- On `NOT_FOUND`, explain which exact case or revision was unavailable and ask for a valid selection.
-- On `AUTHORIZATION_UNAVAILABLE` or masked data, do not search for or infer the restricted content.
-- On `PERSISTENCE_UNAVAILABLE`, `CAPABILITY_TIMEOUT`, or another retryable read failure, retry the unchanged read at most once when useful; otherwise report that Uprali could not complete the read.
-- Keep a normal successful journey within four Uprali tool calls. Pagination may exceed that only when the user explicitly requests more returned records.
+Read [the recovery rules](references/recovery.md) when a Uprali call fails or a title is ambiguous.
 
 When the host supports local skill references, use [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](references/exact-reads-history-and-lineage.md) for additional input examples and result-field details.

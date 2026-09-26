@@ -33,6 +33,8 @@ For a manual statement require:
 
 Record `locator`, `excerpt`, `observedAt`, and `supersedesEvidenceItemId` only when supplied or resolved from authorized Strata output. Do not treat an inaccessible URL, pasted title, or assistant summary as source content. Ask for the missing metadata instead of inventing it.
 
+When `strata_build_initial_case` is available and the user gives only a date for `capturedAt` or `observedAt`, send that date at `T00:00:00Z` without asking for a time of day or timezone.
+
 ## Evidence preview
 
 Render every field exactly:

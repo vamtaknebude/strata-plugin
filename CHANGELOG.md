@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.5.0-staging.5
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- Each skill's `SKILL.md` is now smaller than 8,000 bytes, the size at which Codex
+  truncates a selected skill. Sections moved without change into new reference
+  files: `normalized-draft` and `recovery` in `start-business-case`,
+  `resolve-current-state` and `stop-and-recover` in `develop-business-case`, and
+  `select-projection`, `history-and-comparison`, `evidence-and-restricted-data`,
+  and `recovery` in `understand-business-case`.
+- When the user asks to confirm several Assumption Cards at once,
+  `develop-business-case` shows one preview of the named cards. After one
+  approval, it sends one `strata_confirm_assumption_card` per named card, lists
+  the cards again, and reports each card's status.
+- When `strata_recommend_case_intake` and `strata_build_initial_case` are both
+  available, `start-business-case` follows the new `demo-initial-case` reference.
+  It takes the decision description from one message and asks no follow-up
+  questions. It chooses a template, shows the recommended intake, builds the case
+  after one confirmation, and opens the results view for the new calculation Run.
+- When `strata_build_initial_case` is available, `develop-business-case` names
+  records in its replies by case key, title, or label instead of ID. When a
+  `capturedAt` or `observedAt` value has only a date, it sends that date at
+  `T00:00:00Z`. Before it offers to submit a case for approval, it reads the
+  case's approval path and first saves an approval path when the case has none.
+- When `strata_read_calculation_results` is available, `develop-business-case`
+  calls it for a Run whose results the user asks to see, and the App shows the
+  results view.
+
 ## 0.5.0-staging.4
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

@@ -11,6 +11,8 @@ Use only Strata MCP, user messages, and host-loaded references. Do not inspect t
 
 When the Strata tools are unavailable, Strata is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
+When `strata_build_initial_case` is available, name records in replies by case key, title, or label, not by ID (UUID).
+
 Read every applicable reference before preparing persisted values:
 
 - [evidence](references/evidence-and-assumptions.md) for evidence and Assumptions.
@@ -21,21 +23,7 @@ Read every applicable reference before preparing persisted values:
 
 ## Resolve exact current state
 
-If the host has not established the active organization, call `strata_connection_context` first. Never infer organization authority from client, model, plugin, skill, or environment metadata.
-
-For case-bound work, resolve a title with `strata_list_cases` and wait before a dependent read. If several cases match, show bounded choices and wait. Read the current case with `strata_read_case`. Retain its exact case, cycle, case revision ID and number, and subject revision IDs. Use overview when alternatives matter. Read assumptions before revising or removing an existing assumption, but not for a new assumption or a driver receipted in this conversation. Read evidence lineage only for a selected existing assumption or evidence item. Never use a historic head as current.
-
-Use `strata_read_case` for every case-content read in this workflow. Do not use `strata_get_case`. Select one projection:
-
-- overview: `projection.kind` is `overview` with no other projection field;
-- assumptions: `projection.kind` is `assumptions`, `limit` is `25`, and `driversOnly` is `false`;
-- scenario: `projection.kind` is `scenario`, `scenarioId` is the selected visible stable UUID, and `limit` is `25`;
-- assumption lineage: `projection.kind` is `evidence_lineage`, `assumptionId` is the selected visible assumption UUID, and `limit` is `25`; or
-- evidence lineage: `projection.kind` is `evidence_lineage`, `evidenceItemId` is the selected visible evidence item's UUID, and `limit` is `25`.
-
-Construct dependent reads only from completed Strata output. Copy every UUID byte-for-byte into its matching ID field. Never put a case key, revision number, label, or another subject's UUID in an ID field. For a visible protected record ID, perform the matching direct protected read before resolving a case when the requested write does not require case identifiers.
-
-The user does not supply organization, tenant, hidden record, or author identifiers. The server records the authenticated actor. `strata_save_assumption` assigns that user as owner and accepts no `ownerUserId`. Disclose this and stop if the user requests another owner.
+Read [the current-state resolution rules](references/resolve-current-state.md) before you prepare any command.
 
 ## Prepare one complete command
 
@@ -63,12 +51,4 @@ Review requests and retries return queued Attempts. Use bounded polling. A timeo
 
 ## Stop and recover
 
-After the first failed command, make no second mutation call in that turn. Preserve receipts, report authorized error information, and follow the reference's recovery rules. A `retry: safe` disposition does not permit another definitive application call.
-
-- Ambiguous transport permits one byte-identical same-key retry. Accept `replayed: true` as the original result.
-- On `STALE_STATE` or a revision conflict, read fresh state, compare it with the proposal, show a changed preview, reconfirm, and use a new key.
-- On `COMMAND_REUSED`, read fresh state, reconstruct the command, preview, reconfirm, and use a new key.
-- On dependency, compatibility, or input errors, use only authorized facts and user corrections. Never cascade or convert.
-- On `RATE_LIMITED` or `RATE_LIMIT_UNAVAILABLE`, access failures, protected missing-or-inaccessible responses, or terminal provider failure, stop without unchanged retry, alternate-ID probing, or hidden inference.
-
-Cancellation stops before key generation or mutation. Report only what the user supplied and Strata durably accepted.
+Read [the stop and recovery rules](references/stop-and-recover.md) when a Strata call fails or the user stops.

@@ -26,6 +26,8 @@ Show the title, description, responsible member's name, headline label and formu
 
 Confirm a card only when the user asks to confirm it. Show the card's title, status, `cardRevisionNumber`, and each Assumption key with its `currentRevisionNumber`, and state that confirming records those Assumption revisions. Wait for the user's approval before you send one `strata_confirm_assumption_card`.
 
+When the user asks to confirm several cards at once, list the cards with `strata_list_assumption_cards` and show one preview of the cards the user named. For each named card, show the same fields as for a single card: title, status, `cardRevisionNumber`, and each Assumption key with its `currentRevisionNumber`. State that confirming records those Assumption revisions. After the user's one approval, send one `strata_confirm_assumption_card` per named card, with its `assumptionCardId`, its `cardRevisionNumber` from that list as `expectedCardRevisionNumber`, and its own fresh `idempotencyKey`. Then list the cards again and report each named card's status.
+
 ## Retry
 
 Use a fresh `idempotencyKey` for each write the user approves. Retry an ambiguous result only with the same `idempotencyKey` and unchanged input. On `STALE_STATE`, list the cards again, show the changed preview, wait for the user's approval, and use a new key.

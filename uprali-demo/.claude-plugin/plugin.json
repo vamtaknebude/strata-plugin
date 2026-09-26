@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "uprali-demo",
   "displayName": "Uprali",
-  "version": "0.5.0-staging.4",
+  "version": "0.5.0-staging.5",
   "description": "Use the Uprali demo service for evidence-aware business-case work.",
   "author": {
     "name": "Uprali",

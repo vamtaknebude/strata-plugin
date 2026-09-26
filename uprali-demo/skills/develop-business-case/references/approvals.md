@@ -14,6 +14,8 @@ Use this reference only when `strata_save_approval_path`, `strata_submit_case_fo
 
 Call `strata_read_approval_path` with the exact `investmentCaseId` before each approval write. Pass its `approvalPath.approvalPathRevisionNumber` as `expectedApprovalPathRevisionNumber`, or `null` when `approvalPath` is `null` and you save the first path. When `approvalPath` is `null`, save a path before you submit or record a step. Record on a step with a `stepId` from that read.
 
+When `strata_build_initial_case` is available, read the approval path before you offer to submit, and save one first when it is `null`.
+
 ## Save the path
 
 `strata_save_approval_path` replaces all steps with the complete ordered list you send. Take each `memberUserId` from `strata_list_organization_members`. Show the complete ordered steps, with each member's name, label, and required flag, and obtain confirmation first.

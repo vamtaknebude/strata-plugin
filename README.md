@@ -1,6 +1,6 @@
 # Strata Agent Plugin
 
-> **Status: Staging preview.** Version `0.5.0-staging.4` connects to the hosted
+> **Status: Staging preview.** Version `0.5.0-staging.5` connects to the hosted
 > Strata MCP server through WorkOS Staging. Strata authorizes this release only
 > for operators whom a Strata maintainer has approved. Strata does not authorize
 > customer workspace access or customer production use.
