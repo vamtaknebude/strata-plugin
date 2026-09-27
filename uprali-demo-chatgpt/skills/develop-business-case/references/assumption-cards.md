@@ -28,7 +28,13 @@ Confirm a card only when the user asks to confirm it. Show the card's title, sta
 
 When the user asks to confirm several cards at once, list the cards with `strata_list_assumption_cards` and show one preview of the cards the user named. For each named card, show the same fields as for a single card: title, status, `cardRevisionNumber`, and each Assumption key with its `currentRevisionNumber`. State that confirming records those Assumption revisions. After the user's one approval, send one `strata_confirm_assumption_card` per named card, with its `assumptionCardId`, its `cardRevisionNumber` from that list as `expectedCardRevisionNumber`, and its own fresh `idempotencyKey`. Then list the cards again and report each named card's status.
 
-A press of "Confirm card" or "Confirm all cards" in the workspace App is the user's approval, and the App confirms those cards itself at their listed revisions, one at a time, stopping at the first failure. The App's model context names the case key and the `assumptionCardIds` it confirmed, and keeps that action until the App's next action; report it once. The cards it names are confirmed: report them and send no `strata_confirm_assumption_card` for them. When the user says they pressed one of these buttons and no confirmation reached you in model context, or the press covered more cards than the context names, call `strata_list_assumption_cards` and report each card's status.
+A press of "Confirm card" or "Confirm all cards" in the workspace App is the user's approval, and the App confirms those cards itself at their listed revisions, one at a time, stopping at the first failure. The App's model context names the case key and the `assumptionCardIds` it confirmed, and keeps that action until the App's next action; report it once. The cards it names are confirmed: report them and send no `strata_confirm_assumption_card` for them.
+
+## Current card status and the new case
+
+The App's model context is optional, and a host can drop it. Before you state any card's status, call `strata_list_assumption_cards` for the case in the same turn and report the status it returns, including after a press of an App button.
+
+When the user refers to the new case and this conversation has no build result for it, call `strata_list_cases` with `{ "limit": 25 }` and take the case with the newest `createdAt`; when this conversation showed an intake, the case must also have the intake title. If such a case exists, the workspace App built it: continue with it. If none exists, say that no new case exists yet and offer to start one.
 
 ## Retry
 

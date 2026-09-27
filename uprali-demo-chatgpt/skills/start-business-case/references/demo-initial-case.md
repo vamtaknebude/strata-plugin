@@ -16,18 +16,17 @@ Call `strata_recommend_case_intake` once with `templateKey`, `title`, and the pr
 
 Tell the presenter that every item shown is a recommendation. Then tell them how to confirm:
 
-- For `support_ai_optimization`, and for `general_investment` when the presenter stated no investment figures: they can adjust the items in the view and press "Build initial business case", which builds the case in the App, or reply to confirm the items as shown.
-- For `general_investment` when the presenter stated investment figures: they reply in chat to confirm. The build uses the items as shown, because the button builds with the recommended default for every figure.
+- For every template: they can adjust the objectives and success metrics in the view and press "Build initial business case", which builds the case in the App with the items shown, or reply to confirm the items as shown.
 
-For `general_investment`, list the investment figures you took from the description: upfront investment, Year 1 to 3 annual benefit, Year 1 to 3 annual operating cost, and discount rate. State that the build uses its recommended default for each figure the presenter did not give; an annual series gets defaults for all three years unless the presenter gave all three.
+For `general_investment`, include `investmentValues` in that `strata_recommend_case_intake` call with only the figures the presenter stated, in the form that "Build after one confirmation" gives. Then list the figures from the result's `investmentFigures`: upfront investment, Year 1 to 3 annual benefit, Year 1 to 3 annual operating cost, and discount rate, and say which the presenter stated and which are recommended defaults.
 
 ## Build after one confirmation
 
 A press of "Build initial business case", or the presenter's confirmation in chat, is the one confirmation. Show no separate preview.
 
-A button press sends no chat message. The App builds the case with the presenter's selections and edits, shows its results view, and puts the build in its model context with the case key, `investmentCaseId`, and `runId`. The model context keeps that build until the App's next action; report it once. After a press, the case exists: continue at "Show the results" with that `runId`, and leave `strata_build_initial_case` uncalled. For `general_investment`, tell the presenter that the button build used the recommended default for every investment figure.
+A button press sends no chat message. The App builds the case with the presenter's selections and edits, shows its results view, and puts the build in its model context with the case key, `investmentCaseId`, and `runId`. The model context keeps that build until the App's next action; report it once. After a press, the case exists: continue at "Show the results" with that `runId`, and leave `strata_build_initial_case` uncalled.
 
-When the presenter's next message arrives and no App build reached you in model context, ask whether they pressed the button, unless their message says so. After a press, call `strata_list_cases`, take the newest case whose title is the intake title, and call `strata_read_calculation_results` with its `investmentCaseId`.
+The App's model context is optional, and a host can drop it. When the presenter's next message arrives and no App build reached you in model context, first call `strata_list_cases` with `{ "limit": 25 }` and take the case with the newest `createdAt` whose title is the intake title. If that case exists, the button built it: continue with that case and answer the presenter's message. When the message asks for nothing else, call `strata_read_calculation_results` with its `investmentCaseId` and continue at "Show the results". If no such case exists and the message confirms the intake, build in chat as the next paragraph says; otherwise answer the message and wait for a press or a confirmation.
 
 After a confirmation in chat, call `strata_build_initial_case` once, with a new lowercase RFC 4122 version 4 UUID constructed directly as `idempotencyKey`. Take `templateKey`, `title`, `description`, `objectives`, and `successMetrics` from the intake result unchanged. Tell the presenter that you are building from the recommendations as shown. For `general_investment`, add `investmentValues` with only the figures the presenter stated: `upfrontInvestment`, `discountRate` as a ratio such as `0.10`, and each of `annualBenefit` and `annualOperatingCost` as three amounts for Years 1, 2, and 3 when the presenter gave all three years of it. Omit every other figure.
 

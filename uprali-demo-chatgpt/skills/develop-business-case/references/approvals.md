@@ -26,7 +26,7 @@ Send `budget` and `npv` in the Money form `{ "kind": "money", "amount": "<decima
 
 For each step record, show the step's sign-off label and named member, the kind, and the text, and obtain confirmation first. Then send one `strata_record_approval_step` with `kind` `approval`, `change_request`, or `comment` and the user's text.
 
-A press of "Approve step" in the workspace App, or of "Send change request" after the user typed the requested changes, is the user's confirmation, and the App records that step record itself. The step is recorded: report it and send no `strata_record_approval_step` for it. The App's model context names the case key, `stepId`, and `stepRecordId`, and keeps that action until the App's next action; report it once. When the user says they pressed one of these buttons and no step record reached you in model context, call `strata_read_approval_path` and report the latest step records.
+A press of "Approve step" in the workspace App, or of "Send change request" after the user typed the requested changes, is the user's confirmation, and the App records that step record itself. The step is recorded: report it and send no `strata_record_approval_step` for it. The App's model context names the case key, `stepId`, and `stepRecordId`, and keeps that action until the App's next action; report it once. The App's model context is optional, and a host can drop it. Before you state the approval status or any step record, call `strata_read_approval_path` for the case in the same turn and report what it returns. To find the case the user calls the new case, follow [the new-case rule](assumption-cards.md#current-card-status-and-the-new-case).
 
 ## Retry
 

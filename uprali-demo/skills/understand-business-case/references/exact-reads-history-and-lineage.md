@@ -62,6 +62,13 @@ Narrative comparison items return `changedFields` and exact from/to lineage. Alt
 
 Summarize every comparison item. In particular, enumerate every narrative `changedFields` value (for example, both `objective` and `deadline`) rather than inferring a single headline from the first changed field. When the selected current overview contains the field, include that exact current value beside the field name. This uses data already returned; do not add a parent-overview read merely to obtain the old value.
 
+## Read and pin exact revisions
+
+These rules are steps 5 and 6 of the Read workflow in `SKILL.md`.
+
+- Read: Call `strata_read_case` for a focused case projection. For an Assumption Review, Decision, Outcome Review, or Decision Learning read, call the named protected read tool from [the projection selection rules](select-projection.md) and apply the exact read guidance in [Read review, decision, and learning records](#read-review-decision-and-learning-records). Do not add `caseRevisionId` to those protected-read inputs. Record exact case revision fields only when a protected read returns them. When `strata_get_case` is necessary, record its returned `caseRevisionId` and pin any follow-up case read to it.
+- Pin: Pin every follow-up `strata_read_case` call to the recorded `caseRevisionId`. For history, preserve `investmentCaseId`, `decisionCycleId`, and any returned cursor. For comparison, use exact `fromCaseRevisionId` and `toCaseRevisionId` values selected from returned fields. For protected-read pagination, preserve the same record reference and top-level limit. When the read includes Disposition history, also preserve `dispositionHistory.findingId` and its nested limit, and map each returned `nextCursor` to the corresponding input `cursor`. Never send `caseRevisionId` to `strata_read_decision`, `strata_read_outcome_review`, `strata_read_learning`, or `strata_read_assumption_review`. Never merge results from different revisions into an unlabeled answer.
+
 ## Interpretation rules
 
 - Label the selected revision before presenting facts. If `caseRevisionId` differs from `currentCaseRevisionId`, call it historic or superseded.

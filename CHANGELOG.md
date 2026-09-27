@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.5.0-staging.8
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- `start-business-case` now offers "Build initial business case" for every
+  template, including `general_investment` when the presenter stated
+  investment figures. For `general_investment`, it sends the stated figures in
+  `investmentValues` in the `strata_recommend_case_intake` call, so the button
+  build uses them. It then lists the figures from the result's
+  `investmentFigures` and says which the presenter stated and which are
+  recommended defaults. The skill no longer asks the presenter to confirm in
+  chat when they stated figures. After a button build, it no longer says that
+  every figure used its recommended default.
+- When no App build reached the model context, `start-business-case` no longer
+  asks whether the presenter pressed the button. It calls `strata_list_cases`
+  and takes the newest case with the intake title. If that case exists, it
+  continues with it. If no such case exists and the message confirms the
+  intake, it builds the case in chat. Otherwise it answers the message and
+  waits for a button press or a confirmation.
+- Before they state an Assumption Card's status, `develop-business-case` and
+  `understand-business-case` call `strata_list_assumption_cards` in the same
+  turn. Before they state approval status or a step record, they call
+  `strata_read_approval_path` in the same turn. This also applies after a press
+  of an App button.
+- When the user refers to the new case and the conversation has no build
+  result, `develop-business-case` and `understand-business-case` take the
+  newest case from `strata_list_cases`. When the conversation showed an intake,
+  the case must also have the intake title. If no such case exists,
+  `develop-business-case` says that no new case exists yet and offers to start
+  one.
+- When `strata_compare_scenario_to_base` is available and the user asks to
+  compare a named scenario with Base, `understand-business-case` takes `runId`
+  and `option.optionRevisionId` from the case's latest
+  `strata_read_calculation_results` result. If there is none, it resolves the
+  case and calls `strata_read_calculation_results` first. It then calls
+  `strata_compare_scenario_to_base` once, with `scenarioLabel` set to the
+  user's scenario name, and answers with its Pairwise Results, such as NPV and
+  payback.
+- Steps 5 and 6 of the `understand-business-case` Read workflow, which read the
+  selected projection or protected record and pin follow-up reads, moved from
+  `SKILL.md` to the "Read and pin exact revisions" section of
+  `references/exact-reads-history-and-lineage.md`. Their rules are unchanged.
+
 ## 0.5.0-staging.7
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
