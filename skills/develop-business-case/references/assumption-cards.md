@@ -28,6 +28,8 @@ Confirm a card only when the user asks to confirm it. Show the card's title, sta
 
 When the user asks to confirm several cards at once, list the cards with `strata_list_assumption_cards` and show one preview of the cards the user named. For each named card, show the same fields as for a single card: title, status, `cardRevisionNumber`, and each Assumption key with its `currentRevisionNumber`. State that confirming records those Assumption revisions. After the user's one approval, send one `strata_confirm_assumption_card` per named card, with its `assumptionCardId`, its `cardRevisionNumber` from that list as `expectedCardRevisionNumber`, and its own fresh `idempotencyKey`. Then list the cards again and report each named card's status.
 
+A press of "Confirm card" or "Confirm all cards" in the workspace App is the user's approval, and the App confirms those cards itself at their listed revisions, one at a time, stopping at the first failure. The App's model context names the case key and the `assumptionCardIds` it confirmed, and keeps that action until the App's next action; report it once. The cards it names are confirmed: report them and send no `strata_confirm_assumption_card` for them. When the user says they pressed one of these buttons and no confirmation reached you in model context, or the press covered more cards than the context names, call `strata_list_assumption_cards` and report each card's status.
+
 ## Retry
 
 Use a fresh `idempotencyKey` for each write the user approves. Retry an ambiguous result only with the same `idempotencyKey` and unchanged input. On `STALE_STATE`, list the cards again, show the changed preview, wait for the user's approval, and use a new key.

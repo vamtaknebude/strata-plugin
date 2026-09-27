@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "strata",
   "displayName": "Strata (Staging)",
-  "version": "0.5.0-staging.6",
+  "version": "0.5.0-staging.7",
   "description": "Use the Strata staging service for evidence-aware business-case work.",
   "author": {
     "name": "Strata",

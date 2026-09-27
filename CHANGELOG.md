@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.0-staging.7
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes. The workspace App's "Build initial business case", "Confirm
+card", "Confirm all cards", "Approve step", and "Send change request" buttons
+now make their change in the App. The App reports each result to the agent
+through its model context and sends no chat message.
+
+- After a press of "Build initial business case", `start-business-case` does
+  not call `strata_build_initial_case`. It reads the build's case key,
+  `investmentCaseId`, and `runId` from the App's model context and continues
+  with the results. When the presenter's next message arrives and no build
+  reached the model context, it asks whether they pressed the button, unless
+  the message already says so. If they did, it calls `strata_list_cases`, takes
+  the newest case with the intake title, and reads its results with
+  `strata_read_calculation_results`.
+- A confirmation in chat builds from the recommendations as shown in the intake
+  result. Edits made in the view apply only when the presenter presses the
+  button.
+- For `general_investment`, the button build uses the recommended default for
+  every investment figure, and `start-business-case` says so after the build.
+  When the presenter stated investment figures, the skill asks them to confirm
+  in chat instead of pressing the button. The chat build sends those figures in
+  `investmentValues`.
+- "Confirm card" and "Confirm all cards" confirm the cards in the App at their
+  listed revisions, one at a time, and stop at the first failure.
+  `develop-business-case` reports the confirmed cards from the App's model
+  context and sends no `strata_confirm_assumption_card` for them. When the user
+  says they pressed one of these buttons and no confirmation reached the model
+  context, or the press covered more cards than the context names, it calls
+  `strata_list_assumption_cards` and reports each card's status.
+- "Approve step" and "Send change request" record the step record in the App.
+  `develop-business-case` reports the step record from the App's model context
+  and sends no `strata_record_approval_step` for it. When the user says they
+  pressed one of these buttons and no step record reached the model context, it
+  calls `strata_read_approval_path` and reports the latest step records.
+
 ## 0.5.0-staging.6
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
