@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.5.0-staging.9
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- When `strata_read_approval_path` is available and the user asks for a case's
+  Decision or Outcome Review without a visible ID, `develop-business-case` and
+  `understand-business-case` resolve the case and call
+  `strata_read_approval_path` with its `investmentCaseId`. They pass the
+  returned `decisionId` to `strata_read_decision` and the returned
+  `outcomeReviewReference` to `strata_read_outcome_review`. When either value
+  is `null`, they state that the case has no Decision or no Outcome Review
+  (#1733).
+- The Assumption Delegation reference of `develop-business-case` now covers
+  Adoption. The skill finds adoptable work with
+  `strata_list_assumption_delegations` and `view` `awaiting_adoption`, reads
+  the delegation with `strata_read_assumption_delegation` before every
+  attempt, presents its `adoptionPreview`, and calls
+  `strata_adopt_assumption_delegation_submission` once after confirmation. It
+  omits the adopt command when the preview has a blocker. On `ADOPTION_STALE`
+  or `CASE_REVISION_CONFLICT` it reads fresh state and asks for a new
+  confirmation. On `SUBMISSION_ADOPTED` or `COMMAND_REUSED` it stops without a
+  second mutation (#1238).
+
 ## 0.5.0-staging.8
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

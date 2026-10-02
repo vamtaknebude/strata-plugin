@@ -1,6 +1,6 @@
 # Assumption delegation
 
-Use this reference when the user asks to delegate a prospective or existing Case Assumption to a named Organization member, or to act on such a delegation: revise the request, find assigned or created work, save or submit a Response, return a Submission for correction, cancel a request, or inspect history.
+Use this reference when the user asks to delegate a prospective or existing Case Assumption to a named Organization member, or to act on such a delegation: revise the request, find assigned, created, or adoptable work, save or submit a Response, return a Submission for correction, adopt a Submission, cancel a request, or inspect history.
 
 Use only these ten catalogued tools: `strata_list_organization_members`, `strata_create_assumption_delegation`, `strata_update_assumption_delegation_request`, `strata_list_assumption_delegations`, `strata_read_assumption_delegation`, `strata_save_assumption_delegation_response`, `strata_submit_assumption_delegation_response`, `strata_return_assumption_delegation_submission`, `strata_adopt_assumption_delegation_submission`, and `strata_cancel_assumption_delegation`. Copy every identifier byte-for-byte from a Strata receipt into its matching ID field. Read [preview and recovery](preview-and-recovery.md) before any mutation: every delegation write follows that ordered plan, preview, confirmation, one-mutation, receipt, and recovery contract, and this reference states only the delegation-specific inputs and read sequences.
 
@@ -32,6 +32,20 @@ Save incomplete or complete scalar and series drafts with `strata_save_assumptio
 
 Return the exact current Submission with `strata_return_assumption_delegation_submission`, a nonblank reason, and the exact Request, Response, and Submission heads. The returned Submission keeps its content, author, submitter, Evidence order, and history, but it can never be adopted. Correction requires a successor Response draft and another explicit Submission. Preview all three heads and the reason, obtain confirmation, then call once.
 
+## Adopt a Submission
+
+Discover adoptable work with `strata_list_assumption_delegations` and `view` `awaiting_adoption`. Read the exact delegation with `strata_read_assumption_delegation` immediately before every Adoption attempt.
+
+Present the fresh `adoptionPreview`. It carries the exact submitted scalar value or series points with ordered Evidence, the fixed assignee with membership status, and the new target (Assumption key and scope) or the replacement target (current Assumption Revision). It carries the current Case head, the optional Model head, freshness and blockers with the available actions, the current binding, the requested baseline, and the intended stable Assumption. It states whether a Model Revision occurs: `modelContext: null` means the Submission is unlinked and no Model Revision occurs; `noModelRevisionRequired: true` means the binding is already correct and no Model Revision occurs; `false` means one Model Revision establishes or changes the binding. Omit the adopt command when any blocker is present.
+
+Accept no edited Response and no caller-selected owner. The server derives the adopter from the authenticated member and keeps the fixed responsible assignee. Obtain one confirmation for the complete normalized input, construct a fresh RFC 4122 version 4 key only after confirmation, call `strata_adopt_assumption_delegation_submission` exactly once, and preserve the receipt including `modelRevisionId` (null when no Model Revision occurred). Retry an ambiguous result only with the same key and byte-identical input; `replayed: true` ends recovery.
+
+Treat any stale Request, Response, Submission, Assumption, Option Revision, Case, Model, input trait, binding, currency, or series-coverage result as confirmation-invalidating: read fresh state, show the entire changed preview, obtain fresh confirmation, and use a new key. Never invent a correction and never silently change the target.
+
+Preserve the new and replacement, unlinked and Model-linked, Response author, submitter, fixed responsible assignee, adopter, Adoption, optional Review, and ordinary later editing distinctions. The optional Review stays advisory over the exact adopted Revision; see [decision review and learning](decision-review-and-learning.md). Later editing writes a successor that leaves the adopted Revision and its source intact; see the [evidence and assumption contract](evidence-and-assumptions.md).
+
+Any active member of the Organization may adopt a Submission and inspect the same tenant content. Assignment controls responsibility, not access. This reference adds no approver, owner, assignee-only, requester-only, reviewer, role, group, notification, reminder, comment, masking, or separation rule.
+
 ## Cancel a request
 
 Cancel an open request with `strata_cancel_assumption_delegation` at its exact current Request head and a nonblank reason. Preview the delegation, its head, and the reason, obtain confirmation, then call once.
@@ -45,6 +59,9 @@ Keep missing, zero, and Not Applicable distinct. An omitted draft field or serie
 - Invalid draft: identify the exact field and ask for a correction. Never invent a repair or convert the value.
 - Incomplete Submission: report `INCOMPLETE_RESPONSE` and make no mutation call.
 - Stale head: read fresh state with `strata_read_assumption_delegation`, compare it with the confirmed input, show the entire changed preview, obtain fresh confirmation, and use a new key.
+- Stale adoption facts: on `ADOPTION_STALE` or `CASE_REVISION_CONFLICT` read fresh state with `strata_read_assumption_delegation`, compare it with the confirmed input, show the entire changed preview, obtain fresh confirmation, and use a new key.
+- Adopted Submission: on `SUBMISSION_ADOPTED` stop; the Adoption already exists. Report it without a second mutation.
+- Reused adoption key: on `COMMAND_REUSED` stop, reconstruct the command, preview, reconfirm, and use a new key. Never issue a second mutation after a definitive error.
 - Inactive assignee or concluded Cycle: stop with the authorized error. Do not change the target or reroute the request.
 - Ambiguous transport: retry once with the same key and byte-identical input. `replayed: true` ends recovery successfully.
 - Changed input with a used key: stop on `COMMAND_REUSED`, reconstruct the command, preview, reconfirm, and use a new key. Never issue a second mutation after a definitive error.

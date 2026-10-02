@@ -16,6 +16,8 @@ Use `strata_read_decision` only with a visible `decisionId`. The result is one i
 
 Use `strata_read_outcome_review` when the user names or supplies a visible `outcomeReviewId` or `outcomeReviewRevisionId`. The input `reference` is either `{ "kind": "review", "outcomeReviewId": "<uuid>" }` or `{ "kind": "review_revision", "outcomeReviewRevisionId": "<uuid>" }`. Use `limit: 1`. Preserve returned cursors only for the same reference and exact question.
 
+When `strata_read_approval_path` is available and the user asks for a case's Decision or Outcome Review without a visible ID, resolve the case and call `strata_read_approval_path` with its exact `investmentCaseId`. Pass the returned `decisionId` to `strata_read_decision`. Pass the returned `outcomeReviewReference` unchanged as `reference` to `strata_read_outcome_review`. When either value is `null`, state that the case has no Decision or no Outcome Review. When `strata_read_approval_path` is not available, this rule does not apply.
+
 Use `strata_read_learning` only with a visible `decisionLearningId`. Include `limit` from 1 through 100 and a returned cursor only for that same Learning. The result includes content, source Review Revision, Observations, lifecycle, source status, target summary, and bounded explicit references.
 
 Protected read cursors are opaque and context-bound. Do not edit them, decode them, store them as durable identifiers, use them with another reference, or use them after a write changes the current state being explained.
