@@ -34,6 +34,8 @@ A press of "Confirm card" or "Confirm all cards" in the workspace App is the use
 
 The App's model context is optional, and a host can drop it. Before you state any card's status, call `strata_list_assumption_cards` for the case in the same turn and report the status it returns, including after a press of an App button.
 
+When the App's model context names a built case with its case key and `investmentCaseId`, that is the build result. For `strata_list_assumption_cards`, `strata_read_calculation_results`, and `strata_read_approval_path`, use that `investmentCaseId` directly and do not call `strata_list_cases`.
+
 When the user refers to the new case and this conversation has no build result for it, call `strata_list_cases` with `{ "limit": 25 }` and take the case with the newest `createdAt`; when this conversation showed an intake, the case must also have the intake title. If such a case exists, the workspace App built it: continue with it. If none exists, say that no new case exists yet and offer to start one.
 
 ## Retry

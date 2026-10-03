@@ -1,5 +1,52 @@
 # Changelog
 
+## 0.5.0-staging.10
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- `understand-business-case` now answers "how was this calculated" questions
+  from the `derivation` projection of `strata_read_calculation_run`. It
+  states the returned status word first, explains consumed inputs, operation
+  IDs, pre-rounding intermediate values, and the terminal value for `match`
+  results, quotes the diagnostic code, explanation, and source key for failed
+  terminals, and reports `mismatch`, `unavailable`, and `execution_failed`
+  outcomes with no trace. After `TRACE_LIMIT_EXCEEDED` or `OUTPUT_TOO_LARGE`
+  it states the bound outcome and stops without quoting trace content. It
+  copies decimal and rational text, including numerators and denominators,
+  and source identities verbatim, and never mentions values from unconsumed
+  conditional branches (#934).
+- `develop-business-case` now guides a Decision that relies on calculated
+  results. Before the preview it reads the current Case overview and the
+  selected Run with `strata_read_calculation_run` and `projection` `summary`,
+  and requires `status` `successful` and the same Investment Case, Decision
+  Cycle, and Case Revision IDs as the current Case. Otherwise it stops and asks
+  the user to select another Run, without substituting a Run or switching to
+  non-calculated reliance. The preview sends `calculation` as
+  `{ "reliesOnCalculatedResults": true, "calculationRunId": selectedRunId }`
+  and states that reliance covers the whole Run. After `STALE_STATE` it makes
+  no second mutation, refreshes the Case and the Run, and requires a new Run
+  selection, preview, and confirmation when the Case head changed (#1626).
+- When the workspace App's model context names a built case with its case key
+  and `investmentCaseId`, `develop-business-case` and
+  `understand-business-case` pass that `investmentCaseId` to
+  `strata_list_assumption_cards`, `strata_read_calculation_results`, and
+  `strata_read_approval_path` and do not call `strata_list_cases`. When
+  reporting approval status, `develop-business-case` states Assumption Card
+  status only from the `assumptionCardStatusCounts` of `strata_read_approval_path`
+  or from `strata_list_assumption_cards` in the same turn (#1758).
+- After `strata_export_calculation_model` in a host that shows the workspace
+  App, `develop-business-case` tells the user to press the **Download .xlsx**
+  or **Download .csv** button in the export view and does not repeat the
+  content. It hands over the file content only when the user reports no
+  download button or no export view appears (#1759).
+- `understand-business-case` keeps the scenario-with-Base and lineage-summary
+  rules in its reference files instead of the entry file. The entry file links
+  to the scenario-with-Base rule in `history-and-comparison.md` and reads the
+  lineage-summary invariant from `evidence-and-restricted-data.md`, which
+  brings the entry file back under its size budget. The behavior is unchanged
+  (#1770).
+
 ## 0.5.0-staging.9
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

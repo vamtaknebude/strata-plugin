@@ -17,7 +17,7 @@ Read every applicable reference before preparing persisted values:
 
 - [evidence](references/evidence-and-assumptions.md) for evidence and Assumptions.
 - [scenarios](references/scenarios.md) for Scenarios.
-- [decision review and learning](references/decision-review-and-learning.md) for review and learning.
+- [decision review and learning](references/decision-review-and-learning.md) for Decisions, review, and learning, including calculated Run reliance.
 - [approvals](references/approvals.md), [cards](references/assumption-cards.md), [delegation](references/assumption-delegation.md), [performance](references/performance.md).
 - [preview and recovery](references/preview-and-recovery.md) for preview and recovery.
 

@@ -10,3 +10,4 @@
 - `strata_read_learning` for one known Decision Learning.
 - Use `strata_get_case` only when one question must cross scenarios, assumptions, and evidence or when their selection IDs are not known. Its exact full graph is broader than a focused projection, so do not use it for a single-subject question.
 - For a scenario-to-evidence request that names a scenario by label and supplies no subject IDs, resolve the case with `strata_list_cases` and then call `strata_get_case` directly. Do not insert an overview or scenario projection before the full-graph read.
+- For a "how was this calculated" question, read the `derivation` projection of `strata_read_calculation_run` with [the derivation rules](explain-derivations.md).
