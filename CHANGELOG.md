@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.5.0-staging.13
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill change.
+
+- After a successful `strata_export_calculation_model` call,
+  `develop-business-case/references/decision-review-and-learning.md` now has
+  the assistant attach the export to the chat as a `.csv` or `.xlsx` file named
+  with the returned `fileName` and tell the user to download it. It no longer
+  sends the user to the App's **Download** button, which does not save a file
+  in Claude web. When the host cannot create a file, the assistant gives CSV
+  content as a code block, or for XLSX offers a CSV export (#1783).
+
 ## 0.5.0-staging.12
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
