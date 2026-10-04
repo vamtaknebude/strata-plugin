@@ -17,7 +17,7 @@ Before the first tenant-bound case call, check whether the host or conversation 
 
 ## Bounded case-list invariant
 
-Every `strata_list_cases` call must use exactly `{ "limit": 25 }`. Never omit `limit`, change it, or send an empty input object. This rule applies to every case lookup, including scenario-to-evidence traces.
+Every `strata_list_cases` call must include `"limit": 25`; add `filter` only where a rule below says so. Never omit `limit`, change it, or send an empty input object. This rule applies to every case lookup, including scenario-to-evidence traces.
 
 ## Scenario compared with Base
 
@@ -30,8 +30,8 @@ When `strata_compare_scenario_to_base` is available and the user asks to compare
 3. Resolve the case for case projections, history, comparison, and scenario-to-evidence answers:
    - When the App's model context names a built case with its case key and `investmentCaseId`, that is the build result. For `strata_list_assumption_cards`, `strata_read_calculation_results`, and `strata_read_approval_path`, use that `investmentCaseId` directly and do not call `strata_list_cases`. Tools that need `decisionCycleId`, such as `strata_read_case`, keep the existing resolution below.
    - If the user supplied `investmentCaseId` and `decisionCycleId`, retain them.
+   - If the user refers to the new case and this conversation has no build result, call `strata_list_cases` with `{ "limit": 25, "filter": { "kind": "title", "value": "<intake title>" } }` when this conversation showed an intake, and with `{ "limit": 25 }` otherwise; take the returned case with the newest `createdAt`.
    - Otherwise call `strata_list_cases` with `{ "limit": 25 }`. Match only returned titles or case keys.
-   - If the user refers to the new case and this conversation has no build result, take the returned case with the newest `createdAt`; when this conversation showed an intake, the case must also have the intake title.
    - If multiple returned cases could match, show bounded choices with title and case key and ask the user to select one. Never guess.
    - If the required match is not on the page and `nextCursor` exists, follow that cursor only when another page can answer the user's request.
 4. Select one projection with [the projection selection rules](references/select-projection.md). For "how was this calculated" questions, use [the derivation rules](references/explain-derivations.md).

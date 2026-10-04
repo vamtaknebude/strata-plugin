@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.0-staging.11
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- When the user refers to the new case, the conversation has no build result,
+  and it showed an intake, `develop-business-case` and
+  `understand-business-case` call `strata_list_cases` with
+  `{ "limit": 25, "filter": { "kind": "title", "value": "<intake title>" } }`
+  and take the returned case with the newest `createdAt`. Without an intake
+  they keep `{ "limit": 25 }`. The bounded case-list rule of
+  `understand-business-case` now requires `"limit": 25` on every call and
+  allows `filter` only where a rule says so (#1772).
+
 ## 0.5.0-staging.10
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
