@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.0-staging.12
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill change.
+
+- When no App build reached the assistant after an intake,
+  `start-business-case/references/demo-initial-case.md` now calls
+  `strata_list_cases` with
+  `{ "limit": 25, "filter": { "kind": "title", "value": "<intake title>" } }`
+  and takes the returned case with the newest `createdAt`, as
+  `understand-business-case` and `develop-business-case` do since
+  0.5.0-staging.11. The demo App shows the short lookup result at step 2.1
+  instead of the full case list (#1777).
+
 ## 0.5.0-staging.11
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
