@@ -33,6 +33,7 @@
     "skills/understand-business-case/references/exact-reads-history-and-lineage.md",
     "skills/understand-business-case/references/explain-derivations.md",
     "skills/understand-business-case/references/history-and-comparison.md",
+    "skills/understand-business-case/references/read-workflow.md",
     "skills/understand-business-case/references/recovery.md",
     "skills/understand-business-case/references/select-projection.md",
     "uprali-demo/.claude-plugin/plugin.json",
@@ -61,6 +62,7 @@
     "uprali-demo/skills/understand-business-case/references/exact-reads-history-and-lineage.md",
     "uprali-demo/skills/understand-business-case/references/explain-derivations.md",
     "uprali-demo/skills/understand-business-case/references/history-and-comparison.md",
+    "uprali-demo/skills/understand-business-case/references/read-workflow.md",
     "uprali-demo/skills/understand-business-case/references/recovery.md",
     "uprali-demo/skills/understand-business-case/references/select-projection.md",
     "uprali-demo-chatgpt/.app.json",
@@ -86,12 +88,13 @@
     "uprali-demo-chatgpt/skills/understand-business-case/references/exact-reads-history-and-lineage.md",
     "uprali-demo-chatgpt/skills/understand-business-case/references/explain-derivations.md",
     "uprali-demo-chatgpt/skills/understand-business-case/references/history-and-comparison.md",
+    "uprali-demo-chatgpt/skills/understand-business-case/references/read-workflow.md",
     "uprali-demo-chatgpt/skills/understand-business-case/references/recovery.md",
     "uprali-demo-chatgpt/skills/understand-business-case/references/select-projection.md",
     "release-metadata.json"
   ],
   "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
-  "packageDigest": "3e60c5c35944f62c6b91b355c3838231e205e9e173e5a3924a31f8df2c9a2c1e",
+  "packageDigest": "937b60800be28d2212344d23589c267c2dec07b6d27c00943bdbb9259ccef7b4",
   "packages": [
     {
       "files": [
@@ -128,6 +131,7 @@
         "skills/understand-business-case/references/exact-reads-history-and-lineage.md",
         "skills/understand-business-case/references/explain-derivations.md",
         "skills/understand-business-case/references/history-and-comparison.md",
+        "skills/understand-business-case/references/read-workflow.md",
         "skills/understand-business-case/references/recovery.md",
         "skills/understand-business-case/references/select-projection.md"
       ],
@@ -163,6 +167,7 @@
         "skills/understand-business-case/references/exact-reads-history-and-lineage.md",
         "skills/understand-business-case/references/explain-derivations.md",
         "skills/understand-business-case/references/history-and-comparison.md",
+        "skills/understand-business-case/references/read-workflow.md",
         "skills/understand-business-case/references/recovery.md",
         "skills/understand-business-case/references/select-projection.md"
       ],
@@ -173,7 +178,7 @@
   ],
   "plugin": {
     "name": "strata",
-    "version": "0.5.0-staging.13"
+    "version": "0.5.0-staging.15"
   },
   "schemaVersion": 1,
   "skills": [
@@ -182,7 +187,7 @@
     "understand-business-case"
   ],
   "source": {
-    "commit": "adccbb66e60fd8032467de00b9f88fbd8722f6d9",
+    "commit": "28fcb5f8da35fa8fe58141091323fb6798ee6287",
     "repository": "vamtaknebude/strata"
   }
 }

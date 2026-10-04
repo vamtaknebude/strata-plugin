@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.5.0-staging.15
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill change.
+
+- When a `strata_export_calculation_model` result has `downloadUrl`,
+  `develop-business-case/references/decision-review-and-learning.md` now has
+  the assistant give the link and tell the user to open it to download the
+  file, instead of writing the file into the chat. The link expires 15 minutes
+  after the export. Without `downloadUrl`, the assistant still attaches the
+  export as a chat file (#1788).
+
+## 0.5.0-staging.14
+
+- Change the `strata` entry in `.claude-plugin/marketplace.json` from `"."` to `"./"` so Claude's marketplace sync accepts the plugin at the distribution repository root (#1752).
+- Remove the `$schema` key from the generated `.claude-plugin/plugin.json` files of `strata` and `uprali-demo` so Claude no longer reports an unrecognized key. The portable `plugin.json` and `mcp.json` files keep their required `$schema` values (#1752).
+
 ## 0.5.0-staging.13
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

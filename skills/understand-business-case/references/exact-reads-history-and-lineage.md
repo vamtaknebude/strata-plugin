@@ -64,6 +64,39 @@ Narrative comparison items return `changedFields` and exact from/to lineage. Alt
 
 Summarize every comparison item. In particular, enumerate every narrative `changedFields` value (for example, both `objective` and `deadline`) rather than inferring a single headline from the first changed field. When the selected current overview contains the field, include that exact current value beside the field name. This uses data already returned; do not add a parent-overview read merely to obtain the old value.
 
+### Calculation model definition and readiness
+
+Use `strata_read_calculation_model` for a calculation model definition or readiness question. The only Model tool is `strata_read_calculation_model`. Do not call `strata_save_calculation_model`, `strata_create_calculation_run`, or `strata_read_calculation_run`.
+
+The input is exactly `investmentCaseId`, `decisionCycleId`, `caseRevisionId`, and `projection`. The `projection` is `definition` when the user asks what the model contains. It is `readiness` when the user asks whether the model can be calculated or why it cannot. Call one projection. Call both only when the user asks both questions.
+
+Omit `modelRevisionId` unless the user supplied that exact UUID to assert. Never copy it from the current Case head, from a later Model Revision, or from `MODEL_REVISION_CONFLICT`'s `currentModelHead`.
+
+A current question uses the current `caseRevisionId` returned by `strata_list_cases` or by one current overview. Then the model call uses that same id.
+
+A historical question uses the selected revision. When the user asks for the previous revision, the model call's `caseRevisionId` is the current overview's `caseReference.parentCaseRevisionId`. When that parent is absent, say the revision is a root and stop. Do not read the current head's model instead.
+
+Do not omit `caseRevisionId`. The tool requires it. Omission is `INPUT_INVALID`. It is not a request to resolve the current head.
+
+From a `definition` result, report `caseRevisionId`, `businessCaseModelId`, `modelRevisionId`, and `modelRevisionNumber` as returned. Do not replace them with another revision.
+
+From a `readiness` result, report `result.status`. When it is `blocked`, list every `result.blockers` entry in array order. For each entry copy `code`, `diagnostic`, `subject.kind`, `subject.id`, and, when present, `dependency.kind` and `dependency.id`. For `CALCULATION_LIMIT_EXCEEDED` also copy `limit.measure`, `limit.estimated`, and `limit.maximum`. When status is `ready`, the blocker list is empty. Do not add a blocker.
+
+Put each returned UUID subject or dependency id in the scenario `exactIds` as well as in the summary. Put a non-UUID subject id, such as a Model Item key, in the summary.
+
+Do not repair the model, recommend a change, rank options, or calculate a value. Do not ask for confirmation.
+
+On `MODEL_NOT_FOUND`, say the selected Case Revision has no adopted model. Do not switch revisions. On `MODEL_REVISION_CONFLICT`, report the error and do not retry with `currentModelHead`. Other read failures follow the existing recovery rules.
+
+The answer comes from the tool result. It does not depend on the workspace App.
+
+### Run summaries and Evaluations
+
+- Use `strata_read_calculation_run` for a Run-summary or Evaluation question. For a supplied Run, read it directly with `{"projection":"summary","runId":"<uuid>"}`. For an Evaluation with all three selectors, read it directly with `{"projection":"evaluation","runId","optionRevisionId","scenarioRevisionId","limit":25}` without a summary or case lookup. If selectors are missing, ask for them; use a summary only when the request requires its returned identity choices. Never guess a label-to-ID mapping: summary returns revision IDs, not labels.
+- A summary answer preserves the returned source basis, evaluator key, `applicationReleaseId`, requester, times, counts, and resolved periods relevant to the question. `unsuccessful` is a completed retained Run with calculation failures, not pending work or a missing Run. Summary diagnostic counts do not disclose individual failure details; do not invent them or fetch Evaluations to embellish a summary answer.
+- For a complete Evaluation request, follow `page.nextCursor` to absence. Keep Run, Option Revision, Scenario Revision, and `limit: 25` unchanged. Do not decode cursors. Preserve returned order and each complete member once. Retain typed decimal strings, integer cents with currency, units, series period keys, Not Applicable reasons, and all diagnostic fields. Not Applicable, numeric zero, failure, and a period outside returned coverage stay distinct. Do not compute values or fill gaps. An Evaluation response has no Run status or full provenance; report only what it returns.
+- Do not repair the model, recommend a change, rank options, calculate a value, or write. Read errors follow the existing recovery rules; on `RESULT_TOO_LARGE` do not claim a complete answer.
+
 ## Read and pin exact revisions
 
 These rules are steps 5 and 6 of the Read workflow in `SKILL.md`.
