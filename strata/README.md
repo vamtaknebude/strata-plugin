@@ -1,12 +1,12 @@
 # Strata Agent Plugin
 
-> **Status: Staging preview.** Version `0.5.0-staging.15` connects to the hosted
+> **Status: Staging preview.** Version `0.5.0-staging.16` connects to the hosted
 > Strata MCP server through WorkOS Staging. Strata authorizes this release only
 > for operators whom a Strata maintainer has approved. Strata does not authorize
 > customer workspace access or customer production use.
 
-Strata helps teams create, develop, and understand evidence-aware business
-cases. The plugin installs three shared workflow skills and a connection
+Strata helps teams create, develop, calculate, and understand evidence-aware
+business cases. The plugin installs four shared workflow skills and a connection
 definition that contains no credentials. A Strata maintainer must provision and
 authorize each operator in WorkOS Staging. Strata offers no self-service staging
 enrollment.
@@ -18,7 +18,7 @@ This repository contains no ChatGPT submission package.
 
 ## What the plugin installs
 
-The package contains three skill directories, portable metadata, native Claude
+The package contains four skill directories, portable metadata, native Claude
 Code and Codex metadata, and the hosted MCP URL. Every package format uses the
 same skill files.
 
@@ -46,6 +46,7 @@ skills under the `strata` namespace:
 
 - `/strata:start-business-case`
 - `/strata:develop-business-case`
+- `/strata:calculate-business-case`
 - `/strata:understand-business-case`
 
 In the Claude Code CLI, run `/mcp`, select the bundled `strata` server, and
@@ -124,6 +125,7 @@ Start a new Codex task and confirm that Codex lists these skills:
 
 - `$strata:start-business-case`
 - `$strata:develop-business-case`
+- `$strata:calculate-business-case`
 - `$strata:understand-business-case`
 
 Complete browser OAuth and verify the remote endpoint:
@@ -154,11 +156,12 @@ codex plugin marketplace remove strata
 
 ## Hermes Agent compatibility preview
 
-Hermes Agent can install the root portable Agent Plugins v1 package. Install the
-package without enabling it, inspect the installed name, and enable that name:
+Hermes Agent can install the portable Agent Plugins v1 package from the `strata/`
+directory of the distribution repository. Install the package without enabling
+it, inspect the installed name, and enable that name:
 
 ```bash
-hermes plugins install vamtaknebude/strata-plugin --no-enable
+hermes plugins install vamtaknebude/strata-plugin/strata --no-enable
 hermes plugins list
 hermes plugins enable strata
 ```
@@ -174,7 +177,7 @@ hermes mcp test strata
 ```
 
 Complete OAuth in the browser. Use `skills_list` and `skill_view` in a new Hermes
-session to confirm the three installed skills. Ask for the Strata connection
+session to confirm the four installed skills. Ask for the Strata connection
 context before using writes. Do not use write guidance until the read succeeds
 and the installed Hermes version exposes the expected write tools.
 

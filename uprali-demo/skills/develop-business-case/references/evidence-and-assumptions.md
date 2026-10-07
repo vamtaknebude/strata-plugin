@@ -85,6 +85,7 @@ One assumption preview must include:
 - `caseAssumptionId` and `expectedAssumptionRevisionId` together only for a revision;
 - for a field-backed Assumption, `fieldKey` selecting the configured case field; or
 - for a Model-native Assumption, the complete scalar or series value that matches its exact Model Item contract, without `fieldKey`;
+- workbook uploads, cells, formulas, and translated expressions are not Assumption values or Model definitions;
 - stable `assumptionKey`;
 - `scope` as shared or one exact visible alternative ID;
 - the authenticated Uprali user as the server-derived accountable owner; `ownerUserId` is not a public tool input;

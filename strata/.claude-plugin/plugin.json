@@ -1,7 +1,7 @@
 {
-  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "strata",
-  "version": "0.5.0-staging.15",
+  "displayName": "Strata (Staging)",
+  "version": "0.5.0-staging.16",
   "description": "Use the Strata staging service for evidence-aware business-case work.",
   "author": {
     "name": "Strata",
@@ -16,5 +16,7 @@
     "evidence",
     "model-context-protocol",
     "scenario"
-  ]
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
 }

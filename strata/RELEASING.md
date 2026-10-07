@@ -30,7 +30,10 @@ validates portable manifests, client manifests, marketplace catalogs, file paths
 symlinks, metadata, digest, source provenance, the pinned Codex CLI, and the pinned
 Claude Code CLI. Gitleaks scans the generated directory with its default rules and
 redacted output. The inspection directory contains a package tree, not a trusted
-publication checkout.
+publication checkout. The release places the Strata package in `strata/`, the
+Uprali package in `uprali-demo/`, the ChatGPT package in
+`uprali-demo-chatgpt/`, and the Codex and Claude catalogs at the repository
+root.
 
 Inspect every generated file and `release-metadata.json`. Confirm that the source
 commit belongs to `main`. Publish the release only after explicit maintainer

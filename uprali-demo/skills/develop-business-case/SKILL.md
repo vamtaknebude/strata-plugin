@@ -5,7 +5,7 @@ description: Create or revise calculation Models, evidence, assumptions, sensiti
 
 # Develop Business Case
 
-Develop one exact Uprali case from supplied facts. Preserve provenance, revision identity, and user control. Calculate only via `strata_create_calculation_run` when available; state only values a Run returned. Do not recommend, fetch, invent, convert, or batch changes.
+Develop one exact Uprali case from supplied facts. Preserve provenance, revision identity, and user control. Direct readiness and Run requests to `calculate-business-case`; state only values a Run returned. For other requests, follow the selected workflow's named Uprali MCP operations directly. Do not call `list_mcp_resources` or `list_mcp_resource_templates` to choose or inspect an operation. When the active organization has not been established, call `strata_connection_context` before the first organization-bound case operation. Do not recommend, fetch, invent, convert, or batch changes.
 
 Use only Uprali MCP, user messages, and host-loaded references. Do not inspect the repository, environment, filesystem, web, discovery, UUID, or resource-listing tools.
 
@@ -38,6 +38,10 @@ For removal, read the exact subject and dependencies, disclose that no cascade o
 ## Models
 
 Use Model, Assumption, and Model-read operations. Do not create Scenario. Read [evidence and Assumptions](references/evidence-and-assumptions.md) and [preview and recovery](references/preview-and-recovery.md) for the required staged order.
+
+## Unsupported workbook requests
+
+Uploading, parsing, translating formulas from, storing, or executing a workbook or spreadsheet is not a Uprali command. Do not accept a file, read workbook bytes, or pass workbook content to any tool. Do not derive framing, Option classification, calculation definitions, Model Items, or source values from that request. Ask one grammatical question for the next missing native fact and wait. After the user supplies complete native facts, continue the existing staged Model order in [preview and recovery](references/preview-and-recovery.md).
 
 ## Preview, confirm, and execute
 

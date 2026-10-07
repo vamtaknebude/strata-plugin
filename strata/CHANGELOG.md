@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.5.0-staging.16
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- `understand-business-case` now answers "does this Run verify" questions
+  from the `verification` projection of `strata_read_calculation_run`. It
+  states the returned status word first, explains `match` on successful and
+  unsuccessful Runs without calling a retained diagnostic a mismatch,
+  reports `mismatch` with `VERIFICATION_NOT_MATCHED` without describing it
+  as a retained calculation failure, and quotes the exact reason or code for
+  `unavailable` and `execution_failed` outcomes before stopping. It copies
+  Run and source identities verbatim, states each outcome as a statement
+  about that verification attempt only, and never advises repair (#935).
+- The release publishes each package in its own directory (`strata/`,
+  `uprali-demo/`, `uprali-demo-chatgpt/`) with the catalogs at the repository
+  root, so Claude web installs Strata (Staging) (#1865); the Hermes install
+  command is `hermes plugins install vamtaknebude/strata-plugin/strata --no-enable`.
+
 ## 0.5.0-staging.15
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

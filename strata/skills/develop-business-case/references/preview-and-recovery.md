@@ -22,6 +22,8 @@ For a staged Model path, use this order only:
 4. Use the scalar receipt's successor Case head to preview and, after confirmation, call `strata_save_assumption` for the supplied complete Model-native period series.
 5. Use the series receipt's successor Case head to preview and, after confirmation, call `strata_save_calculation_model` for the supplied finished successor. Bind each input source to its returned stable Assumption key.
 
+A workbook request is not one of those steps and does not authorize a write. Case resolution may still run. The five-step order starts only after the user supplies the native facts.
+
 Every write has its own preview, confirmation, call, and structured success receipt. The first and final mutations are Model saves. Continue only after each required read or write succeeds.
 
 Every executable preview states the tool name, complete normalized input, exact current case and subject heads, change reason, effect, and that a command UUID will be created only after confirmation. A correction invalidates the preview and its confirmation.
@@ -48,6 +50,8 @@ At the first failure:
 5. refresh and re-preview only the affected remainder before any later confirmation.
 
 This stop applies even when the ordered plan was previously described. A plan is not permission to continue after an error.
+
+A blocked readiness read is terminal even though the read itself succeeded. Quote every returned blocker code exactly, then stop: issue no further call, including no repair write and no Run.
 
 ## Recovery matrix
 

@@ -9,6 +9,7 @@ Use this reference before previewing `strata_save_scenario` or a scenario remova
 - [Preview](#preview)
 - [Scenario input shapes](#scenario-input-shapes)
 - [Removal](#removal)
+- [Readiness](#readiness)
 
 ## Scenario completeness
 
@@ -120,3 +121,7 @@ Those two revision fields extend the create shape; they do not replace or enter 
 ## Removal
 
 Before `strata_remove_scenario`, read the current scenario and show its stable ID, exact scenario revision, current case head, label, kind, and adjustment count. State that removal creates a successor case revision and does not remove assumptions or evidence. Obtain explicit confirmation and never cascade.
+
+## Readiness
+
+After the scenario and framing writes, read `strata_read_calculation_model` once with `projection: "readiness"` for the exact Investment Case, Decision Cycle, and the framing receipt's successor Case Revision. Report its `ready` or `blocked` result. On `blocked`, quote every returned blocker `code` exactly and invent no code. A blocked read ends the journey: issue no further call, repair nothing automatically, create no Run, and recommend no Option.
