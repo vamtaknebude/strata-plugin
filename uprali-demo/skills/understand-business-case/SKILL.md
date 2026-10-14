@@ -12,3 +12,11 @@ When the request supplies an exact retained calculation Run with its Option and 
 Use Uprali MCP as the only case-fact source; do not inspect the workspace, repository, environment, or public web, search with a shell, or call MCP resource-listing tools. Send explicit readiness or Run requests to `calculate-business-case`.
 
 When the Uprali tools are unavailable, the Uprali demo is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/uprali-demo/mcp`: in Claude web or the Claude desktop app, open Customize, Connectors. The demo needs no account.
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

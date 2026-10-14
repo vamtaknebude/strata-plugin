@@ -8,4 +8,4 @@ After the first failed command, make no second mutation call in that turn. Prese
 - On dependency, compatibility, or input errors, use only authorized facts and user corrections. Never cascade or convert.
 - On `RATE_LIMITED` or `RATE_LIMIT_UNAVAILABLE`, access failures, protected missing-or-inaccessible responses, or terminal provider failure, stop without unchanged retry, alternate-ID probing, or hidden inference.
 
-Cancellation stops before key generation or mutation. Report only what the user supplied and Strata durably accepted.
+Cancellation stops before key generation or mutation. Report only what the user supplied and Uprali durably accepted.

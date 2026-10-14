@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.0-staging.17
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill changes.
+
+- The skills state the product's scope and same-turn-read rules, and
+  caller-facing text names the product Uprali. The `strata` package's display
+  name is "Uprali (Staging)"; its package name stays `strata` (#1930).
+- `start-business-case` reads the company profile with
+  `strata_read_company_profile` when a case needs company facts and reports
+  absent facts as missing; every skill treats company profile facts as in
+  scope (#2006).
+- Evidence no longer carries a disclosure declaration; the evidence reference
+  drops the `public` and `restricted` disclosure fields (#1917).
+
 ## 0.5.0-staging.16
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

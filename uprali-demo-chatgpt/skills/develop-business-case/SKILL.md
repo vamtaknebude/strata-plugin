@@ -31,7 +31,7 @@ Keep referenced concepts distinct. Connected activities are optional unless requ
 
 Use only supplied facts, authorized Uprali output, and unambiguous schema mappings. Preserve supplied wording, uncertainty, and attribution. Infer only the limited values the applicable reference permits, and disclose every inference in the preview. Never send `null` for optional evidence fields. Omit `locator`, `excerpt`, `observedAt`, or `supersedesEvidenceItemId` when no value was supplied or resolved.
 
-Clarify missing fields, unsupported conversions, partial Evidence, incompatible adjustments, unavailable IDs, incomplete replacement sets, or unresolved dependencies. Ask one focused grammatical question about the highest-priority gap. When all registration metadata is absent, ask for source identity, capture time, citation, and disclosure together.
+Clarify missing fields, unsupported conversions, partial Evidence, incompatible adjustments, unavailable IDs, incomplete replacement sets, or unresolved dependencies. Ask one focused grammatical question about the highest-priority gap. When all registration metadata is absent, ask for source identity, capture time, and citation together.
 
 For removal, read the exact subject and dependencies, disclose that no cascade occurs, and use only `strata_remove_assumption` or `strata_remove_scenario` after confirmation.
 
@@ -56,3 +56,11 @@ Review requests and retries return queued Attempts. Use bounded polling. A timeo
 ## Stop and recover
 
 Read [the stop and recovery rules](references/stop-and-recover.md) when a Uprali call fails or the user stops.
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

@@ -22,16 +22,14 @@ For a URL source require:
 - exact HTTPS `uri`;
 - exact `capturedAt` instant with UTC offset;
 - nonblank `citation` identifying what the user is citing; and
-- disclosure `public` or `restricted` with a supplied `restrictedGroupKey`.
 
 For a manual statement require:
 
 - nonblank `manualDescription` naming the statement and its origin;
 - exact `capturedAt` instant;
-- nonblank `citation`; and
-- disclosure.
+- nonblank `citation`.
 
-Record `locator`, `excerpt`, `observedAt`, and `supersedesEvidenceItemId` only when supplied or resolved from authorized Strata output. Do not treat an inaccessible URL, pasted title, or assistant summary as source content. Ask for the missing metadata instead of inventing it.
+Record `locator`, `excerpt`, `observedAt`, and `supersedesEvidenceItemId` only when supplied or resolved from authorized Uprali output. Do not treat an inaccessible URL, pasted title, or assistant summary as source content. Ask for the missing metadata instead of inventing it.
 
 When `strata_build_initial_case` is available and the user gives only a date for `capturedAt` or `observedAt`, send that date at `T00:00:00Z` without asking for a time of day or timezone.
 
@@ -45,7 +43,6 @@ Case: <authorized exact case identity>
 Change reason: <exact text>
 Source: <url + HTTPS URI + capturedAt, or manual_statement + description + capturedAt>
 Citation: <exact text>
-Disclosure: <public, or restricted + exact group key>
 Locator / excerpt / observedAt / supersedes: <exact values or not recorded>
 Effect: creates immutable inert evidence metadata; creates no case revision.
 Idempotency key: generated only after confirmation; reused only for one unchanged ambiguous retry.
@@ -63,7 +60,6 @@ The executable preview for a URL source has this exact nesting. The block is a n
   "changeReason": "<change reason>",
   "evidence": {
     "citation": "<citation>",
-    "disclosure": { "kind": "public" },
     "locator": "<locator when supplied>",
     "observedAt": "<instant when supplied>",
     "source": {
@@ -75,7 +71,7 @@ The executable preview for a URL source has this exact nesting. The block is a n
 }
 ```
 
-For a manual statement, replace only `evidence.source` with `{"kind":"manual_statement","manualDescription":"<supplied description>","capturedAt":"<instant>"}`. For restricted evidence, use `{"kind":"restricted","restrictedGroupKey":"<authorized group key>"}` as `evidence.disclosure`.
+For a manual statement, replace only `evidence.source` with `{"kind":"manual_statement","manualDescription":"<supplied description>","capturedAt":"<instant>"}`.
 
 ## Assumption completeness
 
@@ -88,7 +84,7 @@ One assumption preview must include:
 - workbook uploads, cells, formulas, and translated expressions are not Assumption values or Model definitions;
 - stable `assumptionKey`;
 - `scope` as shared or one exact visible alternative ID;
-- the authenticated Strata user as the server-derived accountable owner; `ownerUserId` is not a public tool input;
+- the authenticated Uprali user as the server-derived accountable owner; `ownerUserId` is not a public tool input;
 - one typed `value`;
 - `applicablePeriod` with exact forward-ordered dates when the value is period-specific;
 - `confidenceLevel` and concrete `confidenceRationale`;
@@ -130,7 +126,7 @@ Each evidence link has one role:
 
 Infer a role only when the user's language is unambiguous and disclose the inference. Preserve contradicting evidence; do not omit it to make the assumption look stronger.
 
-An estimate may be usable when the user explicitly labels it and provides manual-statement metadata, citation, disclosure, confidence rationale, and decision-use rationale. Never turn an unlabeled estimate, assistant guess, or unsupported conversion into evidence.
+An estimate may be usable when the user explicitly labels it and provides manual-statement metadata, citation, confidence rationale, and decision-use rationale. Never turn an unlabeled estimate, assistant guess, or unsupported conversion into evidence.
 
 ## Assumption preview
 
@@ -148,7 +144,7 @@ Sensitivity driver: <true or false>
 Effect: creates one successor case revision containing the complete assumption.
 ```
 
-Render the owner as “authenticated Strata user (assigned by the server).” Do not put `ownerUserId` in the executable preview JSON or tool call.
+Render the owner as “authenticated Uprali user (assigned by the server).” Do not put `ownerUserId` in the executable preview JSON or tool call.
 
 A successful receipt supplies the stable assumption ID, exact assumption revision, and successor case head. Use those exact IDs in later reads and scenarios.
 

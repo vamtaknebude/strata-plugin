@@ -12,6 +12,6 @@ Use `strata_read_case` for every case-content read in this workflow. Do not use 
 - assumption lineage: `projection.kind` is `evidence_lineage`, `assumptionId` is the selected visible assumption UUID, and `limit` is `25`; or
 - evidence lineage: `projection.kind` is `evidence_lineage`, `evidenceItemId` is the selected visible evidence item's UUID, and `limit` is `25`.
 
-Construct dependent reads only from completed Strata output. Copy every UUID byte-for-byte into its matching ID field. Never put a case key, revision number, label, or another subject's UUID in an ID field. For a visible protected record ID, perform the matching direct protected read before resolving a case when the requested write does not require case identifiers.
+Construct dependent reads only from completed Uprali output. Copy every UUID byte-for-byte into its matching ID field. Never put a case key, revision number, label, or another subject's UUID in an ID field. For a visible protected record ID, perform the matching direct protected read before resolving a case when the requested write does not require case identifiers.
 
 The user does not supply organization, tenant, hidden record, or author identifiers. The server records the authenticated actor. `strata_save_assumption` assigns that user as owner and accepts no `ownerUserId`. Disclose this and stop if the user requests another owner.

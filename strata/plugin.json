@@ -1,10 +1,10 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "strata",
-  "version": "0.5.0-staging.16",
-  "description": "Use the Strata staging service for evidence-aware business-case work.",
+  "version": "0.5.0-staging.17",
+  "description": "Use the Uprali staging service for evidence-aware business-case work.",
   "author": {
-    "name": "Strata",
+    "name": "Uprali",
     "url": "https://github.com/vamtaknebude/strata-plugin"
   },
   "homepage": "https://github.com/vamtaknebude/strata-plugin#readme",

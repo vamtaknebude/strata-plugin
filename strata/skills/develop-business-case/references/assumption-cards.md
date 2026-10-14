@@ -1,6 +1,6 @@
 # Assumption Cards
 
-Use this reference only when `strata_save_assumption_card`, `strata_confirm_assumption_card`, and `strata_list_assumption_cards` are all available. If any of the three tools is missing, do not offer Assumption Cards. If the user asks for them, say that this Strata connection cannot record them, and continue with the rest of the request.
+Use this reference only when `strata_save_assumption_card`, `strata_confirm_assumption_card`, and `strata_list_assumption_cards` are all available. If any of the three tools is missing, do not offer Assumption Cards. If the user asks for them, say that this Uprali connection cannot record them, and continue with the rest of the request.
 
 ## Concepts
 

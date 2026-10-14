@@ -19,6 +19,8 @@ Creation invariant: after `strata_start_case` succeeds, stop tool use except the
 
 Call `strata_connection_context` first only when the host or conversation has not established the active organization. Do not verify explicit organization and user context.
 
+When the case needs company facts or the user asks about them, call `strata_read_company_profile` first and report absent facts as missing.
+
 The server derives the authenticated user as owner and author. Do not ask for or send identity, tenancy, case, revision, configuration, or user-supplied idempotency keys. A sponsor or stakeholder is not the initial owner.
 
 ## Build the normalized draft
@@ -74,3 +76,11 @@ A normal journey uses at most one optional `strata_connection_context` call and 
 ## Recovery
 
 Read [the recovery rules](references/recovery.md) when a Uprali call fails or the user stops.
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

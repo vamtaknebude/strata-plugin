@@ -1,15 +1,15 @@
 ---
 name: start-business-case
-description: Elicit, preview, confirm, and create a coherent initial Strata business case from a complete or incomplete decision brief.
+description: Elicit, preview, confirm, and create a coherent initial Uprali business case from a complete or incomplete decision brief.
 ---
 
 # Start Business Case
 
-Create one complete Strata root revision with a coherent narrative and 2–25 ordered, materially distinct alternatives. Do not create drafts, evidence, assumptions, scenarios, recommendations, or decisions. Approvals need approval tools.
+Create one complete Uprali root revision with a coherent narrative and 2–25 ordered, materially distinct alternatives. Do not create drafts, evidence, assumptions, scenarios, recommendations, or decisions. Approvals need approval tools.
 
-Use only the user's messages and named Strata tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
+Use only the user's messages and named Uprali tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
 
-When the Strata tools are unavailable, Strata is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
 When `strata_recommend_case_intake` and `strata_build_initial_case` are both available, follow [the demo initial-case flow](references/demo-initial-case.md) instead of the scope statement above and the rest of this file.
 
@@ -18,6 +18,8 @@ Creation invariant: after `strata_start_case` succeeds, stop tool use except the
 ## Organization and ownership
 
 Call `strata_connection_context` first only when the host or conversation has not established the active organization. Do not verify explicit organization and user context.
+
+When the case needs company facts or the user asks about them, call `strata_read_company_profile` first and report absent facts as missing.
 
 The server derives the authenticated user as owner and author. Do not ask for or send identity, tenancy, case, revision, configuration, or user-supplied idempotency keys. A sponsor or stakeholder is not the initial owner.
 
@@ -48,7 +50,7 @@ Re-evaluate after each answer. Do not preview while a required value is missing,
 
 Show one complete preview immediately before confirmation. Include:
 
-- the authenticated Strata user as initial owner and author;
+- the authenticated Uprali user as initial owner and author;
 - `changeReason`;
 - every narrative field: `title`, `decisionQuestion`, `objective`, `materialityStatement`, `counterfactual`, optional `deadline`, and the complete ordered `constraints` list;
 - every ordered alternative with `label`, `optionType`, `scope`, `rationale`, complete `dependencies`, complete `strategicEffects`, and either both implementation dates or an explicit “not recorded” marker;
@@ -73,4 +75,12 @@ A normal journey uses at most one optional `strata_connection_context` call and 
 
 ## Recovery
 
-Read [the recovery rules](references/recovery.md) when a Strata call fails or the user stops.
+Read [the recovery rules](references/recovery.md) when a Uprali call fails or the user stops.
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

@@ -60,3 +60,11 @@ When the receipt reports `status: created` and the authoritative `strata_read_ca
 ## Distinguish a request that created no Run
 
 When creation returns an error envelope (`isError: true`, e.g. `CALCULATION_NOT_READY`), report that no Run was created and the durable count is unchanged. State explicitly which of the three occurred: blocked readiness (no proposal was confirmed), a failed request (no Run exists), or a retained unsuccessful Run (a `runId` exists).
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

@@ -1,12 +1,12 @@
 # Performance
 
-Use this reference only when `strata_save_case_performance` and `strata_read_performance_registry` are available. When either tool is missing, record no performance data. If the user asks about case performance or the performance registry, say that this Strata connection cannot record it, and continue with the rest of the request.
+Use this reference only when `strata_save_case_performance` and `strata_read_performance_registry` are available. When either tool is missing, record no performance data. If the user asks about case performance or the performance registry, say that this Uprali connection cannot record it, and continue with the rest of the request.
 
 ## Concepts
 
 - A performance designation names which Outcome Commitments of a decided case measure revenue, ROI, and payback. Each of the three lists holds Commitment positions in quarter order, one per quarter.
 - A Commitment position is the zero-based index of the Commitment in the `commitments` array that `strata_read_decision` returns for the case's latest Decision.
-- Health is `on_track`, `at_risk`, or `off_track`, with an assessment date and a note. The user chooses the status, the assessment date, and the note. Strata does not derive the health from the planned and actual values.
+- Health is `on_track`, `at_risk`, or `off_track`, with an assessment date and a note. The user chooses the status, the assessment date, and the note. Uprali does not derive the health from the planned and actual values.
 - The registry shows, for one calendar quarter such as `2027-Q3`, each designated case's planned values, the actual values that completed Outcome Reviews observed, and its latest health. An actual value is `null` until a completed Outcome Review observes it.
 
 ## Read before a save

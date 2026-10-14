@@ -1,21 +1,21 @@
 ---
 name: calculate-business-case
-description: Check calculation readiness for one exact Strata Case Revision and run the confirmed complete calculation command. Use when a user asks to calculate, run, or refresh the numbers for a supplied exact Case Revision.
+description: Check calculation readiness for one exact Uprali Case Revision and run the confirmed complete calculation command. Use when a user asks to calculate, run, or refresh the numbers for a supplied exact Case Revision.
 ---
 
 # Calculate Business Case
 
-Run one exact Strata Case Revision through a single confirmed calculation command. Preserve revision identity and user control. Perform no calculation in the skill and recommend no Option. Do not widen the requested Option or Scenario product.
+Run one exact Uprali Case Revision through a single confirmed calculation command. Preserve revision identity and user control. Perform no calculation in the skill and recommend no Option. Do not widen the requested Option or Scenario product.
 
-Use only Strata MCP, user messages, and host-loaded references. Do not inspect the repository, environment, filesystem, web, discovery, UUID, or resource-listing tools.
+Use only Uprali MCP, user messages, and host-loaded references. Do not inspect the repository, environment, filesystem, web, discovery, UUID, or resource-listing tools.
 
-When the Strata tools are unavailable, Strata is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
 Readiness and Run requests belong here. Requests to add, change, remove, or complete Models, evidence, assumptions, sensitivity drivers, scenarios, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, or exact Learning references belong to `develop-business-case`. Requests to explain current framing, alternatives, assumptions, drivers, scenarios, evidence lineage, revision history, comparisons, reviews, Decisions, Outcome Reviews, Decision Learnings, or exact Learning references belong to `understand-business-case`.
 
 ## Resolve exact selectors
 
-Call `strata_connection_context` first only when the host or conversation has not established the active Strata organization. Do not verify explicit organization and user context.
+Call `strata_connection_context` first only when the host or conversation has not established the active Uprali organization. Do not verify explicit organization and user context.
 
 Retain the Investment Case, Decision Cycle, and exact Case Revision IDs supplied by the user or authorized reads. Ask for missing or ambiguous selectors. Never replace an exact historical revision with current state.
 
@@ -60,3 +60,11 @@ When the receipt reports `status: created` and the authoritative `strata_read_ca
 ## Distinguish a request that created no Run
 
 When creation returns an error envelope (`isError: true`, e.g. `CALCULATION_NOT_READY`), report that no Run was created and the durable count is unchanged. State explicitly which of the three occurred: blocked readiness (no proposal was confirmed), a failed request (no Run exists), or a retained unsuccessful Run (a `runId` exists).
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

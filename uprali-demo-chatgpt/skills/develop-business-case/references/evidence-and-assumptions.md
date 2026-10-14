@@ -22,14 +22,12 @@ For a URL source require:
 - exact HTTPS `uri`;
 - exact `capturedAt` instant with UTC offset;
 - nonblank `citation` identifying what the user is citing; and
-- disclosure `public` or `restricted` with a supplied `restrictedGroupKey`.
 
 For a manual statement require:
 
 - nonblank `manualDescription` naming the statement and its origin;
 - exact `capturedAt` instant;
-- nonblank `citation`; and
-- disclosure.
+- nonblank `citation`.
 
 Record `locator`, `excerpt`, `observedAt`, and `supersedesEvidenceItemId` only when supplied or resolved from authorized Uprali output. Do not treat an inaccessible URL, pasted title, or assistant summary as source content. Ask for the missing metadata instead of inventing it.
 
@@ -45,7 +43,6 @@ Case: <authorized exact case identity>
 Change reason: <exact text>
 Source: <url + HTTPS URI + capturedAt, or manual_statement + description + capturedAt>
 Citation: <exact text>
-Disclosure: <public, or restricted + exact group key>
 Locator / excerpt / observedAt / supersedes: <exact values or not recorded>
 Effect: creates immutable inert evidence metadata; creates no case revision.
 Idempotency key: generated only after confirmation; reused only for one unchanged ambiguous retry.
@@ -63,7 +60,6 @@ The executable preview for a URL source has this exact nesting. The block is a n
   "changeReason": "<change reason>",
   "evidence": {
     "citation": "<citation>",
-    "disclosure": { "kind": "public" },
     "locator": "<locator when supplied>",
     "observedAt": "<instant when supplied>",
     "source": {
@@ -75,7 +71,7 @@ The executable preview for a URL source has this exact nesting. The block is a n
 }
 ```
 
-For a manual statement, replace only `evidence.source` with `{"kind":"manual_statement","manualDescription":"<supplied description>","capturedAt":"<instant>"}`. For restricted evidence, use `{"kind":"restricted","restrictedGroupKey":"<authorized group key>"}` as `evidence.disclosure`.
+For a manual statement, replace only `evidence.source` with `{"kind":"manual_statement","manualDescription":"<supplied description>","capturedAt":"<instant>"}`.
 
 ## Assumption completeness
 
@@ -130,7 +126,7 @@ Each evidence link has one role:
 
 Infer a role only when the user's language is unambiguous and disclose the inference. Preserve contradicting evidence; do not omit it to make the assumption look stronger.
 
-An estimate may be usable when the user explicitly labels it and provides manual-statement metadata, citation, disclosure, confidence rationale, and decision-use rationale. Never turn an unlabeled estimate, assistant guess, or unsupported conversion into evidence.
+An estimate may be usable when the user explicitly labels it and provides manual-statement metadata, citation, confidence rationale, and decision-use rationale. Never turn an unlabeled estimate, assistant guess, or unsupported conversion into evidence.
 
 ## Assumption preview
 

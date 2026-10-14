@@ -40,4 +40,4 @@ Name each record in replies by its case key, title, or label, not by its ID (UUI
 
 Before you call `strata_submit_case_for_approval`, call `strata_read_approval_path` for the case. The build saves an approval path.
 
-When a Strata call fails, follow [the recovery rules](recovery.md). Where they say to show the complete preview and reconfirm, call `strata_recommend_case_intake` again and wait for a new confirmation.
+When a Uprali call fails, follow [the recovery rules](recovery.md). Where they say to show the complete preview and reconfirm, call `strata_recommend_case_intake` again and wait for a new confirmation.

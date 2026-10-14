@@ -1,15 +1,15 @@
 ---
 name: develop-business-case
-description: Create or revise calculation Models, evidence, assumptions, sensitivity drivers, scenarios, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, and exact Learning references for an existing Strata business case. Use when a user asks to add, change, remove, or complete any of these records, or to substantiate or stress-test a case that already exists.
+description: Create or revise calculation Models, evidence, assumptions, sensitivity drivers, scenarios, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, and exact Learning references for an existing Uprali business case. Use when a user asks to add, change, remove, or complete any of these records, or to substantiate or stress-test a case that already exists.
 ---
 
 # Develop Business Case
 
-Develop one exact Strata case from supplied facts. Preserve provenance, revision identity, and user control. Direct readiness and Run requests to `calculate-business-case`; state only values a Run returned. For other requests, follow the selected workflow's named Strata MCP operations directly. Do not call `list_mcp_resources` or `list_mcp_resource_templates` to choose or inspect an operation. When the active organization has not been established, call `strata_connection_context` before the first organization-bound case operation. Do not recommend, fetch, invent, convert, or batch changes.
+Develop one exact Uprali case from supplied facts. Preserve provenance, revision identity, and user control. Direct readiness and Run requests to `calculate-business-case`; state only values a Run returned. For other requests, follow the selected workflow's named Uprali MCP operations directly. Do not call `list_mcp_resources` or `list_mcp_resource_templates` to choose or inspect an operation. When the active organization has not been established, call `strata_connection_context` before the first organization-bound case operation. Do not recommend, fetch, invent, convert, or batch changes.
 
-Use only Strata MCP, user messages, and host-loaded references. Do not inspect the repository, environment, filesystem, web, discovery, UUID, or resource-listing tools.
+Use only Uprali MCP, user messages, and host-loaded references. Do not inspect the repository, environment, filesystem, web, discovery, UUID, or resource-listing tools.
 
-When the Strata tools are unavailable, Strata is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
 When `strata_build_initial_case` is available, name records in replies by case key, title, or label, not by ID (UUID).
 
@@ -29,9 +29,9 @@ Read [the current-state resolution rules](references/resolve-current-state.md) b
 
 Keep referenced concepts distinct. Connected activities are optional unless requested or required next. Any authorized organization member may act. Do not invent workflow roles or separate duties.
 
-Use only supplied facts, authorized Strata output, and unambiguous schema mappings. Preserve supplied wording, uncertainty, and attribution. Infer only the limited values the applicable reference permits, and disclose every inference in the preview. Never send `null` for optional evidence fields. Omit `locator`, `excerpt`, `observedAt`, or `supersedesEvidenceItemId` when no value was supplied or resolved.
+Use only supplied facts, authorized Uprali output, and unambiguous schema mappings. Preserve supplied wording, uncertainty, and attribution. Infer only the limited values the applicable reference permits, and disclose every inference in the preview. Never send `null` for optional evidence fields. Omit `locator`, `excerpt`, `observedAt`, or `supersedesEvidenceItemId` when no value was supplied or resolved.
 
-Clarify missing fields, unsupported conversions, partial Evidence, incompatible adjustments, unavailable IDs, incomplete replacement sets, or unresolved dependencies. Ask one focused grammatical question about the highest-priority gap. When all registration metadata is absent, ask for source identity, capture time, citation, and disclosure together.
+Clarify missing fields, unsupported conversions, partial Evidence, incompatible adjustments, unavailable IDs, incomplete replacement sets, or unresolved dependencies. Ask one focused grammatical question about the highest-priority gap. When all registration metadata is absent, ask for source identity, capture time, and citation together.
 
 For removal, read the exact subject and dependencies, disclose that no cascade occurs, and use only `strata_remove_assumption` or `strata_remove_scenario` after confirmation.
 
@@ -41,7 +41,7 @@ Use Model, Assumption, and Model-read operations. Do not create Scenario. Read [
 
 ## Unsupported workbook requests
 
-Uploading, parsing, translating formulas from, storing, or executing a workbook or spreadsheet is not a Strata command. Do not accept a file, read workbook bytes, or pass workbook content to any tool. Do not derive framing, Option classification, calculation definitions, Model Items, or source values from that request. Ask one grammatical question for the next missing native fact and wait. After the user supplies complete native facts, continue the existing staged Model order in [preview and recovery](references/preview-and-recovery.md).
+Uploading, parsing, translating formulas from, storing, or executing a workbook or spreadsheet is not a Uprali command. Do not accept a file, read workbook bytes, or pass workbook content to any tool. Do not derive framing, Option classification, calculation definitions, Model Items, or source values from that request. Ask one grammatical question for the next missing native fact and wait. After the user supplies complete native facts, continue the existing staged Model order in [preview and recovery](references/preview-and-recovery.md).
 
 ## Preview, confirm, and execute
 
@@ -49,10 +49,18 @@ Show the complete ordered plan. Before each write, perform its required fresh re
 
 After confirmation, construct a fresh lowercase RFC 4122 version 4 UUID directly in `idempotencyKey`. Its grammar is `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`, where `y` is `8`, `9`, `a`, or `b`. Never use a tool to generate it or reuse a key for a different command. Copy every previewed input unchanged, add only the key, and call exactly the named domain tool.
 
-Only a structured success receipt commits. Preserve its fields and replay status, and advance heads only from it. Resolve IDs for the next preview and reconfirm; never execute an unconfirmed remainder. The normal evidence-to-driver-to-scenario path uses at most eight Strata calls. Protected reads use bounded discriminated projections and opaque context-bound cursors; write retry rules do not apply.
+Only a structured success receipt commits. Preserve its fields and replay status, and advance heads only from it. Resolve IDs for the next preview and reconfirm; never execute an unconfirmed remainder. The normal evidence-to-driver-to-scenario path uses at most eight Uprali calls. Protected reads use bounded discriminated projections and opaque context-bound cursors; write retry rules do not apply.
 
 Review requests and retries return queued Attempts. Use bounded polling. A timeout, refusal, malformed output, provider failure, or failed Attempt never means no material Findings. Retry a failed current Review only after explicit confirmation. Corrections append successor Dispositions or complete Outcome Review Revisions. Learning reuse names an exact revision.
 
 ## Stop and recover
 
-Read [the stop and recovery rules](references/stop-and-recover.md) when a Strata call fails or the user stops.
+Read [the stop and recovery rules](references/stop-and-recover.md) when a Uprali call fails or the user stops.
+
+## Scope and same-turn-read rules
+
+Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+
+Company profile facts, the tenant's own company facts used for business-case work, are in scope.
+
+Read in the same turn before any statement about case, card, delegation, or approval status.

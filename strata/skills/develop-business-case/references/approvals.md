@@ -1,6 +1,6 @@
 # Approvals
 
-Use this reference only when `strata_save_approval_path`, `strata_submit_case_for_approval`, `strata_record_approval_step`, and `strata_read_approval_path` are available. When any of these four tools is missing, record no approval data. If the user asks about approvals, say that this Strata connection cannot record them, and continue with the rest of the request.
+Use this reference only when `strata_save_approval_path`, `strata_submit_case_for_approval`, `strata_record_approval_step`, and `strata_read_approval_path` are available. When any of these four tools is missing, record no approval data. If the user asks about approvals, say that this Uprali connection cannot record them, and continue with the rest of the request.
 
 ## Concepts
 

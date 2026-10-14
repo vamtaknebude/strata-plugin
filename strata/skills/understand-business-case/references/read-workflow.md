@@ -1,12 +1,12 @@
 # Understand Business Case
 
-Answer with the smallest authorized Strata read sequence that can establish it. Treat every revision as immutable and every omitted `caseRevisionId` as a one-time request to resolve current state. For Assumption Review, Decision, Outcome Review, and Decision Learning questions, use the exact protected read guidance in [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](exact-reads-history-and-lineage.md).
+Answer with the smallest authorized Uprali read sequence that can establish it. Treat every revision as immutable and every omitted `caseRevisionId` as a one-time request to resolve current state. For Assumption Review, Decision, Outcome Review, and Decision Learning questions, use the exact protected read guidance in [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](exact-reads-history-and-lineage.md).
 
-Use Strata MCP as the only source of case facts. Do not inspect the working directory, repository, environment, or public web, and do not use a shell to search for case data. Do not call `list_mcp_resources` or `list_mcp_resource_templates`; the exact permitted Strata tools are named below. After the host loads this installed skill, continue with those Strata tools and the user's messages only.
+Use Uprali MCP as the only source of case facts. Do not inspect the working directory, repository, environment, or public web, and do not use a shell to search for case data. Do not call `list_mcp_resources` or `list_mcp_resource_templates`; the exact permitted Uprali tools are named below. After the host loads this installed skill, continue with those Uprali tools and the user's messages only.
 
 ## Organization-order invariant
 
-Before the first tenant-bound case call, check whether the host or conversation already established the active Strata organization. If it has not, the first Strata tool call must be `strata_connection_context`. Never call `strata_list_cases`, `strata_read_case`, `strata_get_case`, a history tool, or a comparison tool and then resolve connection context. Call connection context at most once in a normal journey.
+Before the first tenant-bound case call, check whether the host or conversation already established the active Uprali organization. If it has not, the first Uprali tool call must be `strata_connection_context`. Never call `strata_list_cases`, `strata_read_case`, `strata_get_case`, a history tool, or a comparison tool and then resolve connection context. Call connection context at most once in a normal journey.
 
 ## Bounded case-list invariant
 
@@ -43,6 +43,6 @@ Read [the evidence and restricted-data rules](evidence-and-restricted-data.md) f
 
 ## Recovery
 
-Read [the recovery rules](recovery.md) when a Strata call fails or a title is ambiguous.
+Read [the recovery rules](recovery.md) when a Uprali call fails or a title is ambiguous.
 
 When the host supports local skill references, use [the exact read, pagination, lineage, comparison, restricted-data, and recovery contract](exact-reads-history-and-lineage.md) for additional input examples and result-field details.
