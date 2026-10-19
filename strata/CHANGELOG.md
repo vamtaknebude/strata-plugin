@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0-staging.18
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill corrections.
+
+- The skills use the intake and initial-case demo workflow only when the demo
+  tools are available. The normal endpoint keeps its native case workflow
+  (#2182).
+- `understand-business-case` explains `MODEL_NOT_FOUND` as a case without an
+  adopted model, preserves the exact case revision, and directs model creation
+  to `develop-business-case` (#2238).
+
 ## 0.5.0-staging.17
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

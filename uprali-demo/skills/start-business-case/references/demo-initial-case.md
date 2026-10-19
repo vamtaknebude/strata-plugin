@@ -1,6 +1,6 @@
 # Demo initial case
 
-Use this reference only when `strata_recommend_case_intake` and `strata_build_initial_case` are both available. It replaces the scope statement at the top of `SKILL.md` and every `SKILL.md` section from "Creation invariant" on; the tool-use and connection rules in `SKILL.md` still apply. If either tool is missing, follow `SKILL.md` and ignore this reference.
+Use this reference only on the Uprali demo path, when `strata_recommend_case_intake` and `strata_build_initial_case` are both available. It replaces the scope statement at the top of `SKILL.md` and every `SKILL.md` section from "Creation invariant" on; the tool-use and connection rules in `SKILL.md` still apply. If either tool is missing, follow `SKILL.md` and ignore this reference.
 
 ## Take the description
 

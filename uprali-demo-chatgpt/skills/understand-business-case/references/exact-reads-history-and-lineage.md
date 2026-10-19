@@ -86,7 +86,7 @@ Put each returned UUID subject or dependency id in the scenario `exactIds` as we
 
 Do not repair the model, recommend a change, rank options, or calculate a value. Do not ask for confirmation.
 
-On `MODEL_NOT_FOUND`, say the selected Case Revision has no adopted model. Do not switch revisions. On `MODEL_REVISION_CONFLICT`, report the error and do not retry with `currentModelHead`. Other read failures follow the existing recovery rules.
+On `MODEL_NOT_FOUND`, say the selected Case Revision exists but has no adopted model. Direct model-building work to `develop-business-case`; do not treat the case as missing or build a model in this read workflow. Preserve the selected revision. Model-building must follow that skill’s fresh current-state reads, complete preview, and explicit user confirmation before any write. Do not switch revisions to recover the read. On `MODEL_REVISION_CONFLICT`, report the error and do not retry with `currentModelHead`. Other read failures follow the existing recovery rules.
 
 The answer comes from the tool result. It does not depend on the workspace App.
 

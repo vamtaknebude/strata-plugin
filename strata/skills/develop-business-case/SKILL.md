@@ -11,7 +11,7 @@ Use only Uprali MCP, user messages, and host-loaded references. Do not inspect t
 
 When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
-When `strata_build_initial_case` is available, name records in replies by case key, title, or label, not by ID (UUID).
+When the Uprali demo serves `strata_build_initial_case`, name records in replies by case key, title, or label, not by ID (UUID).
 
 Read every applicable reference before preparing persisted values:
 
