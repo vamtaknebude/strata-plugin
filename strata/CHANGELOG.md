@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.0-staging.19
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+start-business-case skill changes.
+
+- The normal endpoint routes a short decision brief to a template, asks the user
+  to confirm the template, and creates the initial case through
+  `strata_record_case_intake`. The demo endpoint keeps its existing initial-case
+  workflow (#2195).
+
 ## 0.5.0-staging.18
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
