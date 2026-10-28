@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "strata",
-  "version": "0.5.0-staging.19",
+  "version": "0.5.0-staging.20",
   "description": "Use the Uprali staging service for evidence-aware business-case work.",
   "author": {
     "name": "Uprali",
