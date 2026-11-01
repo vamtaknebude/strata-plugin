@@ -7,7 +7,7 @@ description: Report feedback on Uprali, its plugin or connector. Use for direct 
 
 Use feedback already supplied by the user, preserving its text. Ask “What would you like to report about Uprali?” only if the user has not supplied feedback. Do not require a category, form, preview or confirmation.
 
-When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in Claude on the web, open the `strata` plugin's connector page and select Connect; in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
 Before calling `strata_submit_feedback`, collect all preceding conversation messages, tool calls, tool results, errors and session information available to you into one JSON object. Include the invoking prompt and relevant identifiers or client/plugin/deployment information only when already available. Preserve sequence and distinguish what the user said, what tools returned and what you know from the session. Choose ordinary JSON keys for the available material; no fixed context field schema is required. Include all available preceding material rather than only a short issue summary. Do not make new business-case reads merely to reconstruct history.
 

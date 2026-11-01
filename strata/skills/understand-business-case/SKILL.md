@@ -13,7 +13,7 @@ For risks, FP&A findings, or business-case output, follow [the risks, findings, 
 
 Use Uprali MCP as the only case-fact source; do not inspect the workspace, repository, environment, or public web, search with a shell, or call MCP resource-listing tools. Send explicit readiness or Run requests to `calculate-business-case`.
 
-When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in Claude on the web, open the `strata` plugin's connector page and select Connect; in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
 ## Scope and same-turn-read rules
 

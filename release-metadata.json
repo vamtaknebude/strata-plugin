@@ -43,7 +43,7 @@
     "release-metadata.json"
   ],
   "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
-  "packageDigest": "e43f2f09367253e3ebefbcf7c6c4db1b94b7451cec69edc3d2884ab88ab0a729",
+  "packageDigest": "078a9203eedaa4a7ecc763e285e41e34550844d2d46fa9a697a9de9156686d93",
   "packages": [
     {
       "files": [
@@ -93,7 +93,7 @@
   ],
   "plugin": {
     "name": "strata",
-    "version": "0.5.0-staging.23"
+    "version": "0.5.0-staging.24"
   },
   "schemaVersion": 1,
   "skills": [
@@ -104,7 +104,7 @@
     "understand-business-case"
   ],
   "source": {
-    "commit": "dcae53fccb61be01c5136cb6b4291c6ea185c5bf",
+    "commit": "5234997a4148450a1ab7491184277f565ff623af",
     "repository": "vamtaknebude/strata"
   }
 }

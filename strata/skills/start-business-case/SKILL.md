@@ -9,7 +9,7 @@ Create one Uprali case from a short brief (title and description) and a confirme
 
 Use only the user's messages and named Uprali tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
 
-When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
+When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in Claude on the web, open the `strata` plugin's connector page and select Connect; in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
 Creation invariant: after the creation call of `strata_record_case_intake` succeeds, stop tool use except the reference's success-metrics step when its tools exist. Copy every receipt field byte-for-byte from `structured_content.data.receipt`. Never generate, replace, reconstruct, or summarize a receipt identifier. Never call the creation call again to retrieve or replay a successful receipt.
 
