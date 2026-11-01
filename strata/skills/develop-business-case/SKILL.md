@@ -1,6 +1,6 @@
 ---
 name: develop-business-case
-description: Create or revise calculation Models, evidence, assumptions, sensitivity drivers, scenarios, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, and exact Learning references for an existing Uprali business case. Use when a user asks to add, change, remove, or complete any of these records, or to substantiate or stress-test a case that already exists.
+description: Create or revise calculation Models, evidence, assumptions, sensitivity drivers, scenarios, risks, FP&A reviews, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, and exact Learning references for an existing Uprali business case. Use when a user asks to add, change, remove, or complete any of these records, or to substantiate or stress-test a case that already exists.
 ---
 
 # Develop Business Case
@@ -23,6 +23,8 @@ Read every applicable reference before preparing persisted values:
 
 Read [the current-state resolution rules](references/resolve-current-state.md) before you prepare any command.
 
+For a risk change or FP&A review request, read [the risk and FP&A workflow](references/risks-and-fpa-review.md) before generic command preparation and retry rules. It defines the risk confirmation boundary and the FP&A request's one-time, no-retry behavior.
+
 ## Prepare one complete command
 
 Keep referenced concepts distinct. Connected activities are optional unless requested or required next. Any authorized organization member may act. Do not invent workflow roles or separate duties.
@@ -31,7 +33,7 @@ Use only supplied facts, authorized Uprali output, and unambiguous schema mappin
 
 Clarify missing fields, unsupported conversions, partial Evidence, incompatible adjustments, unavailable IDs, incomplete replacement sets, or unresolved dependencies. Ask one focused grammatical question about the highest-priority gap. When all registration metadata is absent, ask for source identity, capture time, and citation together.
 
-For removal, read the exact subject and dependencies, disclose that no cascade occurs, and use only `strata_remove_assumption` or `strata_remove_scenario` after confirmation.
+For removal, read the exact subject and dependencies, disclose that no cascade occurs, and use only `strata_remove_assumption`, `strata_remove_scenario`, or the confirmed risk-removal flow in [the risk and FP&A workflow](references/risks-and-fpa-review.md).
 
 ## Models
 

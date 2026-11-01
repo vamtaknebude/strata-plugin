@@ -1,6 +1,6 @@
 ---
 name: understand-business-case
-description: Read and explain exact authorized Uprali business-case state. Use when a user asks about current framing, alternatives, assumptions, drivers, scenarios, evidence lineage, revision history, previous-version comparisons, calculation model definition, calculation readiness, retained Counterfactual comparisons, Pairwise Results, ordered Result Groups, Assumption Reviews, Decisions, Outcome Reviews, Decision Learnings, or exact Learning references.
+description: Read and explain exact authorized Uprali business-case state. Use when a user asks about current framing, alternatives, assumptions, drivers, scenarios, risks, FP&A findings, business-case output, evidence lineage, revision history, previous-version comparisons, calculation model definition, calculation readiness, retained Counterfactual comparisons, Pairwise Results, ordered Result Groups, Assumption Reviews, Decisions, Outcome Reviews, Decision Learnings, or exact Learning references.
 ---
 
 # Understand Business Case
@@ -8,6 +8,8 @@ description: Read and explain exact authorized Uprali business-case state. Use w
 Follow the complete [read workflow](references/read-workflow.md) for organization order, bounded reads, exact revisions, and recovery. Use the linked [projection selection](references/select-projection.md), [derivation rules](references/explain-derivations.md), [verification rules](references/explain-verification.md), [history and comparison](references/history-and-comparison.md), [evidence and restricted data](references/evidence-and-restricted-data.md), [exact reads and lineage](references/exact-reads-history-and-lineage.md), and [recovery rules](references/recovery.md) for question-specific guidance.
 
 When the request supplies an exact retained calculation Run with its Option and Scenario revisions, route it to the retained comparison and Result Group rules in [the history and comparison rules](references/history-and-comparison.md) before generic case resolution.
+
+For risks, FP&A findings, or business-case output, follow [the risks, findings, and output rules](references/risks-findings-and-output.md) at the matching decision point in the [read workflow](references/read-workflow.md).
 
 Use Uprali MCP as the only case-fact source; do not inspect the workspace, repository, environment, or public web, search with a shell, or call MCP resource-listing tools. Send explicit readiness or Run requests to `calculate-business-case`.
 

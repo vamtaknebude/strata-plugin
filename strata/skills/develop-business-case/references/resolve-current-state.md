@@ -4,7 +4,7 @@ If the host has not established the active organization, call `strata_connection
 
 For case-bound work, resolve a title with `strata_list_cases` and wait before a dependent read. If several cases match, show bounded choices and wait. Read the current case with `strata_read_case`. Retain its exact case, cycle, case revision ID and number, and subject revision IDs. Use overview when alternatives matter. Read assumptions before revising or removing an existing assumption, but not for a new assumption or a driver receipted in this conversation. Read evidence lineage only for a selected existing assumption or evidence item. Never use a historic head as current.
 
-Use `strata_read_case` for every case-content read in this workflow. Do not use `strata_get_case`. Select one projection:
+Use `strata_read_case` for ordinary case-content reads in this workflow. Do not use `strata_get_case`. Exact risk details come from the `risks` section of `strata_read_business_case_output` for the same case, cycle, and revision IDs. A supplied FP&A `reviewId` goes directly to `strata_read_fpa_review` before case resolution. Preserve a supplied historical revision for an FP&A request or output read; never replace it with the current head. Select one `strata_read_case` projection:
 
 - overview: `projection.kind` is `overview` with no other projection field;
 - assumptions: `projection.kind` is `assumptions`, `limit` is `25`, and `driversOnly` is `false`;

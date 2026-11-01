@@ -22,6 +22,7 @@
     "strata/skills/develop-business-case/references/performance.md",
     "strata/skills/develop-business-case/references/preview-and-recovery.md",
     "strata/skills/develop-business-case/references/resolve-current-state.md",
+    "strata/skills/develop-business-case/references/risks-and-fpa-review.md",
     "strata/skills/develop-business-case/references/scenarios.md",
     "strata/skills/develop-business-case/references/stop-and-recover.md",
     "strata/skills/report-feedback/SKILL.md",
@@ -37,11 +38,12 @@
     "strata/skills/understand-business-case/references/history-and-comparison.md",
     "strata/skills/understand-business-case/references/read-workflow.md",
     "strata/skills/understand-business-case/references/recovery.md",
+    "strata/skills/understand-business-case/references/risks-findings-and-output.md",
     "strata/skills/understand-business-case/references/select-projection.md",
     "release-metadata.json"
   ],
   "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
-  "packageDigest": "31dca790d282e540d0b860f5d407dcdb68b9923ae9175625bdcfb44a0bb2bbe3",
+  "packageDigest": "e43f2f09367253e3ebefbcf7c6c4db1b94b7451cec69edc3d2884ab88ab0a729",
   "packages": [
     {
       "files": [
@@ -65,6 +67,7 @@
         "skills/develop-business-case/references/performance.md",
         "skills/develop-business-case/references/preview-and-recovery.md",
         "skills/develop-business-case/references/resolve-current-state.md",
+        "skills/develop-business-case/references/risks-and-fpa-review.md",
         "skills/develop-business-case/references/scenarios.md",
         "skills/develop-business-case/references/stop-and-recover.md",
         "skills/report-feedback/SKILL.md",
@@ -80,6 +83,7 @@
         "skills/understand-business-case/references/history-and-comparison.md",
         "skills/understand-business-case/references/read-workflow.md",
         "skills/understand-business-case/references/recovery.md",
+        "skills/understand-business-case/references/risks-findings-and-output.md",
         "skills/understand-business-case/references/select-projection.md"
       ],
       "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
@@ -89,7 +93,7 @@
   ],
   "plugin": {
     "name": "strata",
-    "version": "0.5.0-staging.22"
+    "version": "0.5.0-staging.23"
   },
   "schemaVersion": 1,
   "skills": [
@@ -100,7 +104,7 @@
     "understand-business-case"
   ],
   "source": {
-    "commit": "cb8fcc8844f8e4ac72aaf9564a634018f67b7fea",
+    "commit": "dcae53fccb61be01c5136cb6b4291c6ea185c5bf",
     "repository": "vamtaknebude/strata"
   }
 }
