@@ -1,20 +1,18 @@
 # Approvals
 
-Use this reference only when `strata_save_approval_path`, `strata_submit_case_for_approval`, `strata_record_approval_step`, and `strata_read_approval_path` are available. When any of these four tools is missing, record no approval data. If the user asks about approvals, say that this Uprali connection cannot record them, and continue with the rest of the request.
+For submission, use `strata_read_approval_path` and `strata_submit_case_for_approval`; use `strata_save_approval_path` when the case needs a path. A missing `strata_record_approval_step` does not block submission. When a required submission tool is unavailable, say that this Uprali connection cannot submit the case.
 
 ## Concepts
 
 - An approval path is the ordered list of steps on one case. Each step names one Organization member, a sign-off label such as "Financial Approval", and whether the step is required.
-- A submission presents the case to the approvers with a summary, the budget, the NPV, and the payback in months. The member who submits is the submitter.
+- A submission pins one Case Revision, its selected Option Revision, one approval path revision, and the confirmed Outcome Commitments. Each Commitment names the published template success-metric key that it tracks. The member who submits is the submitter.
 - A step record is an approval, a change request, or a comment with text on one step. It keeps the member the step names and the member who recorded it. Any member may record on any step.
-- The approval status is derived. A Decision outcome of reject gives `rejected`, approve or pilot gives `approved`, and defer or stop shows that outcome. Without a Decision, a case with no submission is `not_submitted`. Otherwise the latest step record made after the latest submission decides: a change request gives `needs_revision`, and anything else gives `pending`. A new submission clears an earlier change request.
+- Approval status is read for an exact Case Revision. Without a Decision or submission for that revision, it is `not_submitted`; a submission without a later change request is `pending`. Report the status returned by `strata_read_approval_path`.
 - An approval path never blocks or changes a Decision. When the user asks to record a Decision, record it with `strata_create_decision` whatever the approval status.
 
 ## Read before each write
 
-Call `strata_read_approval_path` with the exact `investmentCaseId` before each approval write. Pass its `approvalPath.approvalPathRevisionNumber` as `expectedApprovalPathRevisionNumber`, or `null` when `approvalPath` is `null` and you save the first path. When `approvalPath` is `null`, save a path before you submit or record a step. Record on a step with a `stepId` from that read.
-
-When the Uprali demo serves `strata_build_initial_case`, read the approval path before you offer to submit, and save one first when it is `null`.
+Resolve the case and its current Case Revision through `strata_read_case`. Read `strata_read_case_intake` for its recorded `answers` and published `successMetrics` definitions. Read `strata_read_case_draft` with the known opaque `draftId` from the current request or starting context; use its ready `document.successMetricValues` for drafted targets. If the draft ID is absent, ask for that existing reference before preparing a submission proposal. Call `strata_read_approval_path` with the exact `investmentCaseId` and `caseRevisionId` before submission. Pass its `approvalPath.approvalPathRevisionNumber` as `expectedApprovalPathRevisionNumber`, or `null` when `approvalPath` is `null` and you save the first path. Save a path before submission when none exists. Choose the user-selected alternative in the case-read overview and pass its `alternativeRevisionId` as `selectedOptionRevisionId`.
 
 ## Save the path
 
@@ -22,7 +20,9 @@ When the Uprali demo serves `strata_build_initial_case`, read the approval path 
 
 ## Submit and record
 
-Send `budget` and `npv` in the Money form `{ "kind": "money", "amount": "<decimal>", "currencyCode": "<code>" }`, with the user's figures. Send `paybackMonths` as a whole number of months, or `null` when the user gives none. Show the summary and figures and obtain confirmation first.
+Build one proposal for every published template success metric. Pair each proposed `templateSuccessMetricKey` with its drafted value and the selected Option Revision. For each Commitment, ask for any missing `indicator`, typed `expectedResult`, `evaluationPeriodStart`, `evaluationPeriodEnd`, `reviewDate`, `accountableUserId`, `actionCriteria`, and `plannedEvidenceSource`. Ask how each metric will be tracked and preserve the member's distinct data source or proposed method in that metric's `plannedEvidenceSource`. Use only active Organization members for accountable IDs.
+
+Show the complete Commitment list and exact case, revision, option, and path selectors. Accept edits, show the revised complete list, and wait for explicit confirmation before calling `strata_submit_case_for_approval`. Use the confirmed values unchanged in its arguments. After a submitted receipt, read the same exact revision with `strata_read_approval_path` and report the captured Commitments. A refusal names missing prerequisites or invalid accountable members; resolve them and obtain a new confirmation before a fresh submit.
 
 For each step record, show the step's sign-off label and named member, the kind, and the text, and obtain confirmation first. Then send one `strata_record_approval_step` with `kind` `approval`, `change_request`, or `comment` and the user's text.
 

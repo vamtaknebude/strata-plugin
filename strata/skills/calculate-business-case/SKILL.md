@@ -63,7 +63,7 @@ When creation returns an error envelope (`isError: true`, e.g. `CALCULATION_NOT_
 
 ## Scope and same-turn-read rules
 
-Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+Use the product for evidence-aware business-case work (drafting, delegation confirmation, approval, outcome review, explanation and export) and feedback on Uprali, its plugin and connector. Answer every other question without the product's tools and views.
 
 Company profile facts, the tenant's own company facts used for business-case work, are in scope.
 

@@ -41,7 +41,7 @@ bun run agent-plugin:release -- --version "${PLUGIN_VERSION:?Set PLUGIN_VERSION}
 bun run agent-plugin:release -- --version "${PLUGIN_VERSION:?Set PLUGIN_VERSION}" --output ../strata-plugin-inspection
 ```
 
-The inspection package contains `strata/`, `uprali-demo/`,
-`uprali-demo-chatgpt/`, both root catalogs, and `release-metadata.json`. The
+The inspection package contains `strata/`, both root catalogs, and
+`release-metadata.json`. The
 metadata identifies the exact source commit and package digest. It contains no
 credentials.

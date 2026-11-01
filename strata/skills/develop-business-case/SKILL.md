@@ -11,8 +11,6 @@ Use only Uprali MCP, user messages, and host-loaded references. Do not inspect t
 
 When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
-When the Uprali demo serves `strata_build_initial_case`, name records in replies by case key, title, or label, not by ID (UUID).
-
 Read every applicable reference before preparing persisted values:
 
 - [evidence](references/evidence-and-assumptions.md) for evidence and Assumptions.
@@ -59,7 +57,7 @@ Read [the stop and recovery rules](references/stop-and-recover.md) when a Uprali
 
 ## Scope and same-turn-read rules
 
-Answer only evidence-aware business-case work through the product: drafting, delegation confirmation, approval, outcome review, and explanation and export. Answer every other question without the product's tools and views.
+Use the product for evidence-aware business-case work (drafting, delegation confirmation, approval, outcome review, explanation and export) and feedback on Uprali, its plugin and connector. Answer every other question without the product's tools and views.
 
 Company profile facts, the tenant's own company facts used for business-case work, are in scope.
 
