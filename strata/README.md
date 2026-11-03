@@ -78,6 +78,16 @@ claude plugin marketplace remove strata
 Use **Clear authentication** for `strata` in `/mcp` if you also want to remove
 the OAuth grant.
 
+## Claude web observed connection path
+
+Round 1 observed these Claude web installation steps with package `0.5.0-staging.23`:
+
+1. Update the existing `strata-plugin` marketplace; the operator used its update control to advance from `.20` to `.23`.
+2. Install the `strata` package.
+3. Select **Connect** from the plugin connector page.
+
+The first connection selected another organization without showing sign-in, consent, or organization selection. A later attempt showed consent and returned the intended organization in the connection-context text after the owner had signed in to that organization. Sign-in and organization selection within Connect, the complete OAuth selection flow, and exact structured result remain unverified. Claude web remains **Not supported / unverified**; see the [owner-reported run on #2853](https://github.com/vamtaknebude/strata/issues/2853#issuecomment-6560060343) and [defect #2894](https://github.com/vamtaknebude/strata/issues/2894).
+
 ## Claude desktop app connection
 
 The Claude desktop app manages MCP servers through Connectors, and a

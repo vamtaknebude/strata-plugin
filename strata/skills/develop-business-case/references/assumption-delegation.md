@@ -1,8 +1,8 @@
 # Assumption delegation
 
-Use this reference when the user asks to delegate a prospective or existing Case Assumption to a named Organization member, or to act on such a delegation: revise the request, find assigned, created, or adoptable work, save or submit a Response, return a Submission for correction, adopt a Submission, cancel a request, or inspect history.
+Use this reference when the user asks to delegate a prospective or existing Case Assumption to a named Organization member, to delegate a whole Assumption Card to a named member in one request, or to act on such a delegation: revise the request, find assigned, created, or adoptable work, save or submit a Response, return a Submission for correction, adopt a Submission, cancel a request, or inspect history.
 
-Use only these ten catalogued tools: `strata_list_organization_members`, `strata_create_assumption_delegation`, `strata_update_assumption_delegation_request`, `strata_list_assumption_delegations`, `strata_read_assumption_delegation`, `strata_save_assumption_delegation_response`, `strata_submit_assumption_delegation_response`, `strata_return_assumption_delegation_submission`, `strata_adopt_assumption_delegation_submission`, and `strata_cancel_assumption_delegation`. Copy every identifier byte-for-byte from a Uprali receipt into its matching ID field. Read [preview and recovery](preview-and-recovery.md) before any mutation: every delegation write follows that ordered plan, preview, confirmation, one-mutation, receipt, and recovery contract, and this reference states only the delegation-specific inputs and read sequences.
+Use only these twelve catalogued tools: `strata_list_organization_members`, `strata_create_assumption_delegation`, `strata_update_assumption_delegation_request`, `strata_list_assumption_delegations`, `strata_read_assumption_delegation`, `strata_save_assumption_delegation_response`, `strata_submit_assumption_delegation_response`, `strata_return_assumption_delegation_submission`, `strata_adopt_assumption_delegation_submission`, `strata_cancel_assumption_delegation`, `strata_delegate_assumption_card`, and `strata_list_assumption_cards`. Copy every identifier byte-for-byte from a Uprali receipt into its matching ID field. Read [preview and recovery](preview-and-recovery.md) before any mutation: every delegation write follows that ordered plan, preview, confirmation, one-mutation, receipt, and recovery contract, and this reference states only the delegation-specific inputs and read sequences.
 
 ## Concepts
 
@@ -20,9 +20,21 @@ Build the request only from returned identifiers: the Decision Cycle, the shared
 
 Preview the complete normalized request with `strata_create_assumption_delegation` or `strata_update_assumption_delegation_request` as the named tool, obtain confirmation, then call exactly once with a fresh key. Preserve the receipt's delegation and request revision IDs; they are the heads for the next step.
 
+## Delegate a whole card
+
+Delegate every current Assumption on one Assumption Card with one `strata_delegate_assumption_card` call, which creates one Assumption Delegation per current Assumption as one atomic batch. Resolve the assignee exactly as "Resolve the assignee" states. Read the current card entries with `strata_list_assumption_cards` and resolve the current Case head. Pin every present Assumption from that read: `investmentCaseId`, `cardKey`, `assigneeUserId`, the nonblank `question`, `expectedCaseRevisionId`, the complete `expectedAssumptionRevisions` pairs, the optional `dueDate`, and a fresh key.
+
+Preview the complete batch before the call: the card, every Assumption key with its pinned revision, the assignee, and the question. Obtain confirmation, then call once. Preserve the receipt's `batchId`, `delegationIds`, and `caseRevisionId`; they are the heads for the next step.
+
+When any card input is missing or already has an open delegation, the command creates nothing and identifies every blocking field key; report those keys and make no further write until the inputs are fixed. On a stale case head or a moved Assumption revision set, read fresh card and case state, show the entire changed preview, obtain fresh confirmation, and use a new key. Retry an ambiguous result only with the same key and byte-identical input; `replayed: true` ends recovery.
+
 ## Discover work and read history
 
 Find assigned work with `strata_list_assumption_delegations` and `view` `assigned_to_me`, created work with `view` `created_by_me`, and pending Submissions with `view` `awaiting_adoption`, optionally bounded by case or lifecycle. These reads need no confirmation and are safe to retry. Inspect one delegation with `strata_read_assumption_delegation`, which returns the current state with its lifecycle, available actions, blockers, and assignee status, plus the newest-first Request history and the selected Request's Response history. Start without a cursor to refresh; keep a cursor only to continue its page.
+
+## Read the grouped inbox
+
+`strata_list_assumption_delegations` with `view` `assigned_to_me` returns `groups`, one per Assumption group. Each group carries `batchId`, `caseKey`, the `card` key and title, `children`, the `question`, `dueDate`, the `requester`, and `recordedAt`. Only the assignee inbox exposes grouped output; `created_by_me` and `awaiting_adoption` return flat `delegations`. These reads need no confirmation and are safe to retry.
 
 ## Save and submit a Response
 
@@ -42,6 +54,8 @@ Accept no edited Response and no caller-selected owner. The server derives the a
 
 Treat any stale Request, Response, Submission, Assumption, Option Revision, Case, Model, input trait, binding, currency, or series-coverage result as confirmation-invalidating: read fresh state, show the entire changed preview, obtain fresh confirmation, and use a new key. Never invent a correction and never silently change the target.
 
+After the Adoption, report the card status from a `strata_list_assumption_cards` read in the same turn. Adoption produces new Assumption Revisions that count as confirmed; the card shows `confirmed` only when the current revision of every Assumption on it counts as confirmed.
+
 Preserve the new and replacement, unlinked and Model-linked, Response author, submitter, fixed responsible assignee, adopter, Adoption, optional Review, and ordinary later editing distinctions. The optional Review stays advisory over the exact adopted Revision; see [decision review and learning](decision-review-and-learning.md). Later editing writes a successor that leaves the adopted Revision and its source intact; see the [evidence and assumption contract](evidence-and-assumptions.md).
 
 Any active member of the Organization may adopt a Submission and inspect the same tenant content. Assignment controls responsibility, not access. This reference adds no approver, owner, assignee-only, requester-only, reviewer, role, group, notification, reminder, comment, masking, or separation rule.
@@ -54,9 +68,15 @@ Cancel an open request with `strata_cancel_assumption_delegation` at its exact c
 
 Keep missing, zero, and Not Applicable distinct. An omitted draft field or series point is missing content, never a zero and never a reason. A numeric zero is an explicit `"0"` value. A Not Applicable point carries `notApplicableReason` and no value; a point must never carry both. Keep the requested value kind, the `count` or `percent` unit, and the series currency, which the series states once while a point never names its own currency. Cover a series with exactly one point per ordered requested key; omitted periods do not carry forward. Keep Evidence links unique, ordered, and each labeled with one Evidence role: `supporting`, `contradicting`, `contextual`, or `superseding`. A draft link carries only its evidence item and its role. Keep draft, Submission, Return, and Cancellation entries distinct in history with unchanged kind, unit, currency, series points, and Evidence order.
 
+## Scope and same-turn reads
+
+Use the product for evidence-aware business-case work (drafting, delegation confirmation, approval, outcome review, explanation and export) and feedback on Uprali, its plugin and connector. Answer every other question without the product's tools and views. Company profile facts, the tenant's own company facts used for business-case work, are in scope. Read in the same turn before any statement about case, card, delegation, or approval status.
+
 ## Recovery
 
 - Invalid draft: identify the exact field and ask for a correction. Never invent a repair or convert the value.
+- Stale batch heads: on `CASE_REVISION_CONFLICT` or `STALE_STATE` from `strata_delegate_assumption_card`, read fresh card and case state, compare it with the confirmed input, show the entire changed preview, obtain fresh confirmation, and use a new key.
+- Rejected batch inputs: on `CARD_INPUT_REJECTED` report the named field keys and reasons (`missing`, `open_delegation`) and make no further write until the inputs are fixed.
 - Incomplete Submission: report `INCOMPLETE_RESPONSE` and make no mutation call.
 - Stale head: read fresh state with `strata_read_assumption_delegation`, compare it with the confirmed input, show the entire changed preview, obtain fresh confirmation, and use a new key.
 - Stale adoption facts: on `ADOPTION_STALE` or `CASE_REVISION_CONFLICT` read fresh state with `strata_read_assumption_delegation`, compare it with the confirmed input, show the entire changed preview, obtain fresh confirmation, and use a new key.

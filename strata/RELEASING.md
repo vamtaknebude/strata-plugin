@@ -13,7 +13,7 @@ GitHub releases and `release-metadata.json` identify published versions.
 ## Publish
 
 Use a clean, committed checkout on `main` with locked dependencies and Gitleaks
-8.30.1 installed. Set `PLUGIN_VERSION` to the intended `-staging.<number>` version,
+installed. Set `PLUGIN_VERSION` to the intended `-staging.<number>` version,
 then run:
 
 ```bash
