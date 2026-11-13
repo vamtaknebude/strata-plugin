@@ -35,6 +35,7 @@
     "strata/skills/understand-business-case/references/exact-reads-history-and-lineage.md",
     "strata/skills/understand-business-case/references/explain-derivations.md",
     "strata/skills/understand-business-case/references/explain-verification.md",
+    "strata/skills/understand-business-case/references/export-routing.md",
     "strata/skills/understand-business-case/references/history-and-comparison.md",
     "strata/skills/understand-business-case/references/read-workflow.md",
     "strata/skills/understand-business-case/references/recovery.md",
@@ -43,7 +44,7 @@
     "release-metadata.json"
   ],
   "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
-  "packageDigest": "c4b76b62b1210ec2ac3db59d3af33b877b963685118c3fc2f28edd1810222f29",
+  "packageDigest": "b2728fe768b514a750a3cc11d3e588c781f32f483c36eeaec6f0ddb57d170efc",
   "packages": [
     {
       "files": [
@@ -80,6 +81,7 @@
         "skills/understand-business-case/references/exact-reads-history-and-lineage.md",
         "skills/understand-business-case/references/explain-derivations.md",
         "skills/understand-business-case/references/explain-verification.md",
+        "skills/understand-business-case/references/export-routing.md",
         "skills/understand-business-case/references/history-and-comparison.md",
         "skills/understand-business-case/references/read-workflow.md",
         "skills/understand-business-case/references/recovery.md",
@@ -93,7 +95,7 @@
   ],
   "plugin": {
     "name": "strata",
-    "version": "0.5.0-staging.26"
+    "version": "0.5.0-staging.27"
   },
   "schemaVersion": 1,
   "skills": [
@@ -104,7 +106,7 @@
     "understand-business-case"
   ],
   "source": {
-    "commit": "1a535166d089b5e93c1be39014db97a6a0e68c03",
+    "commit": "448113a0e94685e8a25c6e81fc875061737b8fbc",
     "repository": "vamtaknebude/strata"
   }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.0-staging.20
+
+The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same
+skill routing changes.
+
+- `understand-business-case` and `develop-business-case` route results,
+  derivation, comparison, and export questions to the current calculation
+  reads with the case selector, label non-current Runs without proposing a
+  fresh Run, and send Run requests to `calculate-business-case` (#3017).
+
 ## 0.5.0-staging.19
 
 The `strata`, `uprali-demo`, and `uprali-demo-chatgpt` packages carry the same

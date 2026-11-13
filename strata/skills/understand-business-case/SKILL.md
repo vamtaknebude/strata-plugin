@@ -5,7 +5,7 @@ description: Read and explain exact authorized Uprali business-case state. Use w
 
 # Understand Business Case
 
-Follow the complete [read workflow](references/read-workflow.md) for organization order, bounded reads, exact revisions, and recovery. Use the linked [projection selection](references/select-projection.md), [derivation rules](references/explain-derivations.md), [verification rules](references/explain-verification.md), [history and comparison](references/history-and-comparison.md), [evidence and restricted data](references/evidence-and-restricted-data.md), [exact reads and lineage](references/exact-reads-history-and-lineage.md), and [recovery rules](references/recovery.md) for question-specific guidance.
+Follow the complete [read workflow](references/read-workflow.md) for organization order, bounded reads, exact revisions, and recovery. Use the linked [projection selection](references/select-projection.md), [derivation rules](references/explain-derivations.md), [verification rules](references/explain-verification.md), [history and comparison](references/history-and-comparison.md), [evidence and restricted data](references/evidence-and-restricted-data.md), [exact reads and lineage](references/exact-reads-history-and-lineage.md), [export routing](references/export-routing.md), and [recovery rules](references/recovery.md) for question-specific guidance.
 
 When the request supplies an exact retained calculation Run with its Option and Scenario revisions, route it to the retained comparison and Result Group rules in [the history and comparison rules](references/history-and-comparison.md) before generic case resolution.
 

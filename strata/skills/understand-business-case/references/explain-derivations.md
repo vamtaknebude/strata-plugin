@@ -20,6 +20,9 @@ values, or trace content the tool did not return.
 - For a Pairwise result, supply `runId`, `optionRevisionId`,
   `scenarioRevisionId`, and `pairwiseResultKey`. The server resolves the
   Counterfactual from the retained Run.
+- When no exact `runId` is known, supply `investmentCaseId` in place of
+  `runId` alongside the same `optionRevisionId`, `scenarioRevisionId`, and
+  key selectors to derive from the case's latest successful Run.
 - Take `runId` and the revision IDs from returned results, such as the
   `strata_read_case` case reference or a prior calculation read. Never invent
   them.
