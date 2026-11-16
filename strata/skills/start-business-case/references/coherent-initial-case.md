@@ -6,6 +6,7 @@ Use this reference to construct the exact `strata_record_case_intake` routing an
 
 - [Brief and change reason](#brief-and-change-reason)
 - [Weak-input diagnostics](#weak-input-diagnostics)
+- [Intake selection and lifecycle](#intake-selection-and-lifecycle)
 - [What creation persists](#what-creation-persists)
 - [Exact preview template](#exact-preview-template)
 - [Exact tool input](#exact-tool-input)
@@ -32,6 +33,14 @@ Ask one focused question when any of these conditions holds:
 
 Placeholders such as "to be determined" and "etc." are not facts. Do not ask about optional detail: the intake calls accept no framing detail, alternatives, deadline, or constraints.
 
+## Intake selection and lifecycle
+
+After a proposal, call `strata_read_case_intake` with the chosen `templateKey`, the original `brief`, and the complete `routingResult`. Match `answers.options` to the published `options` rows and show the actual selected labels. Read the preview again if the chosen template changes.
+
+General investment and Multi-product select every published option automatically. Explain that no repeated option selection is needed. Support-AI still requires an explicit selection answer; show that need as unanswered. Show remaining needs without collecting additional answers during this creation workflow.
+
+After creation, explain that the confirmed intake selections are separate from saved alternatives. Creation has no saved alternatives; accepting a reviewed draft creates them. An overview showing zero alternatives before acceptance does not establish lost options or a broken case. Do not invent repair steps or ask for an already satisfied selection. Offer to complete remaining intake needs and then request and review a draft, without starting that next task.
+
 ## What creation persists
 
 The creation call writes, in one transaction (`executeIntakeStartTransaction`, `src/server/case-graph/case-repository.ts:2132`; `insertShellCaseRevision`, `src/server/case-graph/case-repository.ts:1980`):
@@ -39,7 +48,7 @@ The creation call writes, in one transaction (`executeIntakeStartTransaction`, `
 - the case identity: a case key, a decision cycle, and the authenticated user as owner;
 - the first revision, with `title` from `brief.title`, `objective` from `brief.description`, no alternatives, and the configuration pinned for the confirmed template;
 - fixed default narrative text from `INTAKE_NARRATIVE_DEFAULTS` (`src/server/case-drafting/intake.ts:213`): decision question "Which option should the organization choose?", materiality statement "This decision has a material impact on the organization.", counterfactual "Continue with the current approach.", and no constraints;
-- one intake-answers row. Creation sends `answers: {}`, so the row holds no member answers, plus any company-profile figures that `applyProfilePrefill` maps into key inputs (`src/server/case-drafting/intake.ts:336`, reported as `prefilled`);
+- one intake-answers row. Creation sends `answers: {}`; General investment and Multi-product automatically record all supported published options, while Support-AI still requires an explicit selection answer. The row also holds any company-profile figures that `applyProfilePrefill` maps into key inputs (`src/server/case-drafting/intake.ts:336`, reported as `prefilled`);
 - the template-routing choice linking the case to the routing judgment;
 - audit events `case.lifecycle.created` and `case.intake.record`; and
 - the command receipt `case.intake.recorded`, whose `needs` list the template's unanswered objectives, options, success metrics, and key inputs.
@@ -60,12 +69,19 @@ Brief
 
 Proposed template: <name> (<templateKey>), confidence <value or not reported>
 
+Selected intake options: <labels from answers.options and the published options in strata_read_case_intake>
+Selection rule: <automatic selection for General investment and Multi-product; otherwise follow remaining needs>
+Remaining intake needs: <returned needs>
+
 Creation persists
 - one case (case key, decision cycle) and first revision: title and objective from the brief, no alternatives;
 - the template's pinned configuration;
 - fixed placeholder text for decision question, materiality, and counterfactual, and no constraints (revisable after creation);
-- empty intake answers, plus any mapped company-profile figures;
+- recorded template option selections and any mapped company-profile figures;
 - the template-routing choice, audit events, and receipt.
+
+Intake selections become saved case alternatives when a reviewed draft is accepted.
+Next task: complete remaining intake needs, then request and review a draft.
 
 Idempotency key: generated after confirmation; reused only for an unchanged retry.
 ```
@@ -74,7 +90,7 @@ If a correction changes one field, do not show only that field. Re-render the en
 
 ## Exact tool input
 
-Both calls use `strata_record_case_intake`. The routing call runs before the preview. The creation call runs after the user confirms the preview and the proposed template.
+Both writes use `strata_record_case_intake`. Between routing and confirmation, use `strata_read_case_intake` with the chosen `templateKey`, original `brief`, and complete `routingResult` to read the selected option types, published labels, and remaining needs. The routing call runs before the preview. The creation call runs after the user confirms the preview and the proposed template.
 
 Routing call:
 

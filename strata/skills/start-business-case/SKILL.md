@@ -5,7 +5,7 @@ description: Elicit, preview, confirm, and create an initial Uprali business cas
 
 # Start Business Case
 
-Create one Uprali case from a short brief (title and description) and a confirmed template. Creation records the first case revision under the confirmed template's pinned configuration and lists the template's unanswered needs. It records no framing detail, alternatives, drafts, evidence, assumptions, scenarios, recommendations, or decisions. Approvals need approval tools.
+Create one Uprali case from a brief (title and description) and a confirmed template. Creation pins the configuration, records the first revision, and lists unanswered needs. It records no framing detail, alternatives, drafts, evidence, assumptions, scenarios, recommendations, or decisions. Use approval tools for approvals.
 
 Use only the user's messages and named Uprali tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
 
@@ -13,7 +13,7 @@ When the Uprali tools are unavailable, Uprali is not connected in this client. S
 
 Creation invariant: after the creation call of `strata_record_case_intake` succeeds, stop tool use. Copy every receipt field byte-for-byte from `structured_content.data.receipt`. Never generate, replace, reconstruct, or summarize a receipt identifier. Never call the creation call again to retrieve or replay a successful receipt.
 
-## Organization and ownership
+## Organization
 
 Call `strata_connection_context` first only when the host or conversation has not established the active organization. Do not verify explicit organization and user context.
 
@@ -58,12 +58,15 @@ Show the proposed template for confirmation at any confidence. If the user asks 
 
 ## Preview what creation sends and persists
 
-Show one complete preview after a `kind: "proposal"` routing result and immediately before confirmation. Include:
+Read `strata_read_case_intake` and follow [selection and lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle) before the preview.
+
+Show one complete preview immediately before confirmation. Include:
 
 - the authenticated Uprali user as owner and author;
 - `changeReason`;
 - the brief `title` and `description`, word for word;
 - the proposed template: `templateKey`, its `name`, and `confidence` when not null;
+- selected option labels, the selection rule, and remaining needs;
 - the "Creation persists" block of the [exact preview template](references/coherent-initial-case.md#exact-preview-template), verbatim in substance; and
 - the rule that the idempotency key is generated after confirmation and an unchanged retry reuses it.
 
@@ -78,7 +81,7 @@ After confirmation:
 1. Construct a valid UUID directly as `idempotencyKey` for the creation call. Do not call any tool to generate it.
 2. Make exactly one creation call of `strata_record_case_intake` with the confirmed `brief`, the confirmed `changeReason`, `answers: {}`, `routing` set to `{ "templateKey": "<confirmed templateKey>", "templateRoutingJudgmentId": "<kind: proposal judgmentId from the routing call>" }`, and the new `idempotencyKey`. Send exactly these properties.
 3. Accept only a structured success receipt. Verify `structured_content.data.receipt.operation` is `case.intake.recorded` and `structured_content.data.templateKey` equals the confirmed template key. Copy the returned `receipt` fields exactly. If the result lacks a valid structured success receipt, do not report creation.
-4. Report the exact case key and `caseRevisionNumber`. Report every entry in `structured_content.data.prefilled` as a company-profile figure that creation recorded as a key input. Report every entry in `structured_content.data.needs` as still unanswered. Offer a next task without starting it.
+4. Report the exact case key and `caseRevisionNumber`. Report every entry in `structured_content.data.prefilled` as a company-profile figure that creation recorded as a key input. Report every entry in `structured_content.data.needs` as still unanswered. Explain [intake selection and lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle). Offer a next task without starting it.
 
 ## Recovery
 
