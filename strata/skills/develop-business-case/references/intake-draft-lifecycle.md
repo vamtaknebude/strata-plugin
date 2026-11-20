@@ -1,0 +1,11 @@
+## Develop recorded intake through a reviewed draft
+
+Intake answers are saved separately from adopted case content. An empty `needs` list means the intake questions are answered. Before draft acceptance, absent alternatives, assumptions, or an adopted Model are expected for an intake case. Reuse the saved answers; do not ask for them again or manually rebuild the template Model because it is not yet adopted.
+
+For a requested draft of an intake case:
+
+1. Resolve the exact case and read `strata_read_case_intake`. Explain any remaining `needs`; ask only for missing or ambiguous input. Preserve the recorded answers when preparing any intake update.
+2. Once intake is complete, preview `strata_request_case_draft` with the exact `investmentCaseId`. Follow this skill's confirmation and idempotency rules before the request. A request to draft authorizes no acceptance.
+3. Retain the returned `draftId` and `requestedCaseRevisionId`. Read `strata_read_case_draft` using that `draftId`. A running draft needs bounded polling. Report a failed draft and its returned reason. Present a ready draft's proposed alternatives, assumptions and provenance, Model, scenarios, and objectives for user review. Explain any `omittedFieldKeys`.
+4. Before preparing acceptance, read the current case again and verify the reviewed revision is still current. Preview `strata_accept_case_draft` with the reviewed `draftId` and its `requestedCaseRevisionId` as `expectedCaseRevisionId`. Present the reviewed draft with that preview and wait for explicit confirmation to accept it. Add a fresh idempotency key after confirmation. A stale draft requires a new reviewed draft; never substitute a newer case revision into the reviewed acceptance command.
+5. Acceptance adopts the reviewed content and template Model and attempts the initial calculation. Use its returned new case revision for fresh case and Model reads. Report `runStatus` and any `runFailureCode` when returned. If the initial Run is only reported as started and no authoritative Run result is available, report the calculation as pending and its outcome as unverified. Retain the accepted case revision for a later status check; do not start a duplicate Run. Claim a successful calculation only from an authoritative Run result, and report any remaining blocker without inventing missing content or calculation values.

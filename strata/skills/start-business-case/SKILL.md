@@ -70,7 +70,7 @@ Show one complete preview immediately before confirmation. Include:
 - the "Creation persists" block of the [exact preview template](references/coherent-initial-case.md#exact-preview-template), verbatim in substance; and
 - the rule that the idempotency key is generated after confirmation and an unchanged retry reuses it.
 
-The default text is placeholder text, not the user's facts. Keep structured and readable previews equal.
+Keep unanswered framing `null`; do not invent it or ask extra questions to fill it. Keep both previews equal.
 
 ## Confirm, create, and verify
 
@@ -81,7 +81,7 @@ After confirmation:
 1. Construct a valid UUID directly as `idempotencyKey` for the creation call. Do not call any tool to generate it.
 2. Make exactly one creation call of `strata_record_case_intake` with the confirmed `brief`, the confirmed `changeReason`, `answers: {}`, `routing` set to `{ "templateKey": "<confirmed templateKey>", "templateRoutingJudgmentId": "<kind: proposal judgmentId from the routing call>" }`, and the new `idempotencyKey`. Send exactly these properties.
 3. Accept only a structured success receipt. Verify `structured_content.data.receipt.operation` is `case.intake.recorded` and `structured_content.data.templateKey` equals the confirmed template key. Copy the returned `receipt` fields exactly. If the result lacks a valid structured success receipt, do not report creation.
-4. Report the exact case key and `caseRevisionNumber`. Report every entry in `structured_content.data.prefilled` as a company-profile figure that creation recorded as a key input. Report every entry in `structured_content.data.needs` as still unanswered. Explain [intake selection and lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle). Offer a next task without starting it.
+4. Follow [creation receipt reporting](references/coherent-initial-case.md#report-the-creation-receipt). Explain [intake selection and lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle). End tool use after creation.
 
 ## Recovery
 

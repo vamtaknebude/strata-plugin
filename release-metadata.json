@@ -13,12 +13,14 @@
     "strata/mcp.json",
     "strata/plugin.json",
     "strata/skills/calculate-business-case/SKILL.md",
+    "strata/skills/calculate-business-case/references/blocked-readiness.md",
     "strata/skills/develop-business-case/SKILL.md",
     "strata/skills/develop-business-case/references/approvals.md",
     "strata/skills/develop-business-case/references/assumption-cards.md",
     "strata/skills/develop-business-case/references/assumption-delegation.md",
     "strata/skills/develop-business-case/references/decision-review-and-learning.md",
     "strata/skills/develop-business-case/references/evidence-and-assumptions.md",
+    "strata/skills/develop-business-case/references/intake-draft-lifecycle.md",
     "strata/skills/develop-business-case/references/performance.md",
     "strata/skills/develop-business-case/references/preview-and-recovery.md",
     "strata/skills/develop-business-case/references/resolve-current-state.md",
@@ -44,7 +46,7 @@
     "release-metadata.json"
   ],
   "mcpUrl": "https://strata-utrtwerwt.sprava.ai/api/mcp",
-  "packageDigest": "c74d9382f51ded276f60ae6ed8889f5aea3a32d6427ae3316593bea9ba289521",
+  "packageDigest": "2a54e3ce2335fc9da7f916c11b24996d43c88d442ee42c7b081e9e46b582e724",
   "packages": [
     {
       "files": [
@@ -59,12 +61,14 @@
         "mcp.json",
         "plugin.json",
         "skills/calculate-business-case/SKILL.md",
+        "skills/calculate-business-case/references/blocked-readiness.md",
         "skills/develop-business-case/SKILL.md",
         "skills/develop-business-case/references/approvals.md",
         "skills/develop-business-case/references/assumption-cards.md",
         "skills/develop-business-case/references/assumption-delegation.md",
         "skills/develop-business-case/references/decision-review-and-learning.md",
         "skills/develop-business-case/references/evidence-and-assumptions.md",
+        "skills/develop-business-case/references/intake-draft-lifecycle.md",
         "skills/develop-business-case/references/performance.md",
         "skills/develop-business-case/references/preview-and-recovery.md",
         "skills/develop-business-case/references/resolve-current-state.md",
@@ -95,7 +99,7 @@
   ],
   "plugin": {
     "name": "strata",
-    "version": "0.5.0-staging.28"
+    "version": "0.5.0-staging.29"
   },
   "schemaVersion": 1,
   "skills": [
@@ -106,7 +110,7 @@
     "understand-business-case"
   ],
   "source": {
-    "commit": "b278df9d0191338f09068f4900acb8ee83a095f9",
+    "commit": "6c6597241c680962f0804cada9b3fe484b9ef9d5",
     "repository": "vamtaknebude/strata"
   }
 }

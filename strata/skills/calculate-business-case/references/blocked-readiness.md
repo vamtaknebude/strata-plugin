@@ -1,0 +1,4 @@
+## Explain a blocked readiness
+
+When the readiness read returns `result.status: blocked`, the workflow ends there: report that no Run was created. Name every entry of the returned `blockers` array in its returned order, each as its `code`, its `subject` kind and id (plus `dependency` kind and id when present), and its returned `diagnostic` restated in business terms without adding causes, values, or fixes. Never repair, never retry, never proceed to a proposal. Blocked readiness prevents Run creation; say so.
+For `MODEL_NOT_ADOPTED`, relay the diagnostic's intake lifecycle guidance: saved answers precede draft review and explicit acceptance. For a case still in intake, offer `develop-business-case` as the next task to complete any needs, request and review a draft, and obtain acceptance. Reuse saved answers. Keep this blocked calculation workflow ended; do not start drafting, acceptance, manual Model authoring, or another Run in this turn.

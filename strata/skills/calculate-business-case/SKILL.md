@@ -47,7 +47,7 @@ When the creation response is lost or unreadable, replay exactly once using the 
 
 ## Explain a blocked readiness
 
-When the readiness read returns `result.status: blocked`, the workflow ends there: report that no Run was created. Name every entry of the returned `blockers` array in its returned order, each as its `code`, its `subject` kind and id (plus `dependency` kind and id when present), and its returned `diagnostic` restated in business terms without adding causes, values, or fixes. Never repair, never retry, never proceed to a proposal. Blocked readiness prevents Run creation; say so.
+For a blocked result, read [blocked readiness reporting](references/blocked-readiness.md), report the blockers, and end this workflow.
 
 ## Explain a configuration or limit failure
 

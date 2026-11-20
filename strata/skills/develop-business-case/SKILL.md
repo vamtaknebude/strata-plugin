@@ -1,6 +1,6 @@
 ---
 name: develop-business-case
-description: Create or revise calculation Models, evidence, assumptions, sensitivity drivers, scenarios, risks, FP&A reviews, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, and exact Learning references for an existing Uprali business case. Use when a user asks to add, change, remove, or complete any of these records, or to substantiate or stress-test a case that already exists.
+description: Complete recorded case intake through draft review and explicit acceptance, or create or revise calculation Models, evidence, assumptions, sensitivity drivers, scenarios, risks, FP&A reviews, Assumption Reviews, Decisions, Outcome Reviews, Decision Learning, and exact Learning references for an existing Uprali business case. Use when a user asks to add, change, remove, or complete any of these records, or to substantiate or stress-test a case that already exists.
 ---
 
 # Develop Business Case
@@ -13,6 +13,7 @@ When the Uprali tools are unavailable, Uprali is not connected in this client. S
 
 Read every applicable reference before preparing persisted values:
 
+- [intake draft lifecycle](references/intake-draft-lifecycle.md) for intake drafts.
 - [evidence](references/evidence-and-assumptions.md) for evidence and Assumptions.
 - [scenarios](references/scenarios.md) for Scenarios.
 - [decision review and learning](references/decision-review-and-learning.md) for Decisions, review, and learning, including calculated Run reliance.

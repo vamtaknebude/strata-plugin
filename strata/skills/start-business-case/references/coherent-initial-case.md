@@ -43,11 +43,11 @@ After creation, explain that the confirmed intake selections are separate from s
 
 ## What creation persists
 
-The creation call writes, in one transaction (`executeIntakeStartTransaction`, `src/server/case-graph/case-repository.ts:2132`; `insertShellCaseRevision`, `src/server/case-graph/case-repository.ts:1980`):
+The creation call writes, in one transaction (`executeIntakeStartTransaction` and `insertShellCaseRevision`, `src/server/case-graph/case-repository/start-case-from-intake.ts`):
 
 - the case identity: a case key, a decision cycle, and the authenticated user as owner;
 - the first revision, with `title` from `brief.title`, `objective` from `brief.description`, no alternatives, and the configuration pinned for the confirmed template;
-- fixed default narrative text from `INTAKE_NARRATIVE_DEFAULTS` (`src/server/case-drafting/intake.ts:213`): decision question "Which option should the organization choose?", materiality statement "This decision has a material impact on the organization.", counterfactual "Continue with the current approach.", and no constraints;
+- missing decision question, materiality statement, and counterfactual, represented as `null`, and no constraints. Intake derives none of these framing statements from the brief and supplies no generic assertions. Later explicit narrative edits can supply them; draft generation and acceptance preserve missing framing;
 - one intake-answers row. Creation sends `answers: {}`; General investment and Multi-product automatically record all supported published options, while Support-AI still requires an explicit selection answer. The row also holds any company-profile figures that `applyProfilePrefill` maps into key inputs (`src/server/case-drafting/intake.ts:336`, reported as `prefilled`);
 - the template-routing choice linking the case to the routing judgment;
 - audit events `case.lifecycle.created` and `case.intake.record`; and
@@ -75,8 +75,9 @@ Remaining intake needs: <returned needs>
 
 Creation persists
 - one case (case key, decision cycle) and first revision: title and objective from the brief, no alternatives;
+- decision question, materiality statement, and counterfactual remain missing;
 - the template's pinned configuration;
-- fixed placeholder text for decision question, materiality, and counterfactual, and no constraints (revisable after creation);
+- no constraints;
 - recorded template option selections and any mapped company-profile figures;
 - the template-routing choice, audit events, and receipt.
 
@@ -135,3 +136,7 @@ The retry identity is the canonical confirmed tool input plus `idempotencyKey`.
 - `COMMAND_REUSED` means the same UUID reached the server with different input. Do not guess which version won.
 
 For a stale later edit, `currentCaseHead` or `currentSubjectHead` is remediation data, not permission to overwrite. Read the returned/current exact revision with `strata_read_case`, compare it with the user's intended change, show a new preview, reconfirm, and use a new UUID.
+
+## Report the creation receipt
+
+Report the exact case key and `caseRevisionNumber`. Report every entry in `structured_content.data.prefilled` as a company-profile figure that creation recorded as a key input. Report every entry in `structured_content.data.needs` as still unanswered. Explain that the receipt confirms the case and intake revision were recorded. An empty `needs` list means intake is complete; the alternatives, assumptions, and template calculation Model are adopted after a draft is reviewed and explicitly accepted. Offer to complete any remaining intake needs or request and review a draft next. Preserve saved answers. End tool use after creation; do not start the offered task in this turn.
