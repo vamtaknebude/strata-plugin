@@ -1,104 +1,105 @@
-# Intake input contract
+# Intake input and preview contract
 
-Use this reference to construct the exact `strata_record_case_intake` routing and creation inputs and to preview them. The tool declaration remains authoritative for mechanical bounds.
+Use this reference for internal `strata_record_case_intake` and `strata_read_case_intake` inputs, host-specific previews, plain-language explanations, and post-creation reporting. The tool declarations remain authoritative for mechanical bounds.
 
 ## Contents
 
-- [Brief and change reason](#brief-and-change-reason)
+- [Brief and internal change reason](#brief-and-internal-change-reason)
 - [Weak-input diagnostics](#weak-input-diagnostics)
 - [Intake selection and lifecycle](#intake-selection-and-lifecycle)
-- [What creation persists](#what-creation-persists)
-- [Exact preview template](#exact-preview-template)
+- [Plain-language preview](#plain-language-preview)
+- [MCP App panel preview and edits](#mcp-app-panel-preview-and-edits)
+- [Behind-the-scenes creation behavior](#behind-the-scenes-creation-behavior)
 - [Exact tool input](#exact-tool-input)
 - [Retry identity](#retry-identity)
+- [Report the creation receipt](#report-the-creation-receipt)
 
-## Brief and change reason
+## Brief and internal change reason
 
-`brief.title` is a short noun phrase identifying the case (1–200 characters). Creation stores it as the revision `title`.
+`brief.title` is a short noun phrase identifying the case (1–200 characters).
 
-`brief.description` is the decision brief in the user's words (1–2000 characters). Routing reads it to propose a template. Creation stores it as the revision `objective`. Preserve concrete measures, thresholds, and service levels exactly when supplied. Do not invent a metric.
+`brief.description` is the decision brief in the member's words (1–2000 characters). Routing reads it to propose a template, and creation saves it on the initial revision. Preserve concrete measures, thresholds, service levels, and volunteered extra details (reasons for starting the case, constraints, deadlines, or alternatives) within 2000 characters without inventing facts or metrics. Leave unanswered framing details unset until post-creation editing.
 
-`changeReason` is the specific reason for creating the case (1–1000 characters). It is not blank and does not merely repeat the title.
+`changeReason` is a nonblank internal string (1–1000 trimmed characters) required by the tool input schema. Never ask the member for a change reason or display it in any preview or report. Supply a clear nonblank internal value behind the scenes in routing and creation calls (for example `"Propose template for initial business case intake"` for routing and `"Create initial business case from confirmed brief"` for creation).
 
-The authenticated user is the server-derived owner and author. A sponsor or stakeholder named in the brief is not substituted for that user.
+The authenticated Uprali user is the server-derived owner and author. Keep identity, tenancy, and internal schema labels strictly behind the scenes; never substitute a named sponsor or stakeholder, and never display owner/author, change-reason, schema-field, raw identifier, confidence, or retry labels to the member.
 
 ## Weak-input diagnostics
 
 Ask one focused question when any of these conditions holds:
 
-- the description names a topic but no decision;
-- the title is absent and the description supports no concise title;
-- the description exceeds 2000 characters or the title exceeds 200; or
-- the change reason is blank or merely repeats the title.
+- `brief.description` names a topic without a decision;
+- `brief.title` is absent and the description supports no concise inferred title; or
+- `brief.description` exceeds 2000 characters (including volunteered details) or `brief.title` exceeds 200 characters.
 
-Placeholders such as "to be determined" and "etc." are not facts. Do not ask about optional detail: the intake calls accept no framing detail, alternatives, deadline, or constraints.
+Placeholders such as "to be determined" and "etc." are not facts. Do not ask separate questions for optional details such as framing statements, deadlines, constraints, or alternatives; tell the member in plain language that extra details can be added after the case is created.
 
 ## Intake selection and lifecycle
 
-After a proposal, call `strata_read_case_intake` with the chosen `templateKey`, the original `brief`, and the complete `routingResult`. Match `answers.options` to the published `options` rows and show the actual selected labels. Read the preview again if the chosen template changes.
+After `kind: "proposal"`, call `strata_read_case_intake` with the chosen `templateKey`, the original `brief`, and the complete `routingResult`. Match `answers.options` to published `options` (`label ?? optionType`) when you need published option names. Call `strata_read_case_intake` again with the updated `templateKey`, unchanged `brief`, and complete `routingResult` if the offered template changes.
 
-General investment and Multi-product select every published option automatically. Explain that no repeated option selection is needed. Support-AI still requires an explicit selection answer; show that need as unanswered. Show remaining needs without collecting additional answers during this creation workflow.
+Unless the member explicitly asks before creation which template options creation selects, keep non-App pre-creation previews limited to the items in [Plain-language preview](#plain-language-preview). Do not output option dumps, selection rules, or remaining-needs lists in the default preview.
 
-After creation, explain that the confirmed intake selections are separate from saved alternatives. Creation has no saved alternatives; accepting a reviewed draft creates them. An overview showing zero alternatives before acceptance does not establish lost options or a broken case. Do not invent repair steps or ask for an already satisfied selection. Offer to complete remaining intake needs and then request and review a draft, without starting that next task.
+When the member explicitly asks before creation which template options creation selects, or asks after creation why no saved alternatives appear yet, answer in ordinary plain business language using the published option names from `strata_read_case_intake`:
 
-## What creation persists
+- **Automatic option selection:** General investment (`Status quo`, `Invest`) and Multi-product (`Status quo`, `Forecast`) automatically select every published option; no repeated option selection is needed.
+- **Support-AI (`Status quo`, `Buy`, `Build`):** creation from chat (`answers: {}`) leaves option selection unanswered until remaining intake questions are completed, whereas the MCP App creation panel pre-selects `Status quo` and `Buy` unless changed in the panel.
+- **Draft-acceptance lifecycle:** initial intake selections become saved case alternatives—and the template's assumptions and calculation model are adopted, enabling calculation—only once a draft is reviewed and explicitly accepted. Zero saved alternatives before draft acceptance is expected and does not indicate lost options or a broken case; do not invent repair steps or ask again for an already satisfied selection.
+- When answering an on-demand question while an MCP App creation panel is visible, answer in ordinary chat text (never a code block), expose no internal persistence steps, and do not disable or replace the active creation panel.
 
-The creation call writes, in one transaction (`executeIntakeStartTransaction` and `insertShellCaseRevision`, `src/server/case-graph/case-repository/start-case-from-intake.ts`):
+Offer supported next steps (completing remaining questions or requesting and reviewing a draft) only after creation, without starting that next task in the same turn.
 
-- the case identity: a case key, a decision cycle, and the authenticated user as owner;
-- the first revision, with `title` from `brief.title`, `objective` from `brief.description`, no alternatives, and the configuration pinned for the confirmed template;
-- missing decision question, materiality statement, and counterfactual, represented as `null`, and no constraints. Intake derives none of these framing statements from the brief and supplies no generic assertions. Later explicit narrative edits can supply them; draft generation and acceptance preserve missing framing;
-- one intake-answers row. Creation sends `answers: {}`; General investment and Multi-product automatically record all supported published options, while Support-AI still requires an explicit selection answer. The row also holds any company-profile figures that `applyProfilePrefill` maps into key inputs (`src/server/case-drafting/intake.ts:336`, reported as `prefilled`);
-- the template-routing choice linking the case to the routing judgment;
-- audit events `case.lifecycle.created` and `case.intake.record`; and
-- the command receipt `case.intake.recorded`, whose `needs` list the template's unanswered objectives, options, success metrics, and key inputs.
+## Plain-language preview
 
-The routing call writes one template routing judgment and no case.
+Use this format only when the host lacks MCP App support, fails to render the creation panel, or the member reports no panel is visible. Present one preview in ordinary chat text—never inside a code block—containing only:
 
-## Exact preview template
+1. a short lead naming the case that will be created in Uprali (for example, `Here is the business case I will create in Uprali:`);
+2. `Name: <case name>`;
+3. `Decision: <decision text>`;
+4. `Type of case: <human-readable business name from routingResult.templates, without raw keys or confidence scores>`;
+5. a plain sentence noting that the member can change the name and decision text after the case is created (plus, when the member volunteered reasons, constraints, deadlines, or alternatives, that extra details can be added after creation); and
+6. a confirmation question such as `Shall I create it?`.
 
-Render the complete values, not only this outline:
+Do not include owner/author, change reason, brief schema labels, objective-mapping notes, raw template or judgment identifiers, routing confidence scores, internal persistence lists, or idempotency and retry rules.
 
-```text
-Owner/author: authenticated Uprali user
-Change reason: <exact text>
+**Corrections and template switches without a panel:**
 
-Brief
-- title: <exact text>
-- description (stored as the objective): <exact text>
+- If the member changes the case name or picks another template offered by routing, update and re-render the complete plain-language preview without re-running routing (calling `strata_read_case_intake` behind the scenes if the template changed).
+- If the member changes the decision text, re-run routing with the updated brief, call `strata_read_case_intake` on `kind: "proposal"`, and show the updated complete plain-language preview.
+- Create only after explicit confirmation of the latest preview.
 
-Proposed template: <name> (<templateKey>), confidence <value or not reported>
+## MCP App panel preview and edits
 
-Selected intake options: <labels from answers.options and the published options in strata_read_case_intake>
-Selection rule: <automatic selection for General investment and Multi-product; otherwise follow remaining needs>
-Remaining intake needs: <returned needs>
+Neither `strata_connection_context` nor `strata_read_case_intake` returns an App-support flag, so rely on host-level panel visibility and member feedback.
 
-Creation persists
-- one case (case key, decision cycle) and first revision: title and objective from the brief, no alternatives;
-- decision question, materiality statement, and counterfactual remain missing;
-- the template's pinned configuration;
-- no constraints;
-- recorded template option selections and any mapped company-profile figures;
-- the template-routing choice, audit events, and receipt.
+After `strata_record_case_intake` returns `kind: "proposal"`, call `strata_read_case_intake` with `templateKey`, `brief`, and the complete `routingResult` so MCP App hosts render the creation panel with **Case name** prefilled and **Create business case** active.
 
-Intake selections become saved case alternatives when a reviewed draft is accepted.
-Next task: complete remaining intake needs, then request and review a draft.
+When the host renders the creation panel:
 
-Idempotency key: generated after confirmation; reused only for an unchanged retry.
-```
+- Treat the creation panel as the preview. Send at most a brief plain-language pointer to review or edit the case name (or change the template) and click **Create business case** in the panel.
+- Emit no duplicate chat preview and no code block, and ask for no typed chat confirmation.
+- Edits to the case name made directly in the panel require no routing re-check.
+- If the member asks in chat to switch to another template offered in `routingResult.templates`, refresh the panel by calling `strata_read_case_intake` with that `templateKey`, the `brief` unchanged, and the complete `routingResult`.
+- If the member asks in chat to change the decision text before creating, re-evaluate template routing with `strata_record_case_intake`, then refresh the panel via `strata_read_case_intake` on `kind: "proposal"` (stop in plain language on `kind: "no-fit"`).
+- When the panel reports completion, acknowledge the saved case name and case identity in plain business language without asking for another confirmation or calling `strata_record_case_intake` again.
 
-If a correction changes one field, do not show only that field. Re-render the entire preview. A correction to the brief requires a new routing call before the preview, because the proposal came from the earlier description.
+## Behind-the-scenes creation behavior
+
+Keep these server mechanics internal; never show a persistence list or database object breakdown to the member:
+
+- Routing records one template routing judgment and creates no case.
+- Creation atomically writes the case identity, initial revision (`brief.title` and `brief.description`, with decision question, materiality statement, counterfactual left `null`, and empty constraints until later edits), pinned template configuration, initial intake answers (auto-selecting published options for General investment and Multi-product, and applying matching company-profile facts into `prefilled`), and the `case.intake.recorded` receipt with remaining `needs`.
 
 ## Exact tool input
 
-Both writes use `strata_record_case_intake`. Between routing and confirmation, use `strata_read_case_intake` with the chosen `templateKey`, original `brief`, and complete `routingResult` to read the selected option types, published labels, and remaining needs. The routing call runs before the preview. The creation call runs after the user confirms the preview and the proposed template.
+Both writes use `strata_record_case_intake`. Between routing and confirmation, call `strata_read_case_intake` with `templateKey`, `brief`, and the complete `routingResult`.
 
 Routing call:
 
 ```json
 {
   "idempotencyKey": "<new UUID>",
-  "changeReason": "<confirmed reason>",
+  "changeReason": "<internal nonblank reason>",
   "brief": {
     "title": "<short case name>",
     "description": "<decision brief>"
@@ -106,12 +107,12 @@ Routing call:
 }
 ```
 
-Creation call, after confirmation:
+Creation call, after explicit chat confirmation when no panel is active:
 
 ```json
 {
   "idempotencyKey": "<new UUID>",
-  "changeReason": "<confirmed reason>",
+  "changeReason": "<internal nonblank reason>",
   "brief": {
     "title": "<confirmed short case name>",
     "description": "<confirmed decision brief>"
@@ -124,19 +125,25 @@ Creation call, after confirmation:
 }
 ```
 
-The routing call omits `answers` and `routing`. The creation call requires `answers` (send `{}`) and `routing`. Neither call accepts a case identifier, an identity field, or `null` for any property. Send the brief the user confirmed in the preview.
+The routing call omits `answers` and `routing`. The creation call requires `answers` (send `{}`) and `routing`. Neither call accepts a case identifier, an identity field, or `null` for any property. Send the brief confirmed in the latest preview.
 
 ## Retry identity
 
-The retry identity is the canonical confirmed tool input plus `idempotencyKey`.
+Keep retry identity strictly behind the scenes:
 
 - An unchanged retry after timeout or a lost response uses the same UUID, fields, array order, array items, and omitted properties.
-- A correction to the brief or change reason, or a validation repair, changes intent and requires another complete preview, confirmation, and UUID.
-- `replayed: true` means the original transaction already succeeded. Report its receipt and stop retrying.
-- `COMMAND_REUSED` means the same UUID reached the server with different input. Do not guess which version won.
+- A correction to the brief or template changes intent and requires updating the preview (panel refresh in App hosts or complete plain-language preview and reconfirmation in non-App hosts) plus a new UUID on the next write.
+- `replayed: true` means the original transaction already succeeded; report its safe receipt identifiers and stop retrying.
+- `COMMAND_REUSED` means the same UUID reached the server with different input; do not guess which version won.
 
-For a stale later edit, `currentCaseHead` or `currentSubjectHead` is remediation data, not permission to overwrite. Read the returned/current exact revision with `strata_read_case`, compare it with the user's intended change, show a new preview, reconfirm, and use a new UUID.
+For a stale later edit, `currentCaseHead` or `currentSubjectHead` is remediation data, not permission to overwrite. Read the current exact revision with `strata_read_case`, compare it with the member's intended change, show a plain-language edit preview, reconfirm, and use a new UUID behind the scenes.
 
 ## Report the creation receipt
 
-Report the exact case key and `caseRevisionNumber`. Report every entry in `structured_content.data.prefilled` as a company-profile figure that creation recorded as a key input. Report every entry in `structured_content.data.needs` as still unanswered. Explain that the receipt confirms the case and intake revision were recorded. An empty `needs` list means intake is complete; the alternatives, assumptions, and template calculation Model are adopted after a draft is reviewed and explicitly accepted. Offer to complete any remaining intake needs or request and review a draft next. Preserve saved answers. End tool use after creation; do not start the offered task in this turn.
+After chat-executed creation succeeds, stop tool use and give a plain-language report that:
+
+- states only the safe saved case identity (`caseKey` and `caseRevisionNumber` from `structured_content.data.receipt`, never `authorUserId`, `changeReason`, `idempotencyKey`, or `replayed`);
+- names any selected options using published option names from `strata_read_case_intake`, stating when options were selected automatically (General investment and Multi-product) or noting when option selection remains unanswered (Support-AI created from chat);
+- explains that initial intake selections become saved alternatives—and template assumptions and the calculation model are adopted, enabling calculation—only once a draft is reviewed and explicitly accepted;
+- reports any applied company-profile figures (`structured_content.data.prefilled`) and remaining unanswered questions (`structured_content.data.needs`) in plain language; and
+- offers supported next steps (completing remaining questions or requesting and reviewing a draft) without starting that next task in this turn.

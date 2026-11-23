@@ -47,6 +47,7 @@ Uploading, parsing, translating formulas from, storing, or executing a workbook 
 ## Preview, confirm, and execute
 
 Show the complete ordered plan. Before each write, perform its required fresh read and show one complete executable preview with exact normalized input, effect, current heads, inferences, and dependencies. Preview only the next command and wait for explicit confirmation. A correction invalidates the preview and confirmation.
+One confirmed set of assumption creates and updates on one case is one write: preview it once, confirm it once, and save it with one `strata_save_assumptions` call; batching stays barred and the per-write rule still governs every other write.
 
 After confirmation, construct a fresh lowercase RFC 4122 version 4 UUID directly in `idempotencyKey`. Its grammar is `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`, where `y` is `8`, `9`, `a`, or `b`. Never use a tool to generate it or reuse a key for a different command. Copy every previewed input unchanged, add only the key, and call exactly the named domain tool.
 

@@ -5,87 +5,66 @@ description: Elicit, preview, confirm, and create an initial Uprali business cas
 
 # Start Business Case
 
-Create one Uprali case from a brief (title and description) and a confirmed template. Creation pins the configuration, records the first revision, and lists unanswered needs. It records no framing detail, alternatives, drafts, evidence, assumptions, scenarios, recommendations, or decisions. Use approval tools for approvals.
+Create one Uprali case from a brief (title and decision description) and confirmed template. Creation pins configuration, records the first revision, and lists unanswered needs; it records no framing detail, saved alternatives, drafts, evidence, assumptions, scenarios, recommendations, or decisions. Use approval tools for approvals.
 
 Use only the user's messages and named Uprali tools. Do not use shell, filesystem, environment, web, resource-listing, or UUID tools.
 
 When the Uprali tools are unavailable, Uprali is not connected in this client. Stop before any other step and ask the user to connect it to `https://strata-utrtwerwt.sprava.ai/api/mcp`: in Claude on the web, open the `strata` plugin's connector page and select Connect; in the Claude desktop app, open Customize, Connectors; in the Claude Code CLI, run `/mcp`; in another client, its own MCP sign-in.
 
-Creation invariant: after the creation call of `strata_record_case_intake` succeeds, stop tool use. Copy every receipt field byte-for-byte from `structured_content.data.receipt`. Never generate, replace, reconstruct, or summarize a receipt identifier. Never call the creation call again to retrieve or replay a successful receipt.
+Creation invariant: after chat creation via `strata_record_case_intake` succeeds, stop tool use. Report only safe receipt identifiers (`caseKey`, `caseRevisionNumber`) from `structured_content.data.receipt`; never print `authorUserId`, `changeReason`, `idempotencyKey`, or `replayed`, or invent or replay a receipt. On MCP App panel completion, acknowledge the saved case name and identity without re-confirming or calling `strata_record_case_intake` again.
 
 ## Organization
 
-Call `strata_connection_context` first only when the host or conversation has not established the active organization. Do not verify explicit organization and user context.
+Call `strata_connection_context` first only when the active organization is unset; do not verify explicit organization and user context.
 
-When the case needs company facts or the user asks about them, call `strata_read_company_profile` first and report absent facts as missing.
+When company facts are needed or asked, call `strata_read_company_profile` first and report absent facts as missing.
 
-The server derives the authenticated user as owner and author. Do not ask for or send identity, tenancy, case, revision, configuration, or user-supplied idempotency keys. A sponsor or stakeholder is not the initial owner.
+The server derives the authenticated user as owner and author. Never ask for owner/author, tenancy, case, revision, configuration, or idempotency fields, or display them except post-creation `caseKey` and `caseRevisionNumber`. A sponsor is not the initial owner.
 
 ## Build the normalized draft
 
-Read [the normalized draft rules](references/normalized-draft.md) before you build or change the draft. The draft is the brief and the change reason.
-
-Use the [input, preview, and tool-call contract](references/coherent-initial-case.md) for the exact tool fields.
+Read [the normalized draft rules](references/normalized-draft.md) before drafting (only `title` and `description`). Use [the intake contract](references/coherent-initial-case.md) for payloads, previews, and reporting.
 
 ## Ask one focused question at a time
 
-Before routing, identify the missing or materially ambiguous brief and change-reason values. Ask exactly one question about the highest-priority gap. Use one single-line interrogative with exactly one question mark. Do not bundle questions or repeat supplied information.
+Before routing, ask one single-line question with one question mark for the top missing or ambiguous gap (never bundle questions or repeat supplied facts):
 
-Use this priority:
+1. decision the case is about (`brief.description`);
+2. short case name (`brief.title`), when neither supplied nor inferable (disclose inferences).
 
-1. the decision the case is about (the brief description);
-2. a short case name (the brief title), when the user's words do not already supply one;
-3. the change reason.
-
-Re-evaluate after each answer. Do not route while a required value is missing or ambiguous. Ask nothing else: the intake calls accept no other case content.
+Never ask separately why the member is starting the case or for a change reason. Keep volunteered reasons, constraints, deadlines, or alternatives inside `brief.description` within 2,000 chars, preserve supplied wording without inventing facts, leave unanswered framing unset, and note in plain language that extra details can be added after creation. Re-evaluate after each answer; do not route until both brief fields are clear.
 
 ## Route the template
 
-After the elicitation questions are answered and before the preview, make one routing call of `strata_record_case_intake`:
+When the brief is clear, call `strata_record_case_intake` once to route with `brief`, a nonblank internal `changeReason` (`1–1000` trimmed chars) behind the scenes, and a directly constructed UUID `idempotencyKey` (omit `answers`, `routing`, and case IDs). Routing creates no case.
 
-- `brief`: `{ "title": "<short case name>", "description": "<decision brief>" }`, both from the user's words;
-- `changeReason`: the confirmed change reason;
-- `idempotencyKey`: a new UUID, constructed directly.
+Check `structured_content.data.routing`:
 
-Omit `answers`, `routing`, and every case identifier. The routing call records a template routing judgment; it creates no case.
+- `kind: "no-fit"`: stop without creating a case and reply in plain business language that no Uprali case type fits (no technical routing details).
+- `kind: "proposal"`: confirm every proposal regardless of confidence without numeric confidence, raw `templateKey`, or `judgmentId` in user text (retain `judgmentId` and `templates` internally). Immediately call `strata_read_case_intake` with `templateKey`, `brief`, and complete `routingResult` (`structured_content.data.routing`) so App hosts render **Case name** prefilled and **Create business case** active.
 
-The result's `structured_content.data.routing` is one of:
+## Preview and confirm
 
-- `kind: "proposal"`: show `templateKey`, the matching template `name` from `templates`, and `confidence` (when not null) with the preview. Keep `judgmentId` and `templateKey` for the creation call.
-- `kind: "no-fit"`: tell the user that no template fits and end intake. Do not create a case.
+Neither `strata_connection_context` nor `strata_read_case_intake` returns an App-support flag, so rely on host panel visibility and member feedback.
 
-Show the proposed template for confirmation at any confidence. If the user asks for a different template, offer only entries of `templates` from this routing result, show the chosen entry, and use its `templateKey` with the same `judgmentId` in the creation call.
+**MCP App host (panel visible):** Treat the panel as the preview. Send at most a brief plain-language pointer to review or edit the case name and click **Create business case** in the panel; emit no duplicate preview or code block or ask for typed confirmation. Panel name edits need no re-route. If the member asks in chat to switch to another offered template, refresh the panel via `strata_read_case_intake` with the chosen `templateKey`, unchanged `brief`, and complete `routingResult`. On an in-chat decision-text edit, re-run routing and refresh the panel on proposal via `strata_read_case_intake`. On panel completion, acknowledge the saved case name and identity without re-confirming or re-submitting.
 
-## Preview what creation sends and persists
+**Non-App host (or no panel visible):** Show one ordinary chat-text preview (never a code block) per [the preview format](references/coherent-initial-case.md#plain-language-preview): short Uprali lead, `Name:`, `Decision:`, `Type of case:` (human-readable name only), plain post-creation edit note, and `Shall I create it?` (or similar). Always omit internal schema labels, keys, confidence scores, persistence lists, and retry rules; omit option/need lists unless asked. On name or offered-template edits, re-render the complete preview without re-routing (calling `strata_read_case_intake` behind the scenes if the template changed); on decision-text edits, re-run routing and re-render. Create only after explicit confirmation of the latest preview.
 
-Read `strata_read_case_intake` and follow [selection and lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle) before the preview.
+**Safe stops and on-demand questions:** Cancellation or hesitation creates no case and replies in plain business language without technical routing details. Answer explicit pre- or post-creation questions about template options or absent alternatives in plain language using published option names per [option lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle), without code blocks, persistence internals, or disabling an active panel.
 
-Show one complete preview immediately before confirmation. Include:
+## Create from chat and report
 
-- the authenticated Uprali user as owner and author;
-- `changeReason`;
-- the brief `title` and `description`, word for word;
-- the proposed template: `templateKey`, its `name`, and `confidence` when not null;
-- selected option labels, the selection rule, and remaining needs;
-- the "Creation persists" block of the [exact preview template](references/coherent-initial-case.md#exact-preview-template), verbatim in substance; and
-- the rule that the idempotency key is generated after confirmation and an unchanged retry reuses it.
+After explicit confirmation of the latest non-App preview:
 
-Keep unanswered framing `null`; do not invent it or ask extra questions to fill it. Keep both previews equal.
-
-## Confirm, create, and verify
-
-Wait for explicit confirmation of the latest complete preview. Apply only a stated correction, show the complete corrected preview, and reconfirm. Cancellation or hesitation creates no case and makes no creation call.
-
-After confirmation:
-
-1. Construct a valid UUID directly as `idempotencyKey` for the creation call. Do not call any tool to generate it.
-2. Make exactly one creation call of `strata_record_case_intake` with the confirmed `brief`, the confirmed `changeReason`, `answers: {}`, `routing` set to `{ "templateKey": "<confirmed templateKey>", "templateRoutingJudgmentId": "<kind: proposal judgmentId from the routing call>" }`, and the new `idempotencyKey`. Send exactly these properties.
-3. Accept only a structured success receipt. Verify `structured_content.data.receipt.operation` is `case.intake.recorded` and `structured_content.data.templateKey` equals the confirmed template key. Copy the returned `receipt` fields exactly. If the result lacks a valid structured success receipt, do not report creation.
-4. Follow [creation receipt reporting](references/coherent-initial-case.md#report-the-creation-receipt). Explain [intake selection and lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle). End tool use after creation.
+1. Construct a UUID `idempotencyKey` directly.
+2. Call `strata_record_case_intake` once with confirmed `brief`, internal nonblank `changeReason`, `answers: {}`, `routing: { "templateKey": "<confirmed>", "templateRoutingJudgmentId": "<judgmentId>" }`, and `idempotencyKey`.
+3. Verify `structured_content.data.receipt.operation` is `case.intake.recorded` and `structured_content.data.templateKey` matches the confirmed key; otherwise do not report creation.
+4. Follow [receipt rules](references/coherent-initial-case.md#report-the-creation-receipt) and [option lifecycle](references/coherent-initial-case.md#intake-selection-and-lifecycle), then stop tool use.
 
 ## Recovery
 
-Read [the recovery rules](references/recovery.md) when a Uprali call fails or the user stops.
+Read [recovery rules](references/recovery.md) when a Uprali call fails or the user stops.
 
 ## Scope and same-turn-read rules
 

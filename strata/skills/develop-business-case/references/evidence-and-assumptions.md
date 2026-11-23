@@ -12,6 +12,9 @@ Use this reference before previewing `strata_register_evidence` or `strata_save_
 - [Evidence roles and estimates](#evidence-roles-and-estimates)
 - [Assumption preview](#assumption-preview)
 - [Assumption input shapes](#assumption-input-shapes)
+- [Assumption batch preview](#assumption-batch-preview)
+- [Assumption batch input shape](#assumption-batch-input-shape)
+- [Batch pre-confirmation rejections](#batch-pre-confirmation-rejections)
 
 ## Evidence qualification
 
@@ -187,3 +190,80 @@ Use the selected typed-value shape in place of the money example. For a Model-na
 ```
 
 Those two revision fields extend the create shape; they do not replace or enter the `assumption` object.
+
+## Assumption batch preview
+
+Preview one confirmed set with the shared head once and one block per entry:
+
+```text
+Next command: strata_save_assumptions
+Case head: <exact current revision>
+Change reason: <exact text>
+Entry 1 of <n>:
+  Subject: <create, or assumption ID + exact current subject revision>
+  Stable key / scope / owner: <exact values>
+  Value (unit or currency included) / period: <complete typed representation>
+  Confidence / confidence rationale: <exact values>
+  Decision-use rationale: <exact text>
+  Evidence links, in order: <every evidence item ID + role>
+  Sensitivity driver: <true or false>
+Entry 2 of <n>: <the same block>
+Effect: creates one successor case revision or none.
+```
+
+Render every entry block completely: the preview names every entry the call will save. Render each block's owner exactly as the single-save preview renders it.
+
+## Assumption batch input shape
+
+The batch preview uses the shared case head once plus `entries`, an array of 1..25 items. Each entry holds the complete `assumption` wrapper from the create shape above; an update entry adds `caseAssumptionId` with `expectedAssumptionRevisionId` together, exactly as a single-save revision does. The block is a non-executable shape template; never send its angle-bracket placeholder text. The preview omits `idempotencyKey`; add that one field only after confirmation:
+
+```json
+{
+  "investmentCaseId": "<investmentCaseId>",
+  "decisionCycleId": "<decisionCycleId>",
+  "expectedCaseRevisionId": "<current caseRevisionId>",
+  "changeReason": "<change reason>",
+  "entries": [
+    {
+      "assumption": {
+        "fieldKey": "<configured field key for a field-backed Assumption>",
+        "assumptionKey": "<stable key>",
+        "scope": { "kind": "shared" },
+        "value": {
+          "kind": "money",
+          "amount": "<decimal in major unit>",
+          "currencyCode": "<supported code>"
+        },
+        "applicablePeriod": { "start": "<YYYY-MM-DD>", "end": "<YYYY-MM-DD>" },
+        "confidenceLevel": "<low, medium, or high>",
+        "confidenceRationale": "<rationale>",
+        "rationale": "<decision-use rationale>",
+        "evidence": [
+          { "evidenceItemId": "<evidence item ID>", "role": "supporting" }
+        ],
+        "isSensitivityDriver": true
+      }
+    }
+  ]
+}
+```
+
+An update entry adds these two fields beside `assumption`, together:
+
+```json
+{
+  "caseAssumptionId": "<stable assumption ID>",
+  "expectedAssumptionRevisionId": "<current assumption revision ID>"
+}
+```
+
+Those two revision fields extend the entry; they do not replace or enter the `assumption` object.
+
+## Batch pre-confirmation rejections
+
+Reject before confirmation with entry-level feedback:
+
+- An empty set means no call: when no entry remains, make no `strata_save_assumptions` call and create no revision.
+- A set above 25 states the limit: refuse the set, name the 25-entry limit, and never auto-split it into smaller batches.
+- A set naming one assumption twice names the duplicate: refuse the set and name the duplicated assumption and its positions.
+- Entries referencing unregistered evidence register that evidence first: confirm and call each `strata_register_evidence` write separately, then preview the batch.

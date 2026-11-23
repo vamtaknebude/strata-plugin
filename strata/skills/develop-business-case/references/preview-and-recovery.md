@@ -14,6 +14,8 @@ Show the complete intended order, for example:
 
 The plan is not batch authorization. Preview and confirm step 1 only. After its receipt, substitute returned IDs into the complete step-2 preview and confirm again. Repeat for step 3. Never call a generic dispatcher and never execute an unconfirmed remainder.
 
+One confirmed assumption set is the single exception: a confirmed set of assumption creates and updates on one case is one write with one preview, one confirmation, one `strata_save_assumptions` call, and one receipt. The plan is still not authorization for the set, and the failure boundary below applies to the set as a unit.
+
 For a staged Model path, use this order only:
 
 1. Use the overview read's returned `caseRevisionId` to preview and, after confirmation, call `strata_save_calculation_model` for the supplied in-progress root Model.
@@ -24,7 +26,7 @@ For a staged Model path, use this order only:
 
 A workbook request is not one of those steps and does not authorize a write. Case resolution may still run. The five-step order starts only after the user supplies the native facts.
 
-Every write has its own preview, confirmation, call, and structured success receipt. The first and final mutations are Model saves. Continue only after each required read or write succeeds.
+Every write has its own preview, confirmation, call, and structured success receipt. The first and final mutations are Model saves. Continue only after each required read or write succeeds. A confirmed set of assumption creates and updates on one case counts as one write under this rule; every non-assumption write keeps its own preview, confirmation, call, and receipt.
 
 Every executable preview states the tool name, complete normalized input, exact current case and subject heads, change reason, effect, and that a command UUID will be created only after confirmation. A correction invalidates the preview and its confirmation.
 
@@ -56,7 +58,9 @@ A blocked readiness read is terminal even though the read itself succeeded. Quot
 ## Recovery matrix
 
 - Ambiguous or lost response: retry once with the same idempotency key and byte-identical input. `replayed: true` ends recovery successfully.
+- Ambiguous or lost batch response: retry the batch once with the same idempotency key and byte-identical input. `replayed: true` ends recovery successfully.
 - Case or subject revision conflict: read the authorized current exact state; compare it with the confirmed input; show the entire changed preview; obtain fresh confirmation; use a new idempotency key.
+- Batch case or subject revision conflict: read the authorized current exact state; compare it with the confirmed batch input; show the entire changed set preview; obtain fresh confirmation; use a new idempotency key.
 - Dependency conflict: show only returned authorized dependency IDs/kinds and an explicit remediation order. Do not cascade.
 - Incompatible value or non-driver: preserve the proposal, explain the exact mismatch, and ask for a compatible value or separately confirmed driver revision.
 - Invalid input: identify the field; never repair it with an invented fact or implicit conversion.
